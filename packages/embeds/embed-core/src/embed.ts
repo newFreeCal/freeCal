@@ -1,5 +1,6 @@
 /// <reference types="../env" />
 
+import process from "node:process";
 import {
   EMBED_MODAL_IFRAME_FORCE_RELOAD_THRESHOLD_MS,
   EMBED_MODAL_IFRAME_SLOT_STALE_TIME,
@@ -340,10 +341,10 @@ export class Cal {
 
     const searchParams = this.buildFilteredQueryParams(queryParamsFromConfig);
 
-    // cal.com has rewrite issues on Safari that sometimes cause 404 for assets.
+    // freeCal has rewrite issues on Safari that sometimes cause 404 for assets.
     const originToUse = (calOrigin || calConfig.calOrigin || "").replace(
-      "https://cal.com",
-      "https://app.cal.com"
+      "https://freeCal",
+      "https://app.freeCal"
     );
 
     const urlInstance = new URL(`${originToUse}/${calLink}`);
@@ -403,7 +404,7 @@ export class Cal {
       throw new Error("iframe doesn't exist. `createIframe` must be called before `doInIframe`");
     }
     if (this.iframe.contentWindow) {
-      // TODO: Ensure that targetOrigin is as defined by user(and not *). Generally it would be cal.com but in case of self hosting it can be anything.
+      // TODO: Ensure that targetOrigin is as defined by user(and not *). Generally it would be freeCal but in case of self hosting it can be anything.
       // Maybe we can derive targetOrigin from __config.origin
       this.iframe.contentWindow.postMessage(
         { originator: "CAL", method: doInIframeArg.method, arg: doInIframeArg.arg },
@@ -961,7 +962,7 @@ class CalApi {
     const pageType = getConfigProp(config, "cal.embed.pageType");
     const theme = getConfigProp(config, "theme");
 
-    template.innerHTML = `<cal-inline 
+    template.innerHTML = `<cal-inline
       ${generateDataAttributes({
         pageType,
         theme,
@@ -1250,7 +1251,7 @@ class CalApi {
     const theme = getConfigProp(enrichedConfig, "theme");
     const layout = getConfigProp(enrichedConfig, "layout");
 
-    template.innerHTML = `<cal-modal-box 
+    template.innerHTML = `<cal-modal-box
       ${generateDataAttributes({
         pageType,
         theme,

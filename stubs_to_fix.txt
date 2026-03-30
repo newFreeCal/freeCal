@@ -1,0 +1,49 @@
+# Stub files to fix:
+
+1. packages/features/teams/lib/stubs/TeamRepository.ts
+   - findFirstBySlugAndParentSlug: 2 args needed → 2 args
+
+2. packages/features/teams/lib/stubs/services/teamService.ts (if exists)
+   - createInvite: 2 args needed → 2 args
+
+3. packages/features/pbac/services/legacy-role-manager.service.ts
+   - isTeamOwner: 2 args needed → 2 args (but this might not be a stub, check)
+
+4. packages/features/sso/lib/stubs/lib/jackson.ts
+   - jackson: 0 args, but called with 1 in sso/get.handler.ts
+   - getConnections: called with args
+
+5. packages/features/dsync/lib/stubs/lib/server/userCanCreateTeamGroupMapping.ts
+   - userCanCreateTeamGroupMapping: 3 args needed → 3 args
+
+6. packages/trpc/server/routers/viewer/routing-forms/findTeamMembersMatchingAttributeLogicOfRoute.handler.ts
+   - getTeamMemberEmailForResponseOrContactUsingUrlQuery: 1 arg needed → 1 arg
+
+7. packages/features/tasker/tasks/scanWorkflowUrls.ts (not stub, but needs fix)
+   - submitWorkflowStepForUrlScanning: 1 arg needed → 1 arg
+
+8. packages/platform/libraries/ee-billing-stubs/StubProrationEmailService.ts
+   - sendInvoiceEmail: 1 arg needed → 1 arg
+   - sendReminderEmail: 1 arg needed → 1 arg
+
+9. packages/features/workflows/lib/stubs/lib/urlScanner.ts
+   - extractUrlsFromHtml: 1 arg needed → 1 arg
+
+10. packages/features/tasker/tasks/sendWorkflowEmails.ts stubs
+    - sendWorkflowEmails stub
+
+11. packages/features/sso/lib/stubs/lib/saml.ts
+    - isSAMLLoginEnabled: 1 arg needed → 1 arg
+
+12. apps/web/app/api/auth/ssoConnections.handler.ts stub
+
+13. packages/features/common/lib/stubs/server/private-api-utils.ts (if exists)
+
+14. packages/features/deployment/lib/stubs/lib/getDeploymentKey.ts
+
+15. packages/features/teams/lib/stubs/queries.ts
+    - isTeamOwner: 2 args
+
+16. packages/features/teams/lib/stubs/services/
+
+Let me start by finding and fixing each stub systematically.

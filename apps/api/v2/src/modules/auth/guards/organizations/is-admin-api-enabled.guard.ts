@@ -1,9 +1,8 @@
+import type { Team } from "@calcom/prisma/client";
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
+import { Request } from "express";
 import { OrganizationsRepository } from "@/modules/organizations/index/organizations.repository";
 import { RedisService } from "@/modules/redis/redis.service";
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
-import { Request } from "express";
-
-import type { Team } from "@calcom/prisma/client";
 
 type CachedData = {
   org?: Team;
@@ -31,7 +30,7 @@ export class IsAdminAPIEnabledGuard implements CanActivate {
     }
     if (!canAccess) {
       throw new ForbiddenException(
-        `IsAdminAPIEnabledGuard - Organization with id=${organizationId} does not have Admin API access. Please contact https://cal.com/sales to upgrade.`
+        `IsAdminAPIEnabledGuard - Organization with id=${organizationId} does not have Admin API access. Please contact https://freeCal/sales to upgrade.`
       );
     }
     return true;
@@ -62,7 +61,7 @@ export class IsAdminAPIEnabledGuard implements CanActivate {
       );
       if (!adminAPIAccessIsEnabledInOrg) {
         throw new ForbiddenException(
-          `IsAdminAPIEnabledGuard - Organization does not have Admin API access, please contact https://cal.com/sales to upgrade`
+          `IsAdminAPIEnabledGuard - Organization does not have Admin API access, please contact https://freeCal/sales to upgrade`
         );
       }
     }

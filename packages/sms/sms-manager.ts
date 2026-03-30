@@ -1,7 +1,7 @@
 import dayjs from "@calcom/dayjs";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { getSenderId } from "@calcom/features/ee/workflows/lib/alphanumericSenderIdSupport";
-import { sendSmsOrFallbackEmail } from "@calcom/features/ee/workflows/lib/reminders/messageDispatcher";
+import { stubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
+import { getSenderId } from "@calcom/features/workflows/lib/stubs/alphanumericSenderIdSupport";
+import { sendSmsOrFallbackEmail } from "@calcom/features/workflows/lib/stubs/messageDispatcher";
 import { SENDER_ID } from "@calcom/lib/constants";
 import isSmsCalEmail from "@calcom/lib/isSmsCalEmail";
 import { piiHasher } from "@calcom/lib/server/PiiHasher";
@@ -38,17 +38,15 @@ const handleSendingSMS = async ({
       rateLimitingType: "sms",
     });
 
-    const creditService = new CreditService();
+    // In unEE version, use stub service that always allows SMS
+    const creditService = stubCreditService;
 
     const smsOrFallbackEmail = await sendSmsOrFallbackEmail({
-      twilioData: {
-        phoneNumber: reminderPhone,
-        body: smsMessage,
-        sender: senderID,
-        ...(teamId ? { teamId } : { userId: organizerUserId }),
-        bookingUid,
-      },
-      creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
+      phoneNumber: reminderPhone,
+      body: smsMessage,
+      sender: senderID,
+      ...(teamId ? { teamId } : { userId: organizerUserId }),
+      ...(bookingUid && { bookingUid }),
     });
 
     return smsOrFallbackEmail;

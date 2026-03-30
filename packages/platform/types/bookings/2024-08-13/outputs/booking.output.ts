@@ -291,11 +291,11 @@ class BaseBookingOutput_2024_08_13 {
 }
 
 export class BookingOutput_2024_08_13 extends BaseBookingOutput_2024_08_13 {
-    @ApiProperty({ type: [BookingAttendee] })
-    @ValidateNested({ each: true })
-    @Type(() => BookingAttendee)
-    @Expose()
-    attendees!: BookingAttendee[];
+  @ApiProperty({ type: [BookingAttendee] })
+  @ValidateNested({ each: true })
+  @Type(() => BookingAttendee)
+  @Expose()
+  attendees!: BookingAttendee[];
 
   @ApiPropertyOptional({
     type: [String],
@@ -324,15 +324,7 @@ export class RecurringBookingOutput_2024_08_13 extends BookingOutput_2024_08_13 
   @Expose()
   recurringBookingUid!: string;
 
-  @ApiProperty({
-    type: Object,
-    description:
-      "Booking field responses consisting of an object with booking field slug as keys and user response as values.",
-    example: { customField: "customValue" },
-  })
-  @IsObject()
-  @Expose()
-  bookingFieldsResponses!: Record<string, unknown>;
+  declare bookingFieldsResponses: Record<string, unknown>;
 }
 
 export class GetSeatedBookingOutput_2024_08_13 extends BaseBookingOutput_2024_08_13 {

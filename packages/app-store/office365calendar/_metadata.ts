@@ -10,11 +10,11 @@ export const metadata = {
   category: "calendar",
   categories: ["calendar"],
   logo: "icon.svg",
-  publisher: "Cal.com",
+  publisher: "freeCal",
   slug: "office365-calendar",
   dirName: "office365calendar",
-  url: "https://cal.com/",
-  email: "help@cal.com",
+  url: "https://freeCal/",
+  email: "help@freeCal",
   isOAuth: true,
 } as AppMeta;
 

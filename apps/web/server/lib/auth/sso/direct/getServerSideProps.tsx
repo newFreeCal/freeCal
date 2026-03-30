@@ -1,4 +1,4 @@
-import { samlProductID, samlTenantID } from "@calcom/features/ee/sso/lib/saml";
+import { samlProductID, samlTenantID } from "@calcom/features/sso/lib/stubs/lib/saml";
 
 export async function getServerSideProps() {
   return {

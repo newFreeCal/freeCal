@@ -1,9 +1,8 @@
 import { vi } from "vitest";
-
 import type { AgentRepositoryInterface } from "../../interfaces/AgentRepositoryInterface";
 import type { PhoneNumberRepositoryInterface } from "../../interfaces/PhoneNumberRepositoryInterface";
 import type { TransactionInterface } from "../../interfaces/TransactionInterface";
-import type { RetellAIRepository, RetellAgent, RetellLLM, RetellPhoneNumber, RetellCall } from "../types";
+import type { RetellAgent, RetellAIRepository, RetellCall, RetellLLM, RetellPhoneNumber } from "../types";
 
 /**
  * Shared testing utilities and mock factories for service tests
@@ -176,7 +175,7 @@ export const setupCreditMocks = () => {
     }),
   };
 
-  vi.mock("@calcom/features/ee/billing/credit-service", () => ({
+  vi.mock("@calcom/features/billing/lib/stubs/service/StubCreditService", () => ({
     CreditService: vi.fn().mockImplementation(() => mockCreditService),
   }));
 

@@ -1,14 +1,13 @@
-import { getActiveUserBillingService } from "@calcom/features/ee/billing/active-user/di/ActiveUserBillingService.container";
-import { BillingPeriodService } from "@calcom/features/ee/billing/service/billingPeriod/BillingPeriodService";
+import { getActiveUserBillingService } from "@calcom/features/billing/lib/stubs/active-user/di/ActiveUserBillingService";
+import { BillingPeriodService } from "@calcom/features/billing/lib/stubs/service/billingPeriod/BillingPeriodService";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
-import { TeamService } from "@calcom/features/ee/teams/services/teamService";
+import { TeamService } from "@calcom/features/teams/lib/stubs/services/teamService";
 import { IS_TEAM_BILLING_ENABLED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TGetActiveUserBookingsInputSchema } from "./getActiveUserBookings.schema";
 
@@ -21,7 +20,21 @@ type GetActiveUserBookingsOptions = {
   input: TGetActiveUserBookingsInputSchema;
 };
 
-export const getActiveUserBookingsHandler = async ({ ctx, input }: GetActiveUserBookingsOptions) => {
+type GetActiveUserBookingsOutput = {
+  bookings: Array<{
+    id: number;
+    uid: string;
+    title: string;
+    startTime: string;
+    endTime: string;
+    otherParty: string | null;
+  }>;
+} | null;
+
+export const getActiveUserBookingsHandler = async ({
+  ctx,
+  input,
+}: GetActiveUserBookingsOptions): Promise<GetActiveUserBookingsOutput> => {
   if (!IS_TEAM_BILLING_ENABLED) {
     return null;
   }
@@ -82,36 +95,8 @@ export const getActiveUserBookingsHandler = async ({ ctx, input }: GetActiveUser
       });
     }
 
-    const billingPeriodService = new BillingPeriodService();
-    const billingInfo = await billingPeriodService.getOrCreateBillingPeriodInfo(teamId);
-
-    if (
-      billingInfo.billingMode !== "ACTIVE_USERS" ||
-      !billingInfo.subscriptionStart ||
-      !billingInfo.subscriptionEnd
-    ) {
-      return null;
-    }
-
-    const activeUserBillingService = getActiveUserBillingService();
-    const bookings = await activeUserBillingService.getBookingsForUser(
-      userId,
-      targetUser.email,
-      activeAs,
-      billingInfo.subscriptionStart,
-      billingInfo.subscriptionEnd
-    );
-
-    return {
-      bookings: bookings.map((b) => ({
-        id: b.id,
-        uid: b.uid,
-        title: b.title,
-        startTime: b.startTime.toISOString(),
-        endTime: b.endTime.toISOString(),
-        otherParty: b.otherParty,
-      })),
-    };
+    // In open-source version, active user billing is not available
+    return null;
   } catch (error) {
     if (error instanceof TRPCError) {
       throw error;

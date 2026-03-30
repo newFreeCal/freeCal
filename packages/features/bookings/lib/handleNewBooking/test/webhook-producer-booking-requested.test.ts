@@ -63,7 +63,7 @@ import {
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
 import process from "node:process";
 import { appStoreMetadata } from "@calcom/app-store/appStoreMetaData";
-import { handleStripePaymentSuccess } from "@calcom/features/ee/payments/api/webhook";
+import { handleStripePaymentSuccess } from "@calcom/features/payments/lib/stubs/webhook";
 import type { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 import { resetTestEmails } from "@calcom/lib/testEmails";

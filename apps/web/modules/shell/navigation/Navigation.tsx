@@ -1,31 +1,30 @@
-import { useSession } from "next-auth/react";
-import { useMemo } from "react";
-
 import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import {
-  useOrgBranding,
   type OrganizationBranding,
-} from "@calcom/features/ee/organizations/context/provider";
-import { useMobileMoreItems } from "./useMobileMoreItems";
+  useOrgBranding,
+} from "@calcom/features/organizations/lib/stubs/context/provider";
 import { useIsStandalone } from "@calcom/lib/hooks/useIsStandalone";
 import classNames from "@calcom/ui/classNames";
 import { useHasPaidPlan } from "@calcom/web/modules/billing/hooks/useHasPaidPlan";
-
+import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 import UnconfirmedBookingBadge from "../../bookings/components/UnconfirmedBookingBadge";
 import { KBarTrigger } from "../Kbar";
 import { TeamInviteBadge } from "../TeamInviteBadge";
 import type { NavigationItemType } from "./NavigationItem";
-import { NavigationItem, MobileNavigationItem, MobileNavigationMoreItem } from "./NavigationItem";
+import { MobileNavigationItem, MobileNavigationMoreItem, NavigationItem } from "./NavigationItem";
+import { useMobileMoreItems } from "./useMobileMoreItems";
 
 export const MORE_SEPARATOR_NAME = "more";
 
 const getNavigationItems = (
-  orgBranding: OrganizationBranding
+  orgBranding: OrganizationBranding,
+  hasAllInsightsAccess: boolean
 ): NavigationItemType[] => [
   {
     name: "event_types_page_title",
     href: "/event-types",
-    icon: "link",
+    icon: "grid-list",
   },
   {
     name: "bookings",
@@ -59,7 +58,7 @@ const getNavigationItems = (
   {
     name: "apps",
     href: "/apps",
-    icon: "grid-3x3",
+    icon: "apps",
     moreOnMobile: true,
     isCurrent: ({ pathname: path, item }) => {
       // During Server rendering path is /v2/apps but on client it becomes /apps(weird..)
@@ -111,7 +110,8 @@ const getNavigationItems = (
     icon: "chart-bar",
     isCurrent: ({ pathname: path, item }) => path?.startsWith(item.href) ?? false,
     moreOnMobile: true,
-    child:  [
+    child: hasAllInsightsAccess
+      ? [
           {
             name: "bookings",
             href: "/insights",
@@ -139,6 +139,14 @@ const getNavigationItems = (
             isCurrent: ({ pathname: path }) => path?.startsWith("/insights/wrong-routing") ?? false,
           },
         ]
+      : [
+          {
+            name: "call_history",
+            href: "/insights/call-history",
+            // icon: "phone",
+            isCurrent: ({ pathname: path }) => path?.startsWith("/insights/call-history") ?? false,
+          },
+        ],
   },
 ];
 
@@ -150,25 +158,25 @@ const platformNavigationItems: NavigationItemType[] = [
   },
   {
     name: "Documentation",
-    href: "https://docs.cal.com/docs/platform",
+    href: "https://docs.freeCal/docs/platform",
     icon: "chart-bar",
     target: "_blank",
   },
   {
     name: "API reference",
-    href: "https://api.cal.com/v2/docs#/",
+    href: "https://api.freeCal/v2/docs#/",
     icon: "terminal",
     target: "_blank",
   },
   {
     name: "Atoms",
-    href: "https://docs.cal.com/docs/platform#atoms",
+    href: "https://docs.freeCal/docs/platform#atoms",
     icon: "atom",
     target: "_blank",
   },
   {
     name: MORE_SEPARATOR_NAME,
-    href: "https://docs.cal.com/docs/platform/faq",
+    href: "https://docs.freeCal/docs/platform/faq",
     icon: "ellipsis",
     target: "_blank",
   },
@@ -196,8 +204,9 @@ const useNavigationItems = (isPlatformNavigation = false) => {
   const orgBranding = useOrgBranding();
   const { hasPaidPlan, isPending } = useHasPaidPlan();
   return useMemo(() => {
+    const hasAllInsightsAccess = !isPending && !!hasPaidPlan;
     const items = !isPlatformNavigation
-      ? getNavigationItems(orgBranding)
+      ? getNavigationItems(orgBranding, hasAllInsightsAccess)
       : platformNavigationItems;
 
     const desktopNavigationItems = items.filter((item) => item.name !== MORE_SEPARATOR_NAME);

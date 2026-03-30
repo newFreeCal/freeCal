@@ -1,13 +1,10 @@
-import shuffle from "lodash/shuffle";
-import posthog from "posthog-js";
-import { useState, memo } from "react";
-
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { localStorage } from "@calcom/lib/webstorage";
 import { Card } from "@calcom/ui/components/card";
-
-import { GatedFeatures } from "./stores/gatedFeaturesStore";
-import { useGatedFeaturesStore } from "./stores/gatedFeaturesStore";
+import shuffle from "lodash/shuffle";
+import posthog from "posthog-js";
+import { memo, useState } from "react";
+import { GatedFeatures, useGatedFeaturesStore } from "./stores/gatedFeaturesStore";
 
 type Tip = {
   id: number;
@@ -29,7 +26,7 @@ function Tips() {
     {
       id: 18,
       thumbnailUrl: "https://img.youtube.com/vi/J8HsK-8W39U/0.jpg",
-      mediaLink: "https://go.cal.com/rbac-video",
+      mediaLink: "https://go.freeCal/rbac-video",
       title: "Roles & Permissions",
       description: "Manage team access with roles & permissions",
       onClick: () => openModal(GatedFeatures.RolesAndPermissions),
@@ -37,114 +34,114 @@ function Tips() {
     {
       id: 17,
       thumbnailUrl: "https://img.youtube.com/vi/fMHW6jYPIb8/0.jpg",
-      mediaLink: "https://go.cal.com/embed-video",
+      mediaLink: "https://go.freeCal/embed-video",
       title: "Embed",
       description: "Embed your booking page on your website",
-      href: "https://go.cal.com/embed-video",
+      href: "https://go.freeCal/embed-video",
     },
     {
       id: 16,
       thumbnailUrl: "https://img.youtube.com/vi/xopxmk2H4Ng/0.jpg",
-      mediaLink: "https://go.cal.com/paid-booking",
+      mediaLink: "https://go.freeCal/paid-booking",
       title: "Paid Bookings",
-      description: "Charge for your time with Cal.com's paid bookings",
-      href: "https://go.cal.com/paid-booking",
+      description: "Charge for your time with freeCal's paid bookings",
+      href: "https://go.freeCal/paid-booking",
     },
     {
       id: 15,
       thumbnailUrl: "https://img.youtube.com/vi/ZjSD1yPgLLQ/0.jpg",
-      mediaLink: "https://go.cal.com/instant-meetings-video",
+      mediaLink: "https://go.freeCal/instant-meetings-video",
       title: "Instant Meetings",
       description: "Book meetings instantly with a link",
-      href: "https://go.cal.com/instant-meetings-video",
+      href: "https://go.freeCal/instant-meetings-video",
     },
     {
       id: 14,
       thumbnailUrl: "https://img.youtube.com/vi/IZ4-nUiIpvY/0.jpg",
-      mediaLink: "https://go.cal.com/custom-attributes",
+      mediaLink: "https://go.freeCal/custom-attributes",
       title: "Custom Attributes",
       description: "Define roles and attributes for your teams",
-      href: "https://go.cal.com/custom-attributes",
+      href: "https://go.freeCal/custom-attributes",
     },
     {
       id: 13,
       thumbnailUrl: "https://img.youtube.com/vi/TTAASLLPKk0/0.jpg",
-      mediaLink: "https://go.cal.com/ooo-video",
+      mediaLink: "https://go.freeCal/ooo-video",
       title: "ooo.new",
       description: "Easily go out-of-office",
-      href: "https://go.cal.com/ooo-video",
+      href: "https://go.freeCal/ooo-video",
     },
     {
       id: 12,
-      thumbnailUrl: "https://cal.com/og-image-cal-ai.jpg",
-      mediaLink: "https://go.cal.com/cal-ai",
+      thumbnailUrl: "https://freeCal/og-image-cal-ai.jpg",
+      mediaLink: "https://go.freeCal/cal-ai",
       title: "Cal.ai",
       description: "Your personal AI scheduling assistant",
-      href: "https://go.cal.com/cal-ai",
+      href: "https://go.freeCal/cal-ai",
     },
     {
       id: 11,
       thumbnailUrl: "https://img.youtube.com/vi/KTg_qzA9NEc/0.jpg",
-      mediaLink: "https://go.cal.com/insights",
+      mediaLink: "https://go.freeCal/insights",
       title: "Insights",
       description: "Get a better understanding of your business",
-      href: "https://go.cal.com/insights",
+      href: "https://go.freeCal/insights",
     },
     {
       id: 10,
       thumbnailUrl: "https://img.youtube.com/vi/jvaBafzVUQc/0.jpg",
-      mediaLink: "https://go.cal.com/video",
+      mediaLink: "https://go.freeCal/video",
       title: "Cal Video",
       description: "Free video conferencing with recording",
-      href: "https://go.cal.com/video",
+      href: "https://go.freeCal/video",
     },
     {
       id: 9,
       thumbnailUrl: "https://img.youtube.com/vi/93iOmzHieCU/0.jpg",
-      mediaLink: "https://go.cal.com/round-robin",
+      mediaLink: "https://go.freeCal/round-robin",
       title: "Round-Robin",
       description: "Create advanced group meetings with round-robin",
-      href: "https://go.cal.com/round-robin",
+      href: "https://go.freeCal/round-robin",
     },
     {
       id: 8,
       thumbnailUrl: "https://img.youtube.com/vi/piKlAiibAFo/0.jpg",
-      mediaLink: "https://go.cal.com/workflows",
+      mediaLink: "https://go.freeCal/workflows",
       title: "Automate Workflows",
       description: "Make time work for you and automate tasks",
-      href: "https://go.cal.com/workflows",
+      href: "https://go.freeCal/workflows",
     },
     {
       id: 7,
       thumbnailUrl: "https://img.youtube.com/vi/UVXgo12cY4g/0.jpg",
-      mediaLink: "https://go.cal.com/routing-forms",
+      mediaLink: "https://go.freeCal/routing-forms",
       title: "Routing Forms",
       description: "Ask questions and route to the correct person",
-      href: "https://go.cal.com/routing-forms",
+      href: "https://go.freeCal/routing-forms",
     },
     {
       id: 6,
       thumbnailUrl: "https://img.youtube.com/vi/yGiZo1Ry5-8/0.jpg",
-      mediaLink: "https://go.cal.com/recurring-video",
+      mediaLink: "https://go.freeCal/recurring-video",
       title: "Recurring Bookings",
       description: "Learn how to create a recurring schedule",
-      href: "https://go.cal.com/recurring-video",
+      href: "https://go.freeCal/recurring-video",
     },
     {
       id: 5,
       thumbnailUrl: "https://img.youtube.com/vi/0v_nQtpxC_4/0.jpg",
-      mediaLink: "https://go.cal.com/payments-video",
+      mediaLink: "https://go.freeCal/payments-video",
       title: "Accept Payments",
-      description: "Charge for your time with Cal.com's Stripe App",
-      href: "https://app.cal.com/apps/stripe",
+      description: "Charge for your time with freeCal's Stripe App",
+      href: "https://app.freeCal/apps/stripe",
     },
     {
       id: 4,
       thumbnailUrl: "https://img.youtube.com/vi/zGr_s-fG84k/0.jpg",
-      mediaLink: "https://go.cal.com/confirmation-video",
+      mediaLink: "https://go.freeCal/confirmation-video",
       title: "Requires Confirmation",
       description: "Learn how to be in charge of your bookings",
-      href: "https://cal.com/resources/feature/opt-in",
+      href: "https://freeCal/resources/feature/opt-in",
     },
     {
       id: 3,
@@ -157,10 +154,10 @@ function Tips() {
     {
       id: 2,
       thumbnailUrl: "https://img.youtube.com/vi/EAc46SPL6iA/0.jpg",
-      mediaLink: "https://go.cal.com/teams-video",
+      mediaLink: "https://go.freeCal/teams-video",
       title: "How to set up Teams",
       description: "Learn how to use round-robin and collective events.",
-      href: "https://cal.com/teams",
+      href: "https://freeCal/teams",
     },
     {
       id: 1,

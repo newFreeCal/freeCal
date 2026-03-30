@@ -1,7 +1,6 @@
-import userCanCreateTeamGroupMapping from "@calcom/features/ee/dsync/lib/server/userCanCreateTeamGroupMapping";
+import userCanCreateTeamGroupMapping from "@calcom/features/dsync/lib/stubs/lib/server/userCanCreateTeamGroupMapping";
 import prisma from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 import { TRPCError } from "@trpc/server";
 
 type Options = {
@@ -11,7 +10,7 @@ type Options = {
 };
 
 export const getHandler = async ({ ctx }: Options) => {
-  const { organizationId } = await userCanCreateTeamGroupMapping({ id: ctx.user.id, email: ctx.user.email }, ctx.user.organizationId);
+  const { organizationId } = await userCanCreateTeamGroupMapping(ctx.user, ctx.user.organizationId);
 
   // Get org teams
   const teamsQuery = await prisma.team.findMany({

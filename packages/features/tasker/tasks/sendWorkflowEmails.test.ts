@@ -1,4 +1,4 @@
-import { describe, expect, vi, beforeEach, test } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 
 vi.mock("@calcom/emails/workflow-email-service", () => ({
   sendCustomWorkflowEmail: vi.fn(),
@@ -18,7 +18,7 @@ vi.mock("@calcom/features/bookings/repositories/BookingSeatRepository", () => ({
 }));
 
 const mockHandleSendEmailWorkflowTask = vi.fn();
-vi.mock("@calcom/features/ee/workflows/lib/service/EmailWorkflowService", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/lib/service/EmailWorkflowService", () => ({
   EmailWorkflowService: vi.fn().mockImplementation(function () {
     return {
       handleSendEmailWorkflowTask: mockHandleSendEmailWorkflowTask,
@@ -26,7 +26,7 @@ vi.mock("@calcom/features/ee/workflows/lib/service/EmailWorkflowService", () => 
   }),
 }));
 
-vi.mock("@calcom/features/ee/workflows/repositories/WorkflowReminderRepository", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/repositories/WorkflowReminderRepository", () => ({
   WorkflowReminderRepository: vi.fn(),
 }));
 
@@ -43,7 +43,6 @@ vi.mock("@calcom/features/CalendarEventBuilder", () => ({
 
 import { sendCustomWorkflowEmail } from "@calcom/emails/workflow-email-service";
 import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
-
 import { sendWorkflowEmails, ZSendWorkflowEmailsSchema } from "./sendWorkflowEmails";
 
 const mockSendCustomWorkflowEmail = vi.mocked(sendCustomWorkflowEmail);

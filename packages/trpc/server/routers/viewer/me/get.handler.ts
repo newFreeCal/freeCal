@@ -61,10 +61,7 @@ export const getHandler = async ({ ctx, input }: MeOptions) => {
     const account = await prisma.account.findUnique({
       where: {
         provider_providerAccountId: {
-          provider:
-            user.identityProvider === IdentityProvider.AZUREAD
-              ? "azure-ad"
-              : user.identityProvider.toLowerCase(),
+          provider: user.identityProvider.toLocaleLowerCase(),
           providerAccountId: user.identityProviderId,
         },
       },

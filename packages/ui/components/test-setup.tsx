@@ -23,7 +23,7 @@ vi.mock("next-seo", () => ({
   LogoJsonLd: () => null,
 }));
 
-vi.mock("@calcom/features/ee/organizations/hooks", () => ({
+vi.mock("@calcom/features/organizations/lib/stubs/hooks", () => ({
   useOrgBrandingValues() {
     return {};
   },
@@ -33,7 +33,7 @@ vi.mock("react-sticky-box", () => ({
   default: ({ children }: { children: React.ReactNode }) => <div data-testid="sticky-box">{children}</div>,
 }));
 
-vi.mock("@calcom/features/ee/organizations/context/provider", () => ({
+vi.mock("@calcom/features/organizations/lib/stubs/context/provider", () => ({
   useOrgBranding() {
     return {};
   },

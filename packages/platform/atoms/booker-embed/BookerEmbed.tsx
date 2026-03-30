@@ -64,7 +64,7 @@ export const BookerEmbed = (
           apiUrl: apiUrl ?? import.meta.env.VITE_BOOKER_EMBED_API_URL,
         }}>
         <BookerPlatformWrapper
-          {...(Boolean(routingTeamId)
+          {...(routingTeamId
             ? {
                 eventSlug: eventTypeSlug,
                 isTeamEvent: true,
@@ -85,7 +85,7 @@ export const BookerEmbed = (
             if (onDryRunSuccess) {
               onDryRunSuccess();
             } else {
-              window.location.href = `https://app.cal.com/booking/dry-run-successful`;
+              window.location.href = `https://app.freeCal/booking/dry-run-successful`;
             }
           }}
           {...rest}

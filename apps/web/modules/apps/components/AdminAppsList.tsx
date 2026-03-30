@@ -21,7 +21,7 @@ import { Form, Switch, TextField } from "@calcom/ui/components/form";
 import { List } from "@calcom/ui/components/list";
 import { SkeletonButton, SkeletonContainer, SkeletonText } from "@calcom/ui/components/skeleton";
 import { showToast } from "@calcom/ui/components/toast";
-import AppListCardWebWrapper from "@calcom/web/modules/apps/components/AppListCardWebWrapper";
+import AppListCard from "@calcom/web/modules/apps/components/AppListCard";
 import { PencilIcon } from "@coss/ui/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 // eslint-disable-next-line no-restricted-imports
@@ -80,7 +80,7 @@ const IntegrationContainer = ({
 
   return (
     <li>
-      <AppListCardWebWrapper
+      <AppListCard
         logo={app.logo}
         description={app.description}
         title={app.name}

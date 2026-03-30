@@ -368,7 +368,7 @@ test.describe("Email Signup Flow Test", async () => {
         page,
         emails,
         invitedUserEmail,
-        `${team.name}'s admin invited you to join the team ${team.name} on Cal.com`,
+        `${team.name}'s admin invited you to join the team ${team.name} on freeCal`,
         "signup?token"
       );
 

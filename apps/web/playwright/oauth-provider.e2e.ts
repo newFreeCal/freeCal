@@ -1,11 +1,9 @@
-import { expect } from "@playwright/test";
 import { createHash, randomBytes } from "node:crypto";
-
 import { OAUTH_ERROR_REASONS } from "@calcom/features/oauth/services/OAuthService";
 import { generateSecret } from "@calcom/features/oauth/utils/generateSecret";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { prisma } from "@calcom/prisma";
-
+import { expect } from "@playwright/test";
 import { test } from "./lib/fixtures";
 
 test.afterEach(async ({ users }) => {
@@ -243,8 +241,7 @@ test.describe("OAuth Provider", () => {
     );
 
     // check if user is redirected to login page
-    await expect(page.getByRole("heading", { name: "Cal.com" })).toBeVisible();
-    await expect(page.getByTestId("login-subtitle")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
     await page.locator("#email").fill(user.email);
     await page.locator("#password").fill(user.username || "");
     await page.locator('[type="submit"]').click();

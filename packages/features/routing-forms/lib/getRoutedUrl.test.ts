@@ -6,14 +6,13 @@ import { getResponseToStore } from "@calcom/app-store/routing-forms/lib/getRespo
 import { getSerializableForm } from "@calcom/app-store/routing-forms/lib/getSerializableForm";
 import { findMatchingRoute } from "@calcom/app-store/routing-forms/lib/processRoute";
 import { substituteVariables } from "@calcom/app-store/routing-forms/lib/substituteVariables";
-import { orgDomainConfig } from "@calcom/features/ee/organizations/lib/orgDomains";
+import { orgDomainConfig } from "@calcom/features/organizations/lib/stubs/orgDomains";
 import { isAuthorizedToViewFormOnOrgDomain } from "@calcom/features/routing-forms/lib/isAuthorizedToViewForm";
 import { PrismaRoutingFormRepository } from "@calcom/features/routing-forms/repositories/PrismaRoutingFormRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import type { GetServerSidePropsContext } from "next";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
 import { getRoutedUrl } from "./getRoutedUrl";
 import { getUrlSearchParamsToForward } from "./getUrlSearchParamsToForward";
 import { handleResponse } from "./handleResponse";
@@ -32,7 +31,7 @@ vi.mock("@calcom/features/users/repositories/UserRepository", () => {
     }),
   };
 });
-vi.mock("@calcom/features/ee/organizations/lib/orgDomains");
+vi.mock("@calcom/features/organizations/lib/stubs/orgDomains");
 vi.mock("@calcom/features/routing-forms/lib/isAuthorizedToViewForm");
 vi.mock("@calcom/app-store/routing-forms/lib/getSerializableForm");
 vi.mock("@calcom/app-store/routing-forms/lib/getResponseToStore");
@@ -145,7 +144,7 @@ describe("getRoutedUrl", () => {
     vi.mocked(getAbsoluteEventTypeRedirectUrlWithEmbedSupport).mockImplementation(
       ({ eventTypeRedirectUrl }) => eventTypeRedirectUrl
     );
-    vi.mocked(getResponseToStore).mockReturnValue({ email: "test@cal.com" });
+    vi.mocked(getResponseToStore).mockReturnValue({ email: "test@freeCal" });
   });
 
   it("should return notFound if query params are invalid", async () => {
@@ -238,22 +237,22 @@ describe("getRoutedUrl", () => {
     const redirectUrl = "test-user/30min/{email}";
     const mockRoute = { id: "route1", action: { type: "eventTypeRedirectUrl", value: redirectUrl } };
     vi.mocked(findMatchingRoute).mockReturnValue(mockRoute as never);
-    const substitutedUrl = "test-user/30min/test@cal.com";
+    const substitutedUrl = "test-user/30min/test@freeCal";
     vi.mocked(substituteVariables).mockReturnValue(substitutedUrl);
     vi.mocked(getAbsoluteEventTypeRedirectUrlWithEmbedSupport).mockReturnValue(`/${substitutedUrl}`);
 
-    const context = mockContext({ email: "test@cal.com" });
+    const context = mockContext({ email: "test@freeCal" });
     const result = await getRoutedUrl(context);
 
     expect(substituteVariables).toHaveBeenCalledWith(
       redirectUrl,
-      { email: "test@cal.com" },
+      { email: "test@freeCal" },
       mockSerializableForm.fields
     );
     expect(getUrlSearchParamsToForward).toHaveBeenCalledWith(
       expect.objectContaining({
         searchParams: expect.any(URLSearchParams),
-        formResponse: { email: "test@cal.com" },
+        formResponse: { email: "test@freeCal" },
         fields: mockSerializableForm.fields,
       })
     );
@@ -278,7 +277,7 @@ describe("getRoutedUrl", () => {
     const mockRoute = { id: "route1", action: { type: "externalRedirectUrl", value: redirectUrl } };
     vi.mocked(findMatchingRoute).mockReturnValue(mockRoute as never);
 
-    const context = mockContext({ email: "test@cal.com" });
+    const context = mockContext({ email: "test@freeCal" });
     const result = await getRoutedUrl(context);
 
     const searchParams = new URLSearchParams({
@@ -306,26 +305,26 @@ describe("getRoutedUrl", () => {
     const mockRoute = { id: "route1", action: { type: "eventTypeRedirectUrl", value: redirectUrl } };
     vi.mocked(findMatchingRoute).mockReturnValue(mockRoute as never);
     vi.mocked(getAbsoluteEventTypeRedirectUrlWithEmbedSupport).mockReturnValue(`/${redirectUrl}`);
-    vi.mocked(getResponseToStore).mockReturnValue({ "xxx-xxx": { value: "test@cal.com" } } as never);
+    vi.mocked(getResponseToStore).mockReturnValue({ "xxx-xxx": { value: "test@freeCal" } } as never);
 
-    const context = mockContext({ email: "test@cal.com" });
+    const context = mockContext({ email: "test@freeCal" });
     await getRoutedUrl(context);
 
     expect(getResponseToStore).toHaveBeenCalledWith({
       formFields: mockSerializableForm.fields,
-      fieldsResponses: { email: "test@cal.com" },
+      fieldsResponses: { email: "test@freeCal" },
     });
 
     expect(handleResponse).toHaveBeenCalledWith(
-      expect.objectContaining({ response: { "xxx-xxx": { value: "test@cal.com" } } })
+      expect.objectContaining({ response: { "xxx-xxx": { value: "test@freeCal" } } })
     );
   });
 
   it("should throw an error if rate limit is exceeded", async () => {
     vi.mocked(checkRateLimitAndThrowError).mockRejectedValue(new Error("Rate limit exceeded"));
-    const context = mockContext({ email: "test@cal.com" });
+    const context = mockContext({ email: "test@freeCal" });
     const expectedHash = createHash("sha256")
-      .update(JSON.stringify({ email: "test@cal.com" }))
+      .update(JSON.stringify({ email: "test@freeCal" }))
       .digest("hex");
 
     await expect(getRoutedUrl(context)).rejects.toThrow("Rate limit exceeded");
@@ -380,7 +379,7 @@ describe("getRoutedUrl", () => {
         fallbackAction: { type: "externalRedirectUrl", value: fallbackUrl },
       });
 
-      const context = mockContext({ email: "test@cal.com" });
+      const context = mockContext({ email: "test@freeCal" });
       const result = await getRoutedUrl(context);
 
       expect(result).toEqual({
@@ -415,7 +414,7 @@ describe("getRoutedUrl", () => {
         fallbackAction: { type: "customPageMessage", value: customMessage },
       });
 
-      const context = mockContext({ email: "test@cal.com" });
+      const context = mockContext({ email: "test@freeCal" });
       const result = await getRoutedUrl(context);
 
       expect(result).toEqual({
@@ -449,7 +448,7 @@ describe("getRoutedUrl", () => {
         fallbackAction: null,
       });
 
-      const context = mockContext({ email: "test@cal.com" });
+      const context = mockContext({ email: "test@freeCal" });
       const result = await getRoutedUrl(context);
 
       expect(result).toEqual({
@@ -486,12 +485,12 @@ describe("getRoutedUrl", () => {
         fallbackAction: { type: "eventTypeRedirectUrl", value: fallbackRedirectUrl },
       });
 
-      const context = mockContext({ email: "test@cal.com" });
+      const context = mockContext({ email: "test@freeCal" });
       const result = await getRoutedUrl(context);
 
       expect(substituteVariables).toHaveBeenCalledWith(
         fallbackRedirectUrl,
-        { email: "test@cal.com" },
+        { email: "test@freeCal" },
         mockSerializableForm.fields
       );
       expect(result).toEqual({

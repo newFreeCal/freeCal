@@ -1,17 +1,16 @@
 import { eventTypeMetaDataSchemaWithTypedApps } from "@calcom/app-store/zod-utils";
 import dayjs from "@calcom/dayjs";
-import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
 import type { BookingEmailSmsHandler } from "@calcom/features/bookings/lib/BookingEmailSmsHandler";
 import { getOriginalRescheduledBooking } from "@calcom/features/bookings/lib/handleNewBooking/originalRescheduledBookingUtils";
 import type { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
+import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
 import type { EventNameObjectType } from "@calcom/features/eventtypes/lib/eventNaming";
+import { getAllWorkflowsFromEventType } from "@calcom/features/workflows/lib/stubs/getAllWorkflowsFromEventType";
 import type { ITaskerDependencies } from "@calcom/lib/tasker/types";
 import { SchedulingType } from "@calcom/prisma/enums";
 import type { CalendarEvent } from "@calcom/types/Calendar";
 import type { JsonObject } from "@calcom/types/Json";
-
-import { BookingEmailAndSmsAsyncTasksPayload, BookingTasks } from "./types";
+import type { BookingEmailAndSmsAsyncTasksPayload, BookingTasks } from "./types";
 
 export interface IBookingTaskServiceDependencies {
   emailsAndSmsHandler: BookingEmailSmsHandler;
@@ -93,7 +92,7 @@ export class BookingEmailAndSmsTaskService implements BookingTasks {
         ...eventType,
         metadata: eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata),
       },
-      calendarEvent.organizer.id
+      calendarEvent.organizer.id || 0
     );
 
     await this.dependencies.emailsAndSmsHandler.send({

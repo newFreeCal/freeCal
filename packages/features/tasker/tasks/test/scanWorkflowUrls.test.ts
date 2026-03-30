@@ -1,17 +1,14 @@
 import prismock from "@calcom/testing/lib/__mocks__/prisma";
-
-import { describe, expect, test, vi, beforeEach } from "vitest";
-
 import tasker from "@calcom/features/tasker";
-
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import {
   scanWorkflowUrls,
-  submitWorkflowStepForUrlScanning,
   submitUrlForUrlScanning,
+  submitWorkflowStepForUrlScanning,
 } from "../scanWorkflowUrls";
 
 // Mock the urlScanner module
-vi.mock("@calcom/features/ee/workflows/lib/urlScanner", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/lib/urlScanner", () => ({
   extractUrlsFromHtml: vi.fn((html: string) => {
     // Simple mock implementation
     const urls: string[] = [];
@@ -43,16 +40,16 @@ vi.mock("@calcom/features/tasker", () => ({
 }));
 
 // Mock the autoLock module
-vi.mock("@calcom/features/ee/api-keys/lib/autoLock", () => ({
+vi.mock("@calcom/features/api-keys/lib/stubs/autoLock", () => ({
   LockReason: {
     MALICIOUS_URL_IN_WORKFLOW: "MALICIOUS_URL_IN_WORKFLOW",
   },
   lockUser: vi.fn().mockResolvedValue(undefined),
 }));
 
+import { lockUser } from "@calcom/features/api-keys/lib/stubs/autoLock";
 // Import mocked modules for assertions
-import * as urlScanner from "@calcom/features/ee/workflows/lib/urlScanner";
-import { lockUser } from "@calcom/features/ee/api-keys/lib/autoLock";
+import * as urlScanner from "@calcom/features/workflows/lib/stubs/lib/urlScanner";
 
 describe("scanWorkflowUrls", () => {
   beforeEach(() => {

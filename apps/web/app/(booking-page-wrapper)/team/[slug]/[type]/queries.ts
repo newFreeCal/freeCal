@@ -1,9 +1,5 @@
-import type { GetServerSidePropsContext } from "next";
-import { unstable_cache } from "next/cache";
-
+import process from "node:process";
 import { eventTypeMetaDataSchemaWithTypedApps } from "@calcom/app-store/zod-utils";
-import { getTeamData } from "@calcom/features/ee/teams/lib/getTeamData";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import {
   getEventTypeHosts,
   getProfileFromEvent,
@@ -12,12 +8,16 @@ import {
 } from "@calcom/features/eventtypes/lib/getPublicEvent";
 import { getTeamEventType } from "@calcom/features/eventtypes/lib/getTeamEventType";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
+import { getTeamData } from "@calcom/features/teams/lib/stubs/getTeamData";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { NEXTJS_CACHE_TTL } from "@calcom/lib/constants";
 import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
 import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 import type { SchedulingType } from "@calcom/prisma/enums";
+import type { GetServerSidePropsContext } from "next";
+import { unstable_cache } from "next/cache";
 
 export async function getCachedTeamData(teamSlug: string, orgSlug: string | null) {
   return unstable_cache(async () => getTeamData(teamSlug, orgSlug), ["team-data", teamSlug, orgSlug ?? ""], {
@@ -139,7 +139,7 @@ export async function getCRMData(
 
   if (!crmLookupDone && (!teamMemberEmail || !crmOwnerRecordType || !crmAppSlug)) {
     const { getTeamMemberEmailForResponseOrContactUsingUrlQuery } = await import(
-      "@calcom/features/ee/teams/lib/getTeamMemberEmailFromCrm"
+      "@calcom/features/teams/lib/stubs/getTeamMemberEmailFromCrm"
     );
     const {
       email,

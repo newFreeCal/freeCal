@@ -1,12 +1,11 @@
+import {
+  ApiResponseWithoutData,
+  RangeSlotsOutput_2024_09_04,
+  SlotsOutput_2024_09_04,
+} from "@calcom/platform-types";
 import { ApiExtraModels, ApiProperty, ApiPropertyOptional, getSchemaPath } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsInt, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-
-import {
-  ApiResponseWithoutData,
-  SlotsOutput_2024_09_04,
-  RangeSlotsOutput_2024_09_04,
-} from "@calcom/platform-types";
 
 class Routing {
   @ApiProperty({
@@ -115,7 +114,7 @@ export class CreateRoutingFormResponseOutputData {
   @IsOptional()
   @ApiPropertyOptional({
     type: String,
-    description: "The external redirect URL to be used in case of routing to a non cal.com event type URL.",
+    description: "The external redirect URL to be used in case of routing to a non freeCal event type URL.",
     example: "https://example.com/",
   })
   routingExternalRedirectUrl?: string;

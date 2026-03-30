@@ -75,21 +75,17 @@ describe("useFeatureOptInBanner", () => {
   it("shows banner for normal users when eligible", () => {
     mockUseSession.mockReturnValue({ data: { user: {} } });
 
-    const { result } = renderHook(() =>
-      useFeatureOptInBanner("bookings-v3", { onOptInSuccess: vi.fn() })
-    );
+    const { result } = renderHook(() => useFeatureOptInBanner("bookings-v3", { onOptInSuccess: vi.fn() }));
 
     expect(result.current.shouldShow).toBe(true);
   });
 
   it("still shows banner when user is impersonated", () => {
     mockUseSession.mockReturnValue({
-      data: { user: { impersonatedBy: { id: 999, email: "admin@cal.com" } } },
+      data: { user: { impersonatedBy: { id: 999, email: "admin@freeCal" } } },
     });
 
-    const { result } = renderHook(() =>
-      useFeatureOptInBanner("bookings-v3", { onOptInSuccess: vi.fn() })
-    );
+    const { result } = renderHook(() => useFeatureOptInBanner("bookings-v3", { onOptInSuccess: vi.fn() }));
 
     expect(result.current.shouldShow).toBe(true);
   });
@@ -98,9 +94,7 @@ describe("useFeatureOptInBanner", () => {
     mockUseSession.mockReturnValue({ data: { user: {} } });
     const onOptInSuccess = vi.fn();
 
-    const { result } = renderHook(() =>
-      useFeatureOptInBanner("bookings-v3", { onOptInSuccess })
-    );
+    const { result } = renderHook(() => useFeatureOptInBanner("bookings-v3", { onOptInSuccess }));
 
     result.current.markOptedIn();
 

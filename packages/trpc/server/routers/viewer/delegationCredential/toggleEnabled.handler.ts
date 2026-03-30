@@ -3,9 +3,8 @@ import { sendDelegationCredentialDisabledEmail } from "@calcom/emails/integratio
 import type { ServiceAccountKey } from "@calcom/features/delegation-credentials/repositories/DelegationCredentialRepository";
 import { DelegationCredentialRepository } from "@calcom/features/delegation-credentials/repositories/DelegationCredentialRepository";
 import logger from "@calcom/lib/logger";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import type { z } from "zod";
-
 import { getAffectedMembersForDisable } from "./getAffectedMembersForDisable.handler";
 import type { DelegationCredentialToggleEnabledSchema } from "./schema";
 import { ensureNoServiceAccountKey } from "./utils";

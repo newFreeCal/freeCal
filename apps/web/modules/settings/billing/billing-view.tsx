@@ -144,9 +144,9 @@ const BillingView = () => {
           </div>
         </div>
         <BillingCredits />
-        {teamIdNumber && subscriptionStatus?.billingMode === "ACTIVE_USERS" && (
-          <ActiveUserBreakdown teamId={teamIdNumber} />
-        )}
+        {teamIdNumber &&
+          subscriptionStatus?.billingMode !== null &&
+          subscriptionStatus?.billingMode === "ACTIVE_USERS" && <ActiveUserBreakdown teamId={teamIdNumber} />}
         <InvoicesTable />
       </div>
 

@@ -1,13 +1,9 @@
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
-import { Resource, CustomAction } from "@calcom/features/pbac/domain/types/permission-registry";
+import { CustomAction, Resource } from "@calcom/features/pbac/domain/types/permission-registry";
 import { getSpecificPermissions } from "@calcom/features/pbac/lib/resource-permissions";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TBulkUsersDelete } from "./bulkDeleteUsers.schema.";
 
@@ -77,6 +73,7 @@ export async function bulkDeleteUsersHandler({ ctx, input }: BulkDeleteUsersHand
     },
   });
 
+  // unEE: Seat tracking removed - no billing validation in open-source version
   const removeOrgrelation = prisma.user.updateMany({
     where: {
       id: {
@@ -85,9 +82,7 @@ export async function bulkDeleteUsersHandler({ ctx, input }: BulkDeleteUsersHand
     },
     data: {
       organizationId: null,
-      // Set username to null - to make sure there is no conflicts
       username: null,
-      // Set completedOnboarding to false - to make sure the user has to complete onboarding again -> Setup a new username
       completedOnboarding: false,
     },
   });
@@ -132,9 +127,7 @@ export async function bulkDeleteUsersHandler({ ctx, input }: BulkDeleteUsersHand
     userIds: input.userIds,
   });
 
-  // We do this in a transaction to make sure that all memberships are removed before we remove the organization relation from the user
-  // We also do this to make sure that if one of the queries fail, the whole transaction fails
-  const [, { count: orgMembershipRemovalCount }] = await prisma.$transaction([
+  await prisma.$transaction([
     removeProfiles,
     deleteOrganizationMemberships,
     deleteSubteamMemberships,
@@ -142,19 +135,6 @@ export async function bulkDeleteUsersHandler({ ctx, input }: BulkDeleteUsersHand
     removeManagedEventTypes,
     removeHostAssignment,
   ]);
-
-  if (orgMembershipRemovalCount > 0) {
-    const seatTracker = new SeatChangeTrackingService();
-    await seatTracker.logSeatRemoval({
-      teamId: currentUserOrgId,
-      seatCount: orgMembershipRemovalCount,
-      triggeredBy: currentUser.id,
-    });
-  }
-
-  const teamBillingServiceFactory = getTeamBillingServiceFactory();
-  const teamBillingService = await teamBillingServiceFactory.findAndInit(currentUserOrgId);
-  await teamBillingService.updateQuantity("removal");
 
   return {
     success: true,

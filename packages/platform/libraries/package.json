@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@calcom/features": "workspace:*",
-    "@calcom/i18n": "workspace:*",
     "@calcom/lib": "workspace:*"
   },
   "peerDependencies": {

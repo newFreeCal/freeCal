@@ -1,3 +1,18 @@
+import { SUCCESS_STATUS } from "@calcom/platform-constants";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from "@nestjs/common";
+import { ApiHeader, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Request } from "express";
 import { API_VERSIONS_VALUES } from "@/lib/api-versions";
 import { API_KEY_HEADER } from "@/lib/docs/headers";
 import { PlatformPlan } from "@/modules/auth/decorators/billing/platform-plan.decorator";
@@ -16,22 +31,6 @@ import { CreateRoutingFormResponseOutput } from "@/modules/organizations/routing
 import { UpdateRoutingFormResponseOutput } from "@/modules/organizations/routing-forms/outputs/update-routing-form-response.output";
 import { GetRoutingFormResponsesOutput } from "@/modules/organizations/teams/routing-forms/outputs/get-routing-form-responses.output";
 import { OrganizationsTeamsRoutingFormsResponsesService } from "@/modules/organizations/teams/routing-forms/services/organizations-teams-routing-forms-responses.service";
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Param,
-  ParseIntPipe,
-  Query,
-  UseGuards,
-  Body,
-  Req,
-} from "@nestjs/common";
-import { ApiHeader, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
-import { Request } from "express";
-
-import { SUCCESS_STATUS } from "@calcom/platform-constants";
 
 @Controller({
   path: "/v2/organizations/:orgId/teams/:teamId/routing-forms/:routingFormId/responses",
@@ -48,9 +47,6 @@ import { SUCCESS_STATUS } from "@calcom/platform-constants";
   IsAdminAPIEnabledGuard
 )
 @ApiHeader(API_KEY_HEADER)
-@ApiParam({ name: "orgId", type: Number, required: true })
-@ApiParam({ name: "teamId", type: Number, required: true })
-@ApiParam({ name: "routingFormId", type: String, required: true })
 export class OrganizationsTeamsRoutingFormsResponsesController {
   constructor(
     private readonly organizationsTeamsRoutingFormsResponsesService: OrganizationsTeamsRoutingFormsResponsesService

@@ -5,7 +5,7 @@ import { z } from "zod";
 const log = logger.getSubLogger({ prefix: ["sendProrationReminderEmail"] });
 
 export const sendProrationReminderEmailPayloadSchema = z.object({
-  prorationId: z.string(),
+  prorationId: z.number(),
   teamId: z.number(),
 });
 
@@ -16,7 +16,7 @@ export async function sendProrationReminderEmail(payload: string): Promise<void>
     log.debug(`Processing sendProrationReminderEmail task for prorationId ${prorationId}, teamId ${teamId}`);
 
     const { ProrationEmailService } = await import(
-      "@calcom/features/ee/billing/service/proration/ProrationEmailService"
+      "@calcom/features/billing/lib/stubs/service/proration/ProrationEmailService"
     );
 
     const emailService = new ProrationEmailService();

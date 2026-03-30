@@ -13,10 +13,10 @@ export const metadata = {
   category: "calendar",
   categories: ["calendar"],
   logo: "icon.svg",
-  publisher: "Cal.com",
+  publisher: "freeCal",
   slug: "google-calendar",
-  url: "https://cal.com/",
-  email: "help@cal.com",
+  url: "https://freeCal/",
+  email: "help@freeCal",
   dirName: "googlecalendar",
   isOAuth: true,
   delegationCredential: {

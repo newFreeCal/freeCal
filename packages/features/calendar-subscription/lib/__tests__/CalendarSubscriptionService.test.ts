@@ -75,7 +75,7 @@ const mockEvents = {
   items: [
     {
       id: "event-1",
-      iCalUID: "event-1@cal.com",
+      iCalUID: "event-1@freeCal",
       start: new Date(),
       end: new Date(Date.now() + 3600000),
       busy: true,

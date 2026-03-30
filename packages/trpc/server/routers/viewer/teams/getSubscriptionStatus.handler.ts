@@ -1,14 +1,9 @@
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { SubscriptionStatus } from "@calcom/ee/billing/repository/billing/IBillingRepository";
-import { BillingPeriodService } from "@calcom/features/ee/billing/service/billingPeriod/BillingPeriodService";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
-import { TeamService } from "@calcom/features/ee/teams/services/teamService";
-import { IS_TEAM_BILLING_ENABLED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
+import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TGetSubscriptionStatusInputSchema } from "./getSubscriptionStatus.schema";
 
@@ -22,10 +17,6 @@ type GetSubscriptionStatusOptions = {
 };
 
 export const getSubscriptionStatusHandler = async ({ ctx, input }: GetSubscriptionStatusOptions) => {
-  if (!IS_TEAM_BILLING_ENABLED) {
-    return { status: null, isTrialing: false, billingMode: null };
-  }
-
   const { teamId } = input;
 
   const membershipRepository = new MembershipRepository();
@@ -41,7 +32,18 @@ export const getSubscriptionStatusHandler = async ({ ctx, input }: GetSubscripti
     });
   }
 
-  const team = await TeamService.fetchTeamOrThrow(teamId);
+  const team = await prisma.team.findUnique({
+    where: { id: teamId },
+    select: { isOrganization: true, name: true },
+  });
+
+  if (!team) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Team not found",
+    });
+  }
+
   const permissionService = new PermissionCheckService();
   const hasManageBillingPermission = await permissionService.checkPermission({
     userId: ctx.user.id,
@@ -57,32 +59,13 @@ export const getSubscriptionStatusHandler = async ({ ctx, input }: GetSubscripti
     });
   }
 
-  try {
-    const teamBillingServiceFactory = getTeamBillingServiceFactory();
-    const teamBillingService = await teamBillingServiceFactory.findAndInit(teamId);
+  log.debug(`Subscription status check for team ${teamId}: Active (open-source version)`);
 
-    const subscriptionStatus = await teamBillingService.getSubscriptionStatus();
-
-    const billingPeriodService = new BillingPeriodService();
-    const billingInfo = await billingPeriodService.getBillingPeriodInfo(teamId);
-
-    log.debug(`Subscription status for team ${teamId}: ${subscriptionStatus}`);
-
-    return {
-      status: subscriptionStatus,
-      isTrialing: subscriptionStatus === SubscriptionStatus.TRIALING,
-      billingMode: billingInfo.billingMode,
-    };
-  } catch (error) {
-    if (error instanceof TRPCError) {
-      throw error;
-    }
-    log.error("Error getting subscription status", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to get subscription status",
-    });
-  }
+  return {
+    status: "active",
+    isTrialing: false,
+    billingMode: null,
+  };
 };
 
 export default getSubscriptionStatusHandler;

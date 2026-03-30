@@ -1,11 +1,6 @@
-import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import posthog from "posthog-js";
-
 import { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
-import { type FilterSegmentScope } from "@calcom/prisma/enums";
+import type { FilterSegmentScope } from "@calcom/prisma/enums";
 import { trpc } from "@calcom/trpc/react";
 import { Button } from "@calcom/ui/components/button";
 import {
@@ -16,9 +11,12 @@ import {
   DialogTrigger,
 } from "@calcom/ui/components/dialog";
 import { Form, Input, Label, Select, Switch } from "@calcom/ui/components/form";
-import { RadioGroup, RadioField } from "@calcom/ui/components/radio";
+import { RadioField, RadioGroup } from "@calcom/ui/components/radio";
 import { showToast } from "@calcom/ui/components/toast";
-
+import { useSession } from "next-auth/react";
+import posthog from "posthog-js";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDataTable } from "~/data-table/hooks";
 
 interface FormValues {
@@ -220,10 +218,14 @@ export function SaveFilterSegmentButton() {
                 {isTeamSegment && teams && teams.length > 0 && (
                   <div className="mt-1.5">
                     <Select<{ value: string; label: string }>
-                      options={teams.map((team) => ({
-                        value: team.id.toString(),
-                        label: team.name,
-                      }))}
+                      options={
+                        (teams
+                          .filter((team) => team.name !== null)
+                          .map((team) => ({
+                            value: team.id.toString(),
+                            label: team.name,
+                          })) as any) as { value: string; label: string }[]
+                      }
                       onChange={(option) => setSelectedTeamId(parseInt(option?.value || "0"))}
                       placeholder={t("select_team")}
                       data-testid="save-filter-segment-team-select"

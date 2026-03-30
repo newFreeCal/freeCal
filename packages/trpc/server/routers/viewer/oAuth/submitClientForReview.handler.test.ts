@@ -1,9 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-
-import type { TFunction } from "i18next";
-
 import type { PrismaClient } from "@calcom/prisma";
-
+import type { TFunction } from "i18next";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { submitClientForReviewHandler } from "./submitClientForReview.handler";
 
 const mocks = vi.hoisted(() => {
@@ -26,7 +23,7 @@ vi.mock("@calcom/emails/oauth-email-service", () => ({
   sendAdminOAuthClientNotification: mocks.sendAdminOAuthClientNotification,
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: mocks.getTranslation,
 }));
 

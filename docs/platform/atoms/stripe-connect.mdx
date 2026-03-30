@@ -6,7 +6,7 @@ The Stripe connect integration allows users to effortlessly connect their Stripe
 
 ## Ways to connect Stripe
 
-There are two ways to connect your Stripe account in Cal.com platform integrations:
+There are two ways to connect your Stripe account in freeCal platform integrations:
 
 <Steps>
   <Step title="Direct Stripe Connect atom">
@@ -55,12 +55,12 @@ import { EventTypeSettings } from "@calcom/atoms";
 
 export default function EventType() {
   // your event type ID
-  const eventTypeId = 123; 
-  
+  const eventTypeId = 123;
+
       return (
           <>
-            <EventTypeSettings 
-              id={eventTypeId} 
+            <EventTypeSettings
+              id={eventTypeId}
               allowDelete={true}
               tabs={["setup", "availability", "team", "limits", "advanced", "recurring", "payments"]}
             />

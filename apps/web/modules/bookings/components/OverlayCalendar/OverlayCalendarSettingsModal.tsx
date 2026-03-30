@@ -75,7 +75,7 @@ export function OverlayCalendarSettingsModal({
                   )}
                   width={40}
                   height={40}
-                  src={isPlatform ? `https://app.cal.com${item.integration.logo}` : item.integration.logo}
+                  src={isPlatform ? `https://app.freeCal${item.integration.logo}` : item.integration.logo}
                   alt={`${item.integration.title} logo`}
                 />
               )}

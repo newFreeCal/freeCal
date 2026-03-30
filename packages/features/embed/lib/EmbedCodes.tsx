@@ -1,12 +1,11 @@
-import { WEBSITE_URL, IS_SELF_HOSTED, WEBAPP_URL } from "@calcom/lib/constants";
-
+import { IS_SELF_HOSTED, WEBAPP_URL, WEBSITE_URL } from "@calcom/lib/constants";
 import type { PreviewState } from "../types";
 import { embedLibUrl } from "./constants";
 import { getApiNameForReactSnippet, getApiNameForVanillaJsSnippet } from "./getApiName";
 import { getDimension } from "./getDimension";
 
 export const doWeNeedCalOriginProp = (embedCalOrigin: string) => {
-  // If we are self hosted, calOrigin won't be app.cal.com so we need to pass it
+  // If we are self hosted, calOrigin won't be app.freeCal so we need to pass it
   // If we are not self hosted but it's still different from WEBAPP_URL and WEBSITE_URL, we need to pass it -> It happens for organization booking URL at the moment
   return IS_SELF_HOSTED || (embedCalOrigin !== WEBAPP_URL && embedCalOrigin !== WEBSITE_URL);
 };
@@ -142,7 +141,7 @@ export default function Booker( props : BookerProps ) {
       <BookerEmbed
         // Use the parsed username and event slug from calLink
         eventSlug={eventSlug}
-        // layout can be of three types: COLUMN_VIEW, MONTH_VIEW or WEEK_VIEW, 
+        // layout can be of three types: COLUMN_VIEW, MONTH_VIEW or WEEK_VIEW,
         // you can choose whichever you prefer
         view="${previewState.config?.layout || "MONTH_VIEW"}"
         username={calUsername}
@@ -180,7 +179,7 @@ export default function Booker( props : BookerProps ) {
       <BookerEmbed
         // Use the parsed username and event slug from calLink
         eventSlug={eventSlug}
-        // layout can be of three types: COLUMN_VIEW, MONTH_VIEW or WEEK_VIEW, 
+        // layout can be of three types: COLUMN_VIEW, MONTH_VIEW or WEEK_VIEW,
         // you can choose whichever you prefer
         view="${previewState.config?.layout || "MONTH_VIEW"}"
         username={calUsername}
@@ -218,7 +217,7 @@ export default function Booker( props : BookerProps ) {
       <BookerEmbed
         // Use the parsed username and event slug from calLink
         eventSlug={eventSlug}
-        // layout can be of three types: COLUMN_VIEW, MONTH_VIEW or WEEK_VIEW, 
+        // layout can be of three types: COLUMN_VIEW, MONTH_VIEW or WEEK_VIEW,
         // you can choose whichever you prefer
         view="${previewState.config?.layout || "MONTH_VIEW"}"
         username={calUsername}
@@ -279,7 +278,7 @@ export default function Booker( props : BookerProps ) {
       return code`${getApiNameForVanillaJsSnippet({
         namespace,
         mainApiName: "Cal",
-      })}("floatingButton", ${floatingButtonArg}); 
+      })}("floatingButton", ${floatingButtonArg});
   ${uiInstructionCode}`;
     },
     "element-click": ({

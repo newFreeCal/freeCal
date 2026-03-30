@@ -2,34 +2,30 @@
  * These integration tests aim to cover difficult-to-test edge cases
  * Standard cases are currently handled in e2e tests only
  *
- * see: https://github.com/calcom/cal.com/pull/10480
- *      https://github.com/calcom/cal.com/pull/10968
+ * see: https://github.com/calcom/freeCal/pull/10480
+ *      https://github.com/calcom/freeCal/pull/10968
  */
 import prismock from "@calcom/testing/lib/__mocks__/prisma";
-
 import {
-  TestData,
+  BookingLocations,
   createBookingScenario,
   getBooker,
   getDate,
+  getGoogleCalendarCredential,
   getNextMonthNotStartingOnWeekStart,
   getOrganizer,
   getScenarioData,
-  getGoogleCalendarCredential,
-  BookingLocations,
-  mockSuccessfulVideoMeetingCreation,
   mockCalendarToHaveNoBusySlots,
+  mockSuccessfulVideoMeetingCreation,
+  TestData,
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
+import process from "node:process";
+import { BookingStatus, PeriodType } from "@calcom/prisma/enums";
 import { expectBookingToBeInDatabase } from "@calcom/testing/lib/bookingScenario/expects";
 import { getMockRequestDataForBooking } from "@calcom/testing/lib/bookingScenario/getMockRequestDataForBooking";
 import { setupAndTeardown } from "@calcom/testing/lib/bookingScenario/setupAndTeardown";
-
-import { describe, expect, vi } from "vitest";
-
-import { PeriodType } from "@calcom/prisma/enums";
-import { BookingStatus } from "@calcom/prisma/enums";
 import { test } from "@calcom/testing/lib/fixtures/fixtures";
-
+import { describe, expect, vi } from "vitest";
 import { getNewBookingHandler } from "./getNewBookingHandler";
 
 // Local test runs sometime gets too slow

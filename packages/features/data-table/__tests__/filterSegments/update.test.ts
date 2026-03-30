@@ -1,8 +1,8 @@
 import prismock from "@calcom/testing/lib/__mocks__/prisma";
 import { ColumnFilterType } from "@calcom/features/data-table/lib/types";
 import { MembershipRole } from "@calcom/prisma/enums";
+import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 import { describe, expect, it } from "vitest";
-import type { UserFromSession } from "@calcom/features/auth/lib/userFromSessionUtils";
 import { FilterSegmentRepository } from "../../repositories/filterSegment";
 import type { TUpdateFilterSegmentInputSchema } from "../../repositories/filterSegment.type";
 
@@ -13,7 +13,7 @@ describe("FilterSegmentRepository.update()", () => {
   const mockUser = {
     id: userId,
     name: "Test User",
-  } as NonNullable<UserFromSession>;
+  } as NonNullable<TrpcSessionUser>;
 
   const baseInput = {
     tableIdentifier: "bookings",

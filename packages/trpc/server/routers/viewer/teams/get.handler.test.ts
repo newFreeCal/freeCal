@@ -1,7 +1,5 @@
-import { describe, it, beforeEach, vi, expect } from "vitest";
-
-import { getTeamWithoutMembers } from "@calcom/features/ee/teams/lib/queries";
-
+import { getTeamWithoutMembers } from "@calcom/features/teams/lib/stubs/queries";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { TrpcSessionUser } from "../../../types";
 import getTeam from "./get.handler";
 
@@ -19,7 +17,7 @@ vi.mock("@calcom/features/membership/repositories/MembershipRepository", () => (
   MembershipRepository: MockMembershipRepository,
 }));
 
-vi.mock("@calcom/features/ee/teams/lib/queries", () => ({
+vi.mock("@calcom/features/teams/lib/stubs/queries", () => ({
   getTeamWithoutMembers: vi.fn(),
 }));
 

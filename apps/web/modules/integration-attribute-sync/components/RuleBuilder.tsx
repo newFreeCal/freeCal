@@ -1,11 +1,13 @@
-import type { MultiValue, SingleValue } from "react-select";
-
-import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { Attribute } from "@calcom/app-store/routing-forms/types/types";
-import { Button } from "@calcom/ui/components/button";
-import { Input, Select } from "@calcom/ui/components/form";
-import { FilterIcon } from "@coss/ui/icons";
-
+import {
+  ConditionIdentifierEnum,
+  type ConditionOperatorEnum,
+  type IAttributeCondition,
+  type IAttributeSyncRule,
+  type ITeamCondition,
+  type RuleOperatorEnum,
+  type TAttributeSyncRuleCondition,
+} from "@calcom/features/integration-attribute-sync/lib/stubs/repositories/IIntegrationAttributeSyncRepository";
 import {
   formatConditionValue,
   generateConditionId,
@@ -18,16 +20,12 @@ import {
   isArrayOperator,
   isTeamCondition,
   type TAttributeSyncRuleConditionWithId,
-} from "@calcom/features/ee/integration-attribute-sync/lib/ruleHelpers";
-import {
-  ConditionIdentifierEnum,
-  type ConditionOperatorEnum,
-  type IAttributeCondition,
-  type IAttributeSyncRule,
-  type ITeamCondition,
-  type RuleOperatorEnum,
-  type TAttributeSyncRuleCondition,
-} from "@calcom/features/ee/integration-attribute-sync/repositories/IIntegrationAttributeSyncRepository";
+} from "@calcom/features/integration-attribute-sync/lib/stubs/ruleHelpers";
+import { useLocale } from "@calcom/lib/hooks/useLocale";
+import { Button } from "@calcom/ui/components/button";
+import { Input, Select } from "@calcom/ui/components/form";
+import { FilterIcon } from "@coss/ui/icons";
+import type { MultiValue, SingleValue } from "react-select";
 
 const ensureConditionHasId = (condition: TAttributeSyncRuleCondition): TAttributeSyncRuleConditionWithId => {
   if ("_id" in condition && condition._id) {
@@ -71,7 +69,7 @@ const ConditionComponent = ({
   const handleTypeChange = (newType: { value: ConditionIdentifierEnum; label: string } | null) => {
     if (!newType) return;
 
-    if (newType.value === ConditionIdentifierEnum.TEAM_ID) {
+    if (newType.value === ConditionIdentifierEnum.TEAM) {
       onChange(getDefaultTeamCondition());
     } else {
       onChange(getDefaultAttributeCondition());

@@ -1,10 +1,8 @@
-import { orderBy } from "lodash";
-
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
 import { EventTypeRepository } from "@calcom/features/eventtypes/repositories/eventTypeRepository";
 import { hasFilter } from "@calcom/features/filters/lib/hasFilter";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
+import { getBookerBaseUrlSync } from "@calcom/features/organizations/lib/stubs/getBookerBaseUrlSync";
+import { getBookerBaseUrl } from "@calcom/features/organizations/lib/stubs/getBookerUrlServer";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
@@ -17,8 +15,8 @@ import { markdownToSafeHTML } from "@calcom/lib/markdownToSafeHTML";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import prisma from "@calcom/prisma";
 import { MembershipRole, SchedulingType } from "@calcom/prisma/enums";
-import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
-import { eventTypeMetaDataSchemaWithUntypedApps } from "@calcom/prisma/zod-utils";
+import { eventTypeMetaDataSchemaWithUntypedApps, teamMetadataSchema } from "@calcom/prisma/zod-utils";
+import { orderBy } from "lodash";
 
 const log = logger.getSubLogger({ prefix: ["viewer.eventTypes.getByViewer"] });
 
@@ -266,7 +264,7 @@ export const getEventTypesByViewer = async (user: User, filters?: Filters, forRo
 
           if (forRoutingForms) {
             // For Routing form we want to ensure that after migration of team to an org, the URL remains same for the team
-            // Once we solve this https://github.com/calcom/cal.com/issues/12399, we can remove this conditional change in slug
+            // Once we solve this https://github.com/calcom/freeCal/issues/12399, we can remove this conditional change in slug
             slug = `team/${team.slug}`;
           } else {
             // In an Org, a team can be accessed without /team prefix as well as with /team prefix

@@ -1,10 +1,8 @@
-import type { TFunction } from "i18next";
+import type * as getTranslation from "@calcom/lib/server/i18n";
 import { beforeEach, vi } from "vitest";
-import { mockReset, mockDeep } from "vitest-mock-extended";
+import { mockDeep, mockReset } from "vitest-mock-extended";
 
-import type * as getTranslation from "@calcom/i18n/server";
-
-vi.mock("@calcom/i18n/server", () => getTranslationMock);
+vi.mock("@calcom/lib/server/i18n", () => getTranslationMock);
 
 beforeEach(() => {
   mockReset(getTranslationMock);
@@ -14,9 +12,7 @@ const getTranslationMock = mockDeep<typeof getTranslation>();
 
 export const mock = {
   fakeIdentityFn: () =>
-    getTranslationMock.getTranslation.mockImplementation(
-      async () => ((key: string) => key) as TFunction<string, undefined>
-    ),
+    getTranslationMock.getTranslation.mockImplementation(async () => (key: string) => key),
 };
 
 export default getTranslationMock;

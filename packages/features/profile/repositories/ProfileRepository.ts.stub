@@ -1,0 +1,24 @@
+/**
+ * Stub ProfileRepository for open-source version
+ * Returns basic profile data without EE-specific fields
+ */
+import type { OrganizationProfile } from "./IProfileRepository";
+
+export class ProfileRepository {
+  async findFirstByUserId({ userId }: { userId: number }): Promise<OrganizationProfile | null> {
+    return null;
+  }
+}
+
+export class StubProfileRepository extends ProfileRepository {}
+
+export const ProfileService = {
+  getProfileOwner: async (_userId: number): Promise<{ id: number; username: string; name: string } | null> => {
+    return null;
+  },
+  getProfileByEmail: async (_email: string): Promise<{ id: number; username: string; name: string } | null> => {
+    return null;
+  },
+};
+
+export default ProfileRepository;

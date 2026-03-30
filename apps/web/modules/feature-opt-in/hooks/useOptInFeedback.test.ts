@@ -58,7 +58,7 @@ describe("useOptInFeedback", () => {
   it("does not show feedback dialog when user is impersonated in production", () => {
     mockEnv.isENVDev = false;
     mockUseSession.mockReturnValue({
-      data: { user: { impersonatedBy: { id: 999, email: "admin@cal.com" } } },
+      data: { user: { impersonatedBy: { id: 999, email: "admin@freeCal" } } },
     });
 
     const { result } = renderHook(() => useOptInFeedback("bookings-v3", featureConfig));
@@ -73,7 +73,7 @@ describe("useOptInFeedback", () => {
   it("shows feedback dialog when user is impersonated in development", () => {
     mockEnv.isENVDev = true;
     mockUseSession.mockReturnValue({
-      data: { user: { impersonatedBy: { id: 999, email: "admin@cal.com" } } },
+      data: { user: { impersonatedBy: { id: 999, email: "admin@freeCal" } } },
     });
 
     const { result } = renderHook(() => useOptInFeedback("bookings-v3", featureConfig));

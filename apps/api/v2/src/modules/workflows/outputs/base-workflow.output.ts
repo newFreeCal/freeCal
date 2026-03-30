@@ -1,20 +1,20 @@
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Expose, Type } from "class-transformer";
+import { IsBoolean, IsOptional, ValidateNested } from "class-validator";
 import {
   HOST,
   RECIPIENT_TYPES,
-  RecipientType,
   REMINDER,
+  RecipientType,
   TEMPLATES,
   TemplateType,
 } from "@/modules/workflows/inputs/workflow-step.input";
 import { HOUR, TIME_UNITS, TimeUnitType } from "@/modules/workflows/inputs/workflow-trigger.input";
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { Expose, Type } from "class-transformer";
-import { IsBoolean, IsOptional, ValidateNested } from "class-validator";
 
 export class WorkflowMessageOutputDto {
   @ApiProperty({
     description: "Subject of the message",
-    example: "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with Cal.com",
+    example: "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with freeCal",
   })
   @Expose()
   subject!: string;
@@ -78,7 +78,7 @@ export class BaseWorkflowStepOutputDto {
   @Expose()
   includeCalendarEvent = false;
 
-  @ApiProperty({ description: "Displayed sender name used for this step", example: "Cal.com Notifications" })
+  @ApiProperty({ description: "Displayed sender name used for this step", example: "freeCal Notifications" })
   @Expose()
   sender!: string;
 

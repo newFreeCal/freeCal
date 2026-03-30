@@ -1,15 +1,14 @@
-import z from "zod";
-
-import { LockReason, lockUser } from "@calcom/features/ee/api-keys/lib/autoLock";
+import { lockUser, type LockReason } from "@calcom/features/api-keys/lib/stubs/autoLock";
+import tasker from "@calcom/features/tasker";
 import {
   extractUrlsFromHtml,
   getScanResult,
   isUrlScanningEnabled,
   submitUrlForScanning,
-} from "@calcom/features/ee/workflows/lib/urlScanner";
-import tasker from "@calcom/features/tasker";
+} from "@calcom/features/workflows/lib/stubs/lib/urlScanner";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
+import z from "zod";
 
 export const scanWorkflowUrlsSchema = z.object({
   userId: z.number(),
@@ -143,7 +142,7 @@ export async function scanWorkflowUrls(payload: string) {
       } else if (result.status === "error") {
         log.error(`Error getting scan result: ${result.error}`, { url: sanitizeUrlForLogging(url), scanId });
         // Don't add to stillPending, treat as non-malicious (fail-open for errors)
-      } else if (result.malicious) {
+      } else if (result.status === "scanned" && result.malicious) {
         maliciousUrls.push(url);
         log.warn(`Malicious URL detected`, {
           url: sanitizeUrlForLogging(url),
@@ -172,7 +171,7 @@ export async function scanWorkflowUrls(payload: string) {
           workflowStepId,
           eventTypeId,
         });
-        await lockUser("userId", String(userId), LockReason.MALICIOUS_URL_IN_WORKFLOW);
+        await lockUser({ userId, reason: "system" });
       }
       // Don't mark as verified - the workflow step should not be sent
       return;

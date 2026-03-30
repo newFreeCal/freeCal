@@ -1,9 +1,7 @@
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import type { Mock } from "vitest";
-import { vi, beforeEach, afterEach, describe, expect, it } from "vitest";
-
 import { findMatchingRoute } from "@calcom/app-store/routing-forms/lib/processRoute";
-
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import type { Mock } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { TestFormRenderer } from "./TestForm";
 
 vi.mock("framer-motion", async () => {
@@ -86,7 +84,7 @@ vi.mock("@calcom/lib/hooks/useLocale", () => ({
   useLocale: vi.fn(() => ({ t: (key: string) => key })),
 }));
 
-vi.mock("@calcom/features/ee/organizations/context/provider", () => ({
+vi.mock("@calcom/features/organizations/lib/stubs/context/provider", () => ({
   useOrgBranding: vi.fn(() => null),
 }));
 

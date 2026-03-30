@@ -5,7 +5,7 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), ""); // .env inside of packages/platform/atoms
-  const webAppUrl = env.NEXT_PUBLIC_WEBAPP_URL ?? "https://app.cal.com";
+  const webAppUrl = env.NEXT_PUBLIC_WEBAPP_URL ?? "https://app.freeCal";
   const calcomVersion = env.NEXT_PUBLIC_CALCOM_VERSION ?? "";
   const vercelCommitSha = env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? "";
 
@@ -96,6 +96,10 @@ export default defineConfig(({ mode }) => {
         "@calcom/platform-constants": path.resolve(__dirname, "../constants/index.ts"),
         "@calcom/platform-types": path.resolve(__dirname, "../types/index.ts"),
         "@calcom/platform-utils": path.resolve(__dirname, "../constants/index.ts"),
+        "@calcom/web/public/static/locales/en/common.json": path.resolve(
+          __dirname,
+          "../../../apps/web/public/static/locales/en/common.json"
+        ),
       },
     },
   };

@@ -4,20 +4,8 @@ import { useUserAgentData } from "@calcom/lib/hooks/useUserAgentData";
 import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 import classNames from "@calcom/ui/classNames";
 import { Avatar } from "@calcom/ui/components/avatar";
-import {
-  BlocksIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  CircleHelpIcon,
-  DownloadIcon,
-  LogOutIcon,
-  MapIcon,
-  MoonIcon,
-  SettingsIcon,
-  UserIcon,
-} from "@coss/ui/icons";
 import { useGetUserAttributes } from "@calcom/web/components/settings/platform/hooks/useGetUserAttributes";
-import FreshChatProvider from "@calcom/web/modules/ee/support/lib/freshchat/FreshChatProvider";
+import FreshChatProvider from "@calcom/web/modules/support/lib/freshchat/FreshChatProvider";
 import {
   Menu,
   MenuItem,
@@ -28,12 +16,23 @@ import {
   MenuSubTrigger,
   MenuTrigger,
 } from "@coss/ui/components/menu";
+import {
+  BeachIcon,
+  BlocksIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  CircleHelpIcon,
+  DownloadIcon,
+  LogOutIcon,
+  MapIcon,
+  SettingsIcon,
+  UserIcon,
+} from "@coss/ui/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
-
 import {
   AppleIcon,
   ChromeIcon,
@@ -66,15 +65,15 @@ interface UserDropdownProps {
 }
 
 const DOWNLOAD_LINKS = {
-  ios: "https://go.cal.com/iOS",
-  android: "https://go.cal.com/android",
-  chrome: "https://go.cal.com/chrome",
-  safari: "https://go.cal.com/safari",
-  firefox: "https://go.cal.com/firefox",
-  edge: "https://go.cal.com/edge",
-  macos: "https://cal.com/download",
-  windows: "https://cal.com/download",
-  linux: "https://cal.com/download",
+  ios: "https://go.freeCal/iOS",
+  android: "https://go.freeCal/android",
+  chrome: "https://go.freeCal/chrome",
+  safari: "https://go.freeCal/safari",
+  firefox: "https://go.freeCal/firefox",
+  edge: "https://go.freeCal/edge",
+  macos: "https://freeCal/download",
+  windows: "https://freeCal/download",
+  linux: "https://freeCal/download",
 } as const;
 
 export function UserDropdown({ small }: UserDropdownProps) {
@@ -196,30 +195,37 @@ export function UserDropdown({ small }: UserDropdownProps) {
         <MenuPopup align="start">
           {!isPlatformPages && (
             <>
-              <MenuItem render={<Link href="/settings/my-account/profile" />}>
+              <MenuItem
+                className="h-[2.2rem] px-4.5 cursor-pointer"
+                render={<Link href="/settings/my-account/profile" />}>
                 <UserIcon />
                 {t("my_profile")}
               </MenuItem>
-              <MenuItem render={<Link href="/settings/my-account/general" />}>
+              <MenuItem
+                className="h-[2.2rem] px-4.5 cursor-pointer"
+                render={<Link href="/settings/my-account/general" />}>
                 <SettingsIcon />
                 {t("my_settings")}
               </MenuItem>
-              <MenuItem render={<Link href="/settings/my-account/out-of-office" />}>
-                <MoonIcon />
+              <MenuItem
+                className="h-[2.2rem] px-4.5 cursor-pointer"
+                render={<Link href="/settings/my-account/out-of-office" />}>
+                <BeachIcon />
                 {t("out_of_office")}
               </MenuItem>
               <MenuSeparator />
             </>
           )}
 
-          <MenuItem render={<a href={ROADMAP} target="_blank" rel="noreferrer" />}>
-            <MapIcon />
-            {t("visit_roadmap")}
-          </MenuItem>
-          <MenuItem onClick={handleHelpClick}>
+          {/*<MenuItem render={<a href={ROADMAP} target="_blank" rel="noreferrer" />}>*/}
+          {/*  <MapIcon />*/}
+          {/*  {t("visit_roadmap")}*/}
+          {/*</MenuItem>*/}
+          <MenuItem className="h-[2.2rem] px-4.5 cursor-pointer" onClick={handleHelpClick}>
             <CircleHelpIcon />
             {t("help")}
           </MenuItem>
+          {/*
           {!isPlatformPages && isMobile && os === "ios" && (
             <MenuItem render={<a href={DOWNLOAD_LINKS.ios} target="_blank" rel="noreferrer" />}>
               <DownloadIcon />
@@ -292,9 +298,12 @@ export function UserDropdown({ small }: UserDropdownProps) {
               </MenuSubPopup>
             </MenuSub>
           )}
+*/}
 
           {!isPlatformPages && isPlatformUser && (
-            <MenuItem render={<Link href="/settings/platform" />} className="todesktop:hidden hidden lg:flex">
+            <MenuItem
+              className="h-[2.2rem] px-4.5 cursor-pointer todesktop:hidden hidden lg:flex"
+              render={<Link href="/settings/platform" />}>
               <BlocksIcon />
               {t("platform")}
             </MenuItem>
@@ -302,6 +311,7 @@ export function UserDropdown({ small }: UserDropdownProps) {
           <MenuSeparator />
 
           <MenuItem
+            className="h-[2.2rem] px-4.5 cursor-pointer"
             variant="destructive"
             onClick={() => {
               signOut({ callbackUrl: "/auth/logout" });

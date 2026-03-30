@@ -1,4 +1,3 @@
-import { BillingPlanService } from "@calcom/features/ee/billing/domain/billing-plans";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import { prisma } from "@calcom/prisma";
 
@@ -9,17 +8,8 @@ type HasTeamPlanOptions = {
 };
 
 export const hasTeamPlanHandler = async ({ ctx }: HasTeamPlanOptions) => {
-  const userId = ctx.user.id;
-
-  const membershipRepository = new MembershipRepository(prisma);
-  const memberships = await membershipRepository.findAllMembershipsByUserIdForBilling({ userId });
-  const hasTeamPlan = memberships.some(
-    (membership) => membership.accepted === true && membership.team.slug !== null
-  );
-  const billingPlanService = new BillingPlanService();
-  const plan = await billingPlanService.getUserPlanByMemberships(memberships);
-
-  return { hasTeamPlan: !!hasTeamPlan, plan };
+  // In open-source version, no team plans - all features are free
+  return { hasTeamPlan: false, plan: null };
 };
 
 export default hasTeamPlanHandler;

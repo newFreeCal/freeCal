@@ -1,8 +1,6 @@
-import React from "react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-
 import { CreationSource } from "@calcom/prisma/enums";
-
+import type React from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { OnboardingState } from "../../store/onboarding-store";
 import { useSubmitOnboarding } from "../useSubmitOnboarding";
 
@@ -18,7 +16,7 @@ vi.mock("@calcom/features/flags/context/provider", () => ({
   useFlagMap: vi.fn(() => ({})),
 }));
 
-vi.mock("@calcom/features/ee/organizations/hooks/useWelcomeModal", () => ({
+vi.mock("@calcom/features/organizations/lib/stubs/hooks/useWelcomeModal", () => ({
   setShowNewOrgModalFlag: vi.fn(),
 }));
 

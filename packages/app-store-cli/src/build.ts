@@ -2,7 +2,8 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { AppMetaSchema, type AppMetaType } from "@calcom/types/AppMetaSchema";
+import type { AppMeta } from "@calcom/types/App";
+import { AppMetaSchema } from "@calcom/types/AppMetaSchema";
 import chokidar from "chokidar";
 // eslint-disable-next-line no-restricted-imports
 import { debounce } from "lodash";
@@ -38,7 +39,7 @@ const getVariableName = (appName: string) => appName.replace(/[-./]/g, "_");
 // INFO: Handle stripe separately as it's an old app with different dirName than slug/appId
 const getAppId = (app: { name: string }) => (app.name === "stripepayment" ? "stripe" : app.name);
 
-type App = Partial<AppMetaType> & {
+type App = Partial<AppMeta> & {
   name: string;
   path: string;
 };
@@ -81,7 +82,7 @@ function generateFiles() {
     for (let i = 0; i < appDirs.length; i++) {
       const configPath = path.join(APP_STORE_PATH, appDirs[i].path, "config.json");
       const metadataPath = path.join(APP_STORE_PATH, appDirs[i].path, "_metadata.ts");
-      let app: Partial<AppMetaType>;
+      let app: AppMetaSchema;
 
       if (fs.existsSync(configPath)) {
         try {
@@ -491,7 +492,7 @@ function generateFiles() {
   const redirectAppSlugs: string[] = [];
   forEachAppDir((app) => {
     // Exclude templates - they are not actual apps
-    if (app.externalLink && !app.path.replace(/\\/g, "/").startsWith("templates/")) {
+    if (app.externalLink && !app.path.startsWith("templates/")) {
       redirectAppSlugs.push(app.name);
     }
   });

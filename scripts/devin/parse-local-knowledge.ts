@@ -68,7 +68,7 @@ function parseRuleFile(filePath: string, fileName: string): DevinKnowledgeEntry 
   const impact = frontmatter?.impact || "";
   const impactDesc = frontmatter?.impactDescription || "";
 
-  let triggerDescription = `Use this rule when working on Cal.com codebase`;
+  let triggerDescription = `Use this rule when working on freeCal codebase`;
   if (tags) {
     triggerDescription += ` and the task involves: ${tags}`;
   }
@@ -123,10 +123,10 @@ function parseCommandsFile(filePath: string): DevinKnowledgeEntry {
   const content = fs.readFileSync(filePath, "utf-8");
 
   return {
-    name: "Cal.com Build, Test & Development Commands",
+    name: "freeCal Build, Test & Development Commands",
     body: content,
     trigger_description:
-      "When you need to run commands in the Cal.com repository such as build, test, lint, type-check, database operations, or development server",
+      "When you need to run commands in the freeCal repository such as build, test, lint, type-check, database operations, or development server",
     folder: "Commands",
   };
 }
@@ -139,15 +139,15 @@ function main() {
     folders: [
       {
         name: "Rules",
-        description: "Engineering rules and standards for Cal.com development",
+        description: "Engineering rules and standards for freeCal development",
       },
       {
         name: "Domain Knowledge",
-        description: "Product and domain-specific knowledge for Cal.com",
+        description: "Product and domain-specific knowledge for freeCal",
       },
       {
         name: "Commands",
-        description: "Build, test, and development commands for Cal.com",
+        description: "Build, test, and development commands for freeCal",
       },
     ],
     knowledge: [],

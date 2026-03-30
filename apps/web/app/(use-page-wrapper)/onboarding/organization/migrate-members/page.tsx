@@ -1,6 +1,6 @@
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { isCompanyEmail } from "@calcom/features/ee/organizations/lib/utils";
 import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
+import { isCompanyEmail } from "@calcom/features/organizations/lib/stubs/utils";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { prisma } from "@calcom/prisma";
 import { buildLegacyRequest } from "@lib/buildLegacyCtx";

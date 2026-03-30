@@ -1,7 +1,12 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const glob = require("glob");
-const crypto = require("node:crypto");
+import * as nodeCrypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+import * as glob from "glob";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const copyAppStoreStatic = () => {
   // Get all static files from app-store packages
@@ -32,7 +37,7 @@ const copyAppStoreStatic = () => {
     // If it's an icon SVG file, compute hash
     if (fileName.includes("icon") && fileName.endsWith(".svg")) {
       const content = fs.readFileSync(file, "utf8");
-      const hash = crypto.createHash("md5").update(content).digest("hex").slice(0, 8);
+      const hash = nodeCrypto.createHash("md5").update(content).digest("hex").slice(0, 8);
       SVG_HASHES[appDirName] = hash;
     }
 

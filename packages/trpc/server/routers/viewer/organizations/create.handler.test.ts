@@ -1,7 +1,6 @@
 import prismock from "@calcom/testing/lib/__mocks__/prisma";
-
-import { describe, expect, it, vi, beforeEach } from "vitest";
 import { UserPermissionRole } from "@calcom/prisma/enums";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createHandler } from "./create.handler";
 
 vi.mock("@calcom/lib/constants", async (importOriginal) => {
@@ -18,7 +17,7 @@ vi.mock("@calcom/lib/domainManager/organization", () => ({
   createDomain: vi.fn().mockResolvedValue(true),
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn().mockResolvedValue((key: string) => key),
 }));
 

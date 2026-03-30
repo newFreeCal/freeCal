@@ -1,5 +1,5 @@
-import { WebhookFormSkeleton } from "~/webhooks/views/webhook-form-skeleton";
+import { SkeletonLoader } from "~/webhooks/views/webhook-new-skeleton";
 
 export default function Loading() {
-  return <WebhookFormSkeleton />;
+  return <SkeletonLoader />;
 }

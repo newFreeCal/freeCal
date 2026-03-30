@@ -4,11 +4,11 @@
   "slug": "plausible",
   "type": "plausible_analytics",
   "logo": "icon.svg",
-  "url": "https://cal.com/",
+  "url": "https://freeCal/",
   "variant": "analytics",
   "categories": ["analytics"],
-  "publisher": "Cal.com, Inc.",
-  "email": "help@cal.com",
+  "publisher": "freeCal, Inc.",
+  "email": "help@freeCal",
   "extendsFeature": "EventType",
   "appData": {
     "tag": {

@@ -2,7 +2,7 @@ import { BookingRepository } from "@calcom/features/bookings/repositories/Bookin
 import { WrongAssignmentReportRepository } from "@calcom/features/bookings/repositories/WrongAssignmentReportRepository";
 import { BookingAccessService } from "@calcom/features/bookings/services/BookingAccessService";
 import { WrongAssignmentReportService } from "@calcom/features/bookings/services/WrongAssignmentReportService";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import prisma from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 import { TRPCError } from "@trpc/server";

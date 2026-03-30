@@ -11,7 +11,7 @@ import { checkIfEmailIsBlockedInWatchlistController } from "@calcom/features/wat
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import { hashEmail } from "@calcom/lib/server/PiiHasher";
 import { prisma } from "@calcom/prisma";
 import { totp } from "otplib";
@@ -25,8 +25,6 @@ interface VerifyEmailType {
   secondaryEmailId?: number;
   isVerifyingEmail?: boolean;
   isPlatform?: boolean;
-  extraParams?: Record<string, string>;
-  hideBranding?: boolean;
 }
 
 export const sendEmailVerification = async ({
@@ -35,7 +33,6 @@ export const sendEmailVerification = async ({
   username,
   secondaryEmailId,
   isPlatform = false,
-  extraParams,
 }: VerifyEmailType) => {
   const token = randomBytes(32).toString("hex");
   const translation = await getTranslation(language ?? "en", "common");
@@ -73,7 +70,6 @@ export const sendEmailVerification = async ({
 
   const params = new URLSearchParams({
     token,
-    ...extraParams,
   });
 
   await sendEmailVerificationLink({
@@ -94,7 +90,6 @@ export const sendEmailVerificationByCode = async ({
   language,
   username,
   isVerifyingEmail,
-  hideBranding,
 }: VerifyEmailType) => {
   if (await checkIfEmailIsBlockedInWatchlistController({ email, organizationId: null, span: sentrySpan })) {
     log.warn("Email is blocked - not sending verification email", email);
@@ -117,7 +112,6 @@ export const sendEmailVerificationByCode = async ({
       name: username,
     },
     isVerifyingEmail,
-    hideLogo: hideBranding,
   });
 
   return { ok: true, skipped: false };

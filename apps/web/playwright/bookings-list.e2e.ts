@@ -28,9 +28,9 @@ test.describe("Bookings", () => {
         organizer: firstUser,
         organizerEventType: firstUser.eventTypes[0],
         attendees: [
-          { name: "First", email: "first@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Second", email: "second@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Third", email: "third@cal.com", timeZone: "Europe/Berlin" },
+          { name: "First", email: "first@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Second", email: "second@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Third", email: "third@freeCal", timeZone: "Europe/Berlin" },
         ],
       });
       const bookingWhereFirstUserIsOrganizer = await bookingWhereFirstUserIsOrganizerFixture.self();
@@ -44,8 +44,8 @@ test.describe("Bookings", () => {
         organizerEventType: secondUser.eventTypes[0],
         attendees: [
           { name: "OrganizerAsBooker", email: firstUser.email, timeZone: "Europe/Berlin" },
-          { name: "Second", email: "second@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Third", email: "third@cal.com", timeZone: "Europe/Berlin" },
+          { name: "Second", email: "second@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Third", email: "third@freeCal", timeZone: "Europe/Berlin" },
         ],
       });
       const bookingWhereFirstUserIsAttendee = await bookingWhereFirstUserIsAttendeeFixture.self();
@@ -97,9 +97,9 @@ test.describe("Bookings", () => {
         organizer: firstUser,
         organizerEventType: firstUser.eventTypes[0],
         attendees: [
-          { name: "First", email: "first@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Second", email: "second@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Third", email: "third@cal.com", timeZone: "Europe/Berlin" },
+          { name: "First", email: "first@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Second", email: "second@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Third", email: "third@freeCal", timeZone: "Europe/Berlin" },
         ],
       });
       const bookingWhereFirstUserIsOrganizer = await bookingWhereFirstUserIsOrganizerFixture.self();
@@ -127,8 +127,8 @@ test.describe("Bookings", () => {
         triggerEvent: "BOOKING_NO_SHOW_UPDATED",
         createdAt: "[redacted/dynamic]",
         payload: {
-          message: "first@cal.com marked as no-show",
-          attendees: [{ email: "first@cal.com", noShow: true }],
+          message: "first@freeCal marked as no-show",
+          attendees: [{ email: "first@freeCal", noShow: true }],
           bookingUid: bookingWhereFirstUserIsOrganizer?.uid,
           bookingId: bookingWhereFirstUserIsOrganizer?.id,
         },
@@ -147,10 +147,10 @@ test.describe("Bookings", () => {
         organizer: firstUser,
         organizerEventType: firstUser.eventTypes[0],
         attendees: [
-          { name: "First", email: "first@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Second", email: "second@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Third", email: "third@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Fourth", email: "fourth@cal.com", timeZone: "Europe/Berlin" },
+          { name: "First", email: "first@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Second", email: "second@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Third", email: "third@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Fourth", email: "fourth@freeCal", timeZone: "Europe/Berlin" },
         ],
       });
       await bookingWhereFirstUserIsOrganizerFixture.self();
@@ -186,9 +186,9 @@ test.describe("Bookings", () => {
         organizer: memberUser,
         organizerEventType: managedEvent,
         attendees: [
-          { name: "First Guest", email: "first@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Second Guest", email: "second@cal.com", timeZone: "Europe/Berlin" },
-          { name: "Third Guest", email: "third@cal.com", timeZone: "Europe/Berlin" },
+          { name: "First Guest", email: "first@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Second Guest", email: "second@freeCal", timeZone: "Europe/Berlin" },
+          { name: "Third Guest", email: "third@freeCal", timeZone: "Europe/Berlin" },
         ],
       });
       const booking = await bookingFixture.self();
@@ -214,8 +214,8 @@ test.describe("Bookings", () => {
         triggerEvent: "BOOKING_NO_SHOW_UPDATED",
         createdAt: "[redacted/dynamic]",
         payload: {
-          message: "first@cal.com marked as no-show",
-          attendees: [{ email: "first@cal.com", noShow: true }],
+          message: "first@freeCal marked as no-show",
+          attendees: [{ email: "first@freeCal", noShow: true }],
           bookingUid: booking?.uid,
           bookingId: booking?.id,
         },

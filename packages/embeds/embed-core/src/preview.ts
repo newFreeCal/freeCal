@@ -1,4 +1,6 @@
 // We can't import @calcom/lib/constants here yet as this file is compiled using Vite
+import process from "node:process";
+
 const WEBAPP_URL = process.env.EMBED_PUBLIC_WEBAPP_URL || "";
 if (!WEBAPP_URL) {
   throw new Error("WEBAPP_URL is not set");
@@ -39,7 +41,7 @@ function isSafeUrlToLoadResourceFrom(urlString: string) {
   }
 
   function getTldPlus1(hostname: string) {
-    // Note: It doesn't support multipart tlds like .co.uk and thus makes only one part tld's safe like .com(and thus cal.com)
+    // Note: It doesn't support multipart tlds like .co.uk and thus makes only one part tld's safe like .com(and thus freeCal)
     // If we want to use it elsewhere as well(apart from embed/preview.ts) we must consider Public Suffix List
     return hostname.split(".").slice(-2).join(".");
   }
@@ -69,9 +71,9 @@ if (!calLink) {
 
 // TODO: Reuse the embed code snippet from the embed-snippet package - Not able to use it because of circular dependency
 // Install Cal Embed Code Snippet
-(function (C, A, L) {
+((C, A, L) => {
   // @ts-expect-error
-  const p = function (a, ar) {
+  const p = (a, ar) => {
     a.q.push(ar);
   };
   const d = C.document;
@@ -179,5 +181,3 @@ function makePreviewPageUseSystemPreference() {
 
 // This makes preview page behave like a website that has system preference enabled. This provides a better experience of preview when user switch their system theme to dark
 makePreviewPageUseSystemPreference();
-
-export {};

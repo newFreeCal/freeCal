@@ -1,22 +1,22 @@
-import type { BookingAuditProducerService } from "@calcom/features/booking-audit/lib/service/BookingAuditProducerService.interface";
 import type { AcceptedAuditData } from "@calcom/features/booking-audit/lib/actions/AcceptedAuditActionService";
-import type { CancelledAuditData } from "@calcom/features/booking-audit/lib/actions/CancelledAuditActionService";
-import type { RejectedAuditData } from "@calcom/features/booking-audit/lib/actions/RejectedAuditActionService";
-import type { RescheduleRequestedAuditData } from "@calcom/features/booking-audit/lib/actions/RescheduleRequestedAuditActionService";
 import type { AttendeeAddedAuditData } from "@calcom/features/booking-audit/lib/actions/AttendeeAddedAuditActionService";
 import type { AttendeeRemovedAuditData } from "@calcom/features/booking-audit/lib/actions/AttendeeRemovedAuditActionService";
-import type { ReassignmentAuditData } from "@calcom/features/booking-audit/lib/actions/ReassignmentAuditActionService";
+import type { CancelledAuditData } from "@calcom/features/booking-audit/lib/actions/CancelledAuditActionService";
+import type { CreatedAuditData } from "@calcom/features/booking-audit/lib/actions/CreatedAuditActionService";
 import type { LocationChangedAuditData } from "@calcom/features/booking-audit/lib/actions/LocationChangedAuditActionService";
 import type { NoShowUpdatedAuditData } from "@calcom/features/booking-audit/lib/actions/NoShowUpdatedAuditActionService";
+import type { ReassignmentAuditData } from "@calcom/features/booking-audit/lib/actions/ReassignmentAuditActionService";
+import type { RejectedAuditData } from "@calcom/features/booking-audit/lib/actions/RejectedAuditActionService";
+import type { RescheduledAuditData } from "@calcom/features/booking-audit/lib/actions/RescheduledAuditActionService";
+import type { RescheduleRequestedAuditData } from "@calcom/features/booking-audit/lib/actions/RescheduleRequestedAuditActionService";
 import type { SeatBookedAuditData } from "@calcom/features/booking-audit/lib/actions/SeatBookedAuditActionService";
 import type { SeatRescheduledAuditData } from "@calcom/features/booking-audit/lib/actions/SeatRescheduledAuditActionService";
-import type { CreatedAuditData } from "@calcom/features/booking-audit/lib/actions/CreatedAuditActionService";
-import type { RescheduledAuditData } from "@calcom/features/booking-audit/lib/actions/RescheduledAuditActionService";
-import type { ActionSource } from "@calcom/features/booking-audit/lib/types/actionSource";
-import type { HashedLinkService } from "@calcom/features/hashedLink/lib/service/HashedLinkService";
-import type { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
-import { safeStringify } from "@calcom/lib/safeStringify";
 import type { Actor, BookingAuditContext } from "@calcom/features/booking-audit/lib/dto/types";
+import type { BookingAuditProducerService } from "@calcom/features/booking-audit/lib/service/BookingAuditProducerService.interface";
+import type { ActionSource } from "@calcom/features/booking-audit/lib/types/actionSource";
+import type { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
+import type { HashedLinkService } from "@calcom/features/hashedLink/lib/service/HashedLinkService";
+import { safeStringify } from "@calcom/lib/safeStringify";
 import type { BookingCreatedPayload, BookingRescheduledPayload } from "./types";
 
 interface BookingEventHandlerDeps {
@@ -466,10 +466,9 @@ export class BookingEventHandlerService {
     organizationId: number | null;
     operationId?: string | null;
     source: ActionSource;
-    context?: BookingAuditContext;
     isBookingAuditEnabled: boolean;
   }) {
-    const { bookings, actor, organizationId, operationId, source, context, isBookingAuditEnabled } = params;
+    const { bookings, actor, organizationId, operationId, source, isBookingAuditEnabled } = params;
     await this.bookingAuditProducerService.queueBulkCreatedAudit({
       bookings: bookings.map((booking) => ({
         bookingUid: booking.bookingUid,
@@ -479,7 +478,6 @@ export class BookingEventHandlerService {
       organizationId,
       source,
       operationId,
-      context,
       isBookingAuditEnabled,
     });
   }
@@ -493,10 +491,9 @@ export class BookingEventHandlerService {
     organizationId: number | null;
     operationId?: string | null;
     source: ActionSource;
-    context?: BookingAuditContext;
     isBookingAuditEnabled: boolean;
   }) {
-    const { bookings, actor, organizationId, operationId, source, context, isBookingAuditEnabled } = params;
+    const { bookings, actor, organizationId, operationId, source, isBookingAuditEnabled } = params;
     await this.bookingAuditProducerService.queueBulkRescheduledAudit({
       bookings: bookings.map((booking) => ({
         bookingUid: booking.bookingUid,
@@ -506,7 +503,6 @@ export class BookingEventHandlerService {
       organizationId,
       source,
       operationId,
-      context,
       isBookingAuditEnabled,
     });
   }

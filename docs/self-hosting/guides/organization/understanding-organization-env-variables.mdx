@@ -3,13 +3,13 @@ title: "Environment Variables"
 icon: "gear"
 ---
 
-This guide explains the key environment variables used to configure organizations in your Cal.com self-hosted instance.
+This guide explains the key environment variables used to configure organizations in your freeCal self-hosted instance.
 
 ## RESERVED_SUBDOMAINS
 
 This is a comma-separated list of subdomains that are not allowed to be used as organization slugs.
 
-For example, if you set `RESERVED_SUBDOMAINS="app,auth,help"`, then the domains `app.cal.com`, `auth.cal.com` and `help.cal.com` are reserved for use by the Cal.com instance. This means you cannot create an organization with the slug `app`, `auth` or `help`.
+For example, if you set `RESERVED_SUBDOMAINS="app,auth,help"`, then the domains `app.freeCal`, `auth.freeCal` and `help.freeCal` are reserved for use by the freeCal instance. This means you cannot create an organization with the slug `app`, `auth` or `help`.
 
 ## ALLOWED_HOSTNAMES
 
@@ -17,8 +17,8 @@ This is a comma-separated list of domains on whose subdomains the booking pages 
 
 **Examples:**
 
-If `ALLOWED_HOSTNAMES="cal.com,cal.dev"`, then:
-- `acme.cal.com` is a valid organization booking domain and `WEBAPP_URL` can be set to `http://app.cal.com`
+If `ALLOWED_HOSTNAMES="freeCal,cal.dev"`, then:
+- `acme.freeCal` is a valid organization booking domain and `WEBAPP_URL` can be set to `http://app.freeCal`
 - `dunder.cal.dev` is also a valid organization subdomain and `WEBAPP_URL` can be set to `http://app.cal.dev`
 
 If `ALLOWED_HOSTNAMES="cal.domain.tld"`, then:
@@ -26,5 +26,5 @@ If `ALLOWED_HOSTNAMES="cal.domain.tld"`, then:
 - Valid organization domains include: `acme.cal.domain.tld`, `dunder.cal.domain.tld`, `xxxx.cal.domain.tld`
 
 <Info>
-Make sure your DNS is properly configured to point organization subdomains to your Cal.com instance.
+Make sure your DNS is properly configured to point organization subdomains to your freeCal instance.
 </Info>

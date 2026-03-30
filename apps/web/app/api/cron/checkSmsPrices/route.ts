@@ -1,13 +1,13 @@
-import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-
+import process from "node:process";
 import dayjs from "@calcom/dayjs";
-import * as twilio from "@calcom/features/ee/workflows/lib/reminders/providers/twilioProvider";
+import * as twilio from "@calcom/features/workflows/lib/stubs/lib/reminders/providers/twilioProvider";
 import { IS_SMS_CREDITS_ENABLED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
 import { CreditType } from "@calcom/prisma/enums";
+import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 async function postHandler(req: NextRequest) {
   const apiKey = req.headers.get("authorization") || req.nextUrl.searchParams.get("apiKey");
@@ -37,9 +37,8 @@ async function postHandler(req: NextRequest) {
   });
 
   let pricesUpdated = 0;
-  const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
-
-  const creditService = new CreditService();
+  const { StubCreditService } = await import("@calcom/features/billing/lib/stubs/service/StubCreditService");
+  const creditService = new StubCreditService();
 
   await Promise.allSettled(
     smsLogsWithoutPrice.map(async (log) => {
@@ -66,11 +65,11 @@ async function postHandler(req: NextRequest) {
           },
         });
 
-        if (updatedLog.creditType === CreditType.ADDITIONAL) {
+        if (updatedLog.creditType === CreditType.ADDITIONAL && updatedLog.creditBalance.additionalCredits) {
           const decrementValue =
             credits <= updatedLog.creditBalance.additionalCredits
               ? credits
-              : updatedLog.creditBalance.additionalCredits;
+              : updatedLog.creditBalance.additionalCredits ?? 0;
 
           await prisma.creditBalance.update({
             where: { id: updatedLog.creditBalance.id },
@@ -88,16 +87,17 @@ async function postHandler(req: NextRequest) {
         }
 
         const availableCredits = await creditService.getAllCredits({
-          teamId: updatedLog.creditBalance.teamId,
-          userId: updatedLog.creditBalance.userId,
+          teamId: updatedLog.creditBalance.teamId ?? undefined,
+          userId: updatedLog.creditBalance.userId ?? undefined,
         });
 
         const remainingMonthlyCredits = Math.max(0, availableCredits.totalRemainingMonthlyCredits);
+        const additionalCredits = availableCredits.additionalCredits ?? 0;
 
         await creditService.handleLowCreditBalance({
-          userId: updatedLog.creditBalance.userId,
-          teamId: updatedLog.creditBalance.teamId,
-          remainingCredits: remainingMonthlyCredits + availableCredits.additionalCredits,
+          userId: updatedLog.creditBalance.userId ?? undefined,
+          teamId: updatedLog.creditBalance.teamId ?? undefined,
+          remainingCredits: remainingMonthlyCredits + additionalCredits,
         });
 
         pricesUpdated++;

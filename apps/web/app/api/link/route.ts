@@ -1,6 +1,5 @@
 import process from "node:process";
 import { makeUserActor } from "@calcom/features/booking-audit/lib/makeActor";
-import { WEBAPP_URL } from "@calcom/lib/constants";
 import { symmetricDecrypt } from "@calcom/lib/crypto";
 import { distributedTracing } from "@calcom/lib/tracing/factory";
 import prisma from "@calcom/prisma";
@@ -94,18 +93,17 @@ async function handler(request: NextRequest) {
           : undefined,
         actionSource: "MAGIC_LINK",
         actor: makeUserActor(user.uuid),
-        impersonatedByUserUuid: null,
       },
     });
   } catch (e) {
     let message = "Error confirming booking";
     if (e instanceof TRPCError) message = (e as TRPCError).message;
     return NextResponse.redirect(
-      new URL(`/booking/${bookingUid}?error=${encodeURIComponent(message)}`, WEBAPP_URL)
+      new URL(`/booking/${bookingUid}?error=${encodeURIComponent(message)}`, request.url)
     );
   }
 
-  return NextResponse.redirect(new URL(`/booking/${bookingUid}`, WEBAPP_URL));
+  return NextResponse.redirect(new URL(`/booking/${bookingUid}`, request.url));
 }
 
 export const GET = defaultResponderForAppDir(handler);

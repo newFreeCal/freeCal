@@ -1,6 +1,3 @@
-import { useState } from "react";
-import type { UseFormReturn } from "react-hook-form";
-
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Badge } from "@calcom/ui/components/badge";
 import { Button } from "@calcom/ui/components/button";
@@ -11,8 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@calcom/ui/components/dropdown";
-import { InputError, Input } from "@calcom/ui/components/form";
-
+import { Input, InputError } from "@calcom/ui/components/form";
+import { Icon } from "@iconify/react";
+import { useState } from "react";
+import type { UseFormReturn } from "react-hook-form";
 import type { FormValues } from "~/settings/my-account/profile-view";
 
 type CustomEmailTextFieldProps = {
@@ -70,7 +69,7 @@ const CustomEmailTextField = ({
           <Dropdown>
             <DropdownMenuTrigger asChild>
               <Button
-                StartIcon="ellipsis"
+                CustomStartIcon={<Icon icon="glyphs-poly:ellipsis" className="h-4 w-4" />}
                 variant="icon"
                 size="xs"
                 color="minimal"
@@ -81,7 +80,7 @@ const CustomEmailTextField = ({
             <DropdownMenuContent>
               <DropdownMenuItem>
                 <DropdownItem
-                  StartIcon="flag"
+                  CustomStartIcon={<Icon icon="glyphs-poly:flag" className="h-4 w-4" />}
                   color="secondary"
                   className="disabled:opacity-40"
                   onClick={handleChangePrimary}
@@ -93,7 +92,7 @@ const CustomEmailTextField = ({
               {!emailVerified && (
                 <DropdownMenuItem>
                   <DropdownItem
-                    StartIcon="send"
+                    CustomStartIcon={<Icon icon="glyphs-poly:send" className="h-4 w-4" />}
                     color="secondary"
                     className="disabled:opacity-40"
                     onClick={handleVerifyEmail}
@@ -105,7 +104,7 @@ const CustomEmailTextField = ({
               )}
               <DropdownMenuItem>
                 <DropdownItem
-                  StartIcon="trash"
+                  CustomStartIcon={<Icon icon="glyphs-poly:trash" className="h-4 w-4" />}
                   color="destructive"
                   className="rounded-t-none disabled:opacity-40"
                   onClick={handleItemDelete}

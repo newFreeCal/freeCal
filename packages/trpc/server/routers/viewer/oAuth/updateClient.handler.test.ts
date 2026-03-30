@@ -1,10 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import type { TFunction } from "i18next";
-
 import type { PrismaClient } from "@calcom/prisma";
 import { OAuthClientStatus, UserPermissionRole } from "@calcom/prisma/enums";
-
+import type { TFunction } from "i18next";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { updateClientHandler } from "./updateClient.handler";
 
 const mocks = vi.hoisted(() => {
@@ -43,7 +40,7 @@ vi.mock("@calcom/emails/oauth-email-service", () => ({
   sendOAuthClientRejectedNotification: mocks.sendOAuthClientRejectedNotification,
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: mocks.getTranslation,
 }));
 

@@ -1,12 +1,10 @@
+import { getOrgUsernameFromEmail } from "@calcom/features/auth/signup/utils/getOrgUsernameFromEmail";
+import { WEBAPP_URL } from "@calcom/lib/constants";
+import { MembershipRole, SchedulingType } from "@calcom/prisma/enums";
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 import { JSDOM } from "jsdom";
 import { uuid } from "short-uuid";
-
-import { getOrgUsernameFromEmail } from "@calcom/features/auth/signup/utils/getOrgUsernameFromEmail";
-import { WEBAPP_URL } from "@calcom/lib/constants";
-import { MembershipRole, SchedulingType } from "@calcom/prisma/enums";
-
 import { test } from "../lib/fixtures";
 import {
   bookTeamEvent,
@@ -291,7 +289,7 @@ test.describe("Bookings", () => {
       const teamSlugUpperCase = team.slug?.toUpperCase();
       const teamEventSlugUpperCase = teamEventSlug.toUpperCase();
 
-      // This is the most closest to the actual user flow as org1.cal.com maps to /org/orgSlug
+      // This is the most closest to the actual user flow as org1.freeCal maps to /org/orgSlug
       await page.goto(`/org/${org.slug}/${teamSlugUpperCase}/${teamEventSlugUpperCase}`);
       await page.waitForSelector("[data-testid=day]");
     });

@@ -1,16 +1,13 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useRef, useState, useEffect } from "react";
-import { shallow } from "zustand/shallow";
-
 import { createPaymentLink } from "@calcom/app-store/stripepayment/lib/client";
 import { useHandleBookEvent } from "@calcom/atoms/hooks/bookings/useHandleBookEvent";
 import dayjs from "@calcom/dayjs";
 import { sdkActionManager } from "@calcom/embed-core/embed-iframe";
 import { useBookerStoreContext } from "@calcom/features/bookings/Booker/BookerStoreProvider";
-import { updateQueryParam, getQueryParam } from "@calcom/features/bookings/Booker/utils/query-param";
+import type { UseBookingFormReturnType } from "@calcom/features/bookings/Booker/hooks/useBookingForm";
+import { getQueryParam, updateQueryParam } from "@calcom/features/bookings/Booker/utils/query-param";
+import { useBookingSuccessRedirect } from "@calcom/features/bookings/lib/bookingSuccessRedirect";
 import { storeDecoyBooking } from "@calcom/features/bookings/lib/client/decoyBookingStore";
 import { createBooking } from "@calcom/features/bookings/lib/create-booking";
 import { createInstantBooking } from "@calcom/features/bookings/lib/create-instant-booking";
@@ -25,9 +22,10 @@ import { BookingStatus } from "@calcom/prisma/enums";
 import { bookingMetadataSchema } from "@calcom/prisma/zod-utils";
 import { trpc } from "@calcom/trpc/react";
 import { showToast } from "@calcom/ui/components/toast";
-
-import { useBookingSuccessRedirect } from "@calcom/features/bookings/lib/bookingSuccessRedirect";
-import type { UseBookingFormReturnType } from "@calcom/features/bookings/Booker/hooks/useBookingForm";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { shallow } from "zustand/shallow";
 
 export interface IUseBookings {
   event: {
@@ -261,6 +259,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
             "dryRunRescheduleBookingSuccessfulV2",
             getDryRunRescheduleBookingSuccessfulEventPayload({
               ...booking,
+              paymentRequired: false,
               isRecurring: false,
             })
           );
@@ -269,6 +268,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
             "dryRunBookingSuccessfulV2",
             getDryRunBookingSuccessfulEventPayload({
               ...booking,
+              paymentRequired: false,
               isRecurring: false,
             })
           );
@@ -329,6 +329,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
           "rescheduleBookingSuccessfulV2",
           getRescheduleBookingSuccessfulEventPayload({
             ...booking,
+            paymentRequired: false,
             isRecurring: false,
           })
         );
@@ -350,6 +351,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
           "bookingSuccessfulV2",
           getBookingSuccessfulEventPayload({
             ...booking,
+            paymentRequired: false,
             isRecurring: false,
           })
         );
@@ -383,10 +385,17 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
         rescheduledBy, // ensure further reschedules performed on the success page are recorded correctly
       };
 
+      // Convert string times to Date objects for SuccessRedirectBookingType compatibility
+      const bookingWithTypeConversion = {
+        ...booking,
+        startTime: new Date(booking.startTime),
+        endTime: new Date(booking.endTime),
+      } as any;
+
       bookingSuccessRedirect({
         successRedirectUrl: event?.data?.successRedirectUrl || "",
         query,
-        booking: booking,
+        booking: bookingWithTypeConversion,
         forwardParamsSuccessRedirect:
           event?.data?.forwardParamsSuccessRedirect === undefined
             ? true
@@ -447,6 +456,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
           sdkActionManager?.fire("dryRunRescheduleBookingSuccessfulV2", {
             ...getDryRunRescheduleBookingSuccessfulEventPayload({
               ...booking,
+              paymentRequired: false,
               isRecurring: true,
             }),
             allBookings: bookings.map((booking) => ({
@@ -458,6 +468,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
           sdkActionManager?.fire("dryRunBookingSuccessfulV2", {
             ...getDryRunBookingSuccessfulEventPayload({
               ...booking,
+              paymentRequired: false,
               isRecurring: true,
             }),
             allBookings: bookings.map((booking) => ({
@@ -492,6 +503,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
         sdkActionManager?.fire("rescheduleBookingSuccessfulV2", {
           ...getRescheduleBookingSuccessfulEventPayload({
             ...booking,
+            paymentRequired: false,
             isRecurring: true,
           }),
           allBookings: bookings.map((booking) => ({
@@ -503,6 +515,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
         sdkActionManager?.fire("bookingSuccessfulV2", {
           ...getBookingSuccessfulEventPayload({
             ...booking,
+            paymentRequired: false,
             isRecurring: true,
           }),
           allBookings: bookings.map((booking) => ({
@@ -515,7 +528,7 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
       bookingSuccessRedirect({
         successRedirectUrl: event?.data?.successRedirectUrl || "",
         query,
-        booking,
+        booking: booking as any,
         forwardParamsSuccessRedirect:
           event?.data?.forwardParamsSuccessRedirect === undefined
             ? true

@@ -1,6 +1,6 @@
 {
-    "name": "Cal.com",
-    "short_name": "Cal.com",
+    "name": "freeCal",
+    "short_name": "freeCal",
     "description": "Scheduling infrastructure for absolutely everyone.",
     "icons": [
         {
@@ -19,5 +19,5 @@
     "display_override": ["minimal-ui"],
     "display": "standalone",
     "scope": "/",
-    "start_url": "/"  
+    "start_url": "/"
 }

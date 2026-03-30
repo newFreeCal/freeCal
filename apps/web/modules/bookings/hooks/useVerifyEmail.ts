@@ -1,18 +1,16 @@
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-
 import { useBookerStore } from "@calcom/features/bookings/Booker/store";
 import { useDebounce } from "@calcom/lib/hooks/useDebounce";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { trpc } from "@calcom/trpc/react";
 import { showToast } from "@calcom/ui/components/toast";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 export interface IUseVerifyEmailProps {
   email: string;
   onVerifyEmail?: () => void;
   name?: string | { firstName: string; lastname?: string };
   requiresBookerEmailVerification?: boolean;
-  eventTypeId?: number;
 }
 export type UseVerifyEmailReturnType = ReturnType<typeof useVerifyEmail>;
 export const useVerifyEmail = ({
@@ -20,7 +18,6 @@ export const useVerifyEmail = ({
   name,
   requiresBookerEmailVerification,
   onVerifyEmail,
-  eventTypeId,
 }: IUseVerifyEmailProps) => {
   const [isEmailVerificationModalVisible, setEmailVerificationModalVisible] = useState(false);
   const verifiedEmail = useBookerStore((state) => state.verifiedEmail);
@@ -58,7 +55,6 @@ export const useVerifyEmail = ({
       email,
       username: typeof name === "string" ? name : name?.firstName,
       language: i18n.language || "en",
-      eventTypeId,
     });
   };
 

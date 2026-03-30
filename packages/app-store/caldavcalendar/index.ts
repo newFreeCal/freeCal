@@ -11,10 +11,10 @@ export const metadata = {
   category: "calendar",
   categories: ["calendar"],
   logo: "icon.svg",
-  publisher: "Cal.com",
+  publisher: "freeCal",
   slug: "caldav-calendar",
-  url: "https://cal.com/",
-  email: "help@cal.com",
+  url: "https://freeCal/",
+  email: "help@freeCal",
   dirName: "caldavcalendar",
 } as App;
 

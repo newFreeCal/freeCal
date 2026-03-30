@@ -46,20 +46,4 @@ export class CachedFeatureRepository implements IFeatureRepository {
     const feature = await this.findBySlug(slug);
     return Boolean(feature && feature.enabled);
   }
-
-  /**
-   * Gets a map of all feature flags and their enabled status.
-   * Uses caching to avoid hitting the database on every request.
-   * @returns Promise<AppFlags> - A map of feature flags to their enabled status
-   */
-  public async getFeatureFlagMap() {
-    const flags = await this.findAll();
-    return flags.reduce(
-      (acc, flag) => {
-        acc[flag.slug as FeatureId] = flag.enabled;
-        return acc;
-      },
-      {} as Record<string, boolean>
-    );
-  }
 }

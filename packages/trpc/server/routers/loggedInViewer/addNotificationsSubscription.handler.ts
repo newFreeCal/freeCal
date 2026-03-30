@@ -3,9 +3,7 @@ import { sendNotification } from "@calcom/features/notifications/sendNotificatio
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 import { TRPCError } from "@trpc/server";
-
 import type { TAddNotificationsSubscriptionInputSchema } from "./addNotificationsSubscription.schema";
 
 type AddSecondaryEmailOptions = {
@@ -57,7 +55,7 @@ export const addNotificationsSubscriptionHandler = async ({ ctx, input }: AddSec
     },
     title: "Test Notification",
     body: "Push Notifications activated successfully",
-    url: "https://app.cal.com/",
+    url: "https://app.freeCal/",
     requireInteraction: false,
     type: "TEST_NOTIFICATION",
   });

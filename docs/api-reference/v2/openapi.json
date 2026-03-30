@@ -3096,22 +3096,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -3524,22 +3508,6 @@
               ],
               "type": "string"
             }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -3630,7 +3598,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           },
           {
@@ -3687,14 +3655,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -3734,14 +3694,6 @@
               "enum": ["google-meet", "zoom", "msteams", "daily-video"],
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -3773,11 +3725,13 @@
             }
           },
           {
-            "name": "orgId",
+            "name": "app",
             "required": true,
             "in": "path",
+            "description": "Conferencing application type",
             "schema": {
-              "type": "number"
+              "enum": ["google-meet", "zoom", "msteams", "daily-video"],
+              "type": "string"
             }
           }
         ],
@@ -3817,14 +3771,6 @@
             "schema": {
               "enum": ["google-meet", "zoom", "msteams"],
               "type": "string"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -4037,14 +3983,6 @@
               "enum": ["asc", "desc"],
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -4109,14 +4047,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -4174,14 +4104,6 @@
           },
           {
             "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -4259,14 +4181,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -4326,14 +4240,6 @@
           },
           {
             "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "teamId",
             "required": true,
             "in": "path",
             "schema": {
@@ -4505,14 +4411,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -4580,14 +4478,6 @@
           },
           {
             "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -4665,14 +4555,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -4742,14 +4624,6 @@
             "in": "path",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -6452,14 +6326,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -6612,7 +6478,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           },
           {
@@ -6659,14 +6525,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -6707,14 +6565,6 @@
           },
           {
             "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -6945,14 +6795,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -7106,14 +6948,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -7188,14 +7022,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -7253,14 +7079,6 @@
           },
           {
             "name": "workflowId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -7338,14 +7156,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -7398,14 +7208,6 @@
           },
           {
             "name": "workflowId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -7468,14 +7270,6 @@
           },
           {
             "name": "workflowId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -7548,14 +7342,6 @@
           },
           {
             "name": "workflowId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -7729,14 +7515,6 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -8254,26 +8032,11 @@
               "enum": ["asc", "desc"],
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserOoosOutputResponseDto"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": ["Orgs / Users / OOO"]
@@ -8316,14 +8079,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -8338,14 +8093,7 @@
         },
         "responses": {
           "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserOooOutputResponseDto"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": ["Orgs / Users / OOO"]
@@ -8398,14 +8146,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -8420,14 +8160,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserOooOutputResponseDto"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": ["Orgs / Users / OOO"]
@@ -8470,34 +8203,11 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "userId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserOooOutputResponseDto"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": ["Orgs / Users / OOO"]
@@ -8603,14 +8313,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserOoosOutputResponseDto"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": ["Orgs / Users / OOO"]
@@ -8650,14 +8353,6 @@
           },
           {
             "name": "userId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -8727,14 +8422,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -8799,14 +8486,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -8864,14 +8543,6 @@
           },
           {
             "name": "scheduleId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -8944,14 +8615,6 @@
           },
           {
             "name": "scheduleId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -9158,14 +8821,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -9220,14 +8875,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -9281,14 +8928,6 @@
             "in": "path",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -9362,7 +9001,7 @@
       "post": {
         "operationId": "BookingsController_2024_08_13_createBooking",
         "summary": "Create a booking",
-        "description": "\n      POST /v2/bookings is used to create regular bookings, recurring bookings and instant bookings. The request bodies for all 3 are almost the same except:\n      If eventTypeId in the request body is id of a regular event, then regular booking is created.\n\n      If it is an id of a recurring event type, then recurring booking is created.\n\n      Meaning that the request bodies are equal but the outcome depends on what kind of event type it is with the goal of making it as seamless for developers as possible.\n\n      For team event types it is possible to create instant meeting. To do that just pass `\"instant\": true` to the request body.\n\n      The start needs to be in UTC aka if the timezone is GMT+2 in Rome and meeting should start at 11, then UTC time should have hours 09:00 aka without time zone.\n\n      Finally, there are 2 ways to book an event type belonging to an individual user:\n      1. Provide `eventTypeId` in the request body.\n      2. Provide `eventTypeSlug` and `username` and optionally `organizationSlug` if the user with the username is within an organization.\n\n      And 2 ways to book and event type belonging to a team:\n      1. Provide `eventTypeId` in the request body.\n      2. Provide `eventTypeSlug` and `teamSlug` and optionally `organizationSlug` if the team with the teamSlug is within an organization.\n\n      If you are creating a seated booking for an event type with 'show attendees' disabled, then to retrieve attendees in the response either set 'show attendees' to true on event type level or\n      you have to provide an authentication method of event type owner, host, team admin or owner or org admin or owner.\n\n      For event types that have SMS reminders workflow, you need to pass the attendee's phone number in the request body via `attendee.phoneNumber` (e.g., \"+19876543210\" in international format). This is an optional field, but becomes required when SMS reminders are enabled for the event type. For the complete attendee object structure, see the [attendee object](https://cal.com/docs/api-reference/v2/bookings/create-a-booking#body-attendee) documentation.\n\n      <Note>Please make sure to pass in the cal-api-version header value as mentioned in the Headers section. Not passing the correct value will default to an older version of this endpoint.</Note>\n      ",
+        "description": "\n      POST /v2/bookings is used to create regular bookings, recurring bookings and instant bookings. The request bodies for all 3 are almost the same except:\n      If eventTypeId in the request body is id of a regular event, then regular booking is created.\n\n      If it is an id of a recurring event type, then recurring booking is created.\n\n      Meaning that the request bodies are equal but the outcome depends on what kind of event type it is with the goal of making it as seamless for developers as possible.\n\n      For team event types it is possible to create instant meeting. To do that just pass `\"instant\": true` to the request body.\n\n      The start needs to be in UTC aka if the timezone is GMT+2 in Rome and meeting should start at 11, then UTC time should have hours 09:00 aka without time zone.\n\n      Finally, there are 2 ways to book an event type belonging to an individual user:\n      1. Provide `eventTypeId` in the request body.\n      2. Provide `eventTypeSlug` and `username` and optionally `organizationSlug` if the user with the username is within an organization.\n\n      And 2 ways to book and event type belonging to a team:\n      1. Provide `eventTypeId` in the request body.\n      2. Provide `eventTypeSlug` and `teamSlug` and optionally `organizationSlug` if the team with the teamSlug is within an organization.\n\n      If you are creating a seated booking for an event type with 'show attendees' disabled, then to retrieve attendees in the response either set 'show attendees' to true on event type level or\n      you have to provide an authentication method of event type owner, host, team admin or owner or org admin or owner.\n\n      For event types that have SMS reminders workflow, you need to pass the attendee's phone number in the request body via `attendee.phoneNumber` (e.g., \"+19876543210\" in international format). This is an optional field, but becomes required when SMS reminders are enabled for the event type. For the complete attendee object structure, see the [attendee object](https://freeCal/docs/api-reference/v2/bookings/create-a-booking#body-attendee) documentation.\n\n      <Note>Please make sure to pass in the cal-api-version header value as mentioned in the Headers section. Not passing the correct value will default to an older version of this endpoint.</Note>\n      ",
         "parameters": [
           {
             "name": "cal-api-version",
@@ -10541,7 +10180,7 @@
       "patch": {
         "operationId": "BookingLocationController_2024_08_13_updateBookingLocation",
         "summary": "Update booking location for an existing booking",
-        "description": "**Current Limitation:** Updating a booking location will update the location in Cal.com, but the corresponding Calendar event will not be updated automatically. The old location will persist in the Calendar event. This is a known limitation that will be addressed in a future update.\n    \n    <Note>The cal-api-version header is required for this endpoint. Without it, the request will fail with a 404 error.</Note>",
+        "description": "**Current Limitation:** Updating a booking location will update the location in freeCal, but the corresponding Calendar event will not be updated automatically. The old location will persist in the Calendar event. This is a known limitation that will be addressed in a future update.\n    \n    <Note>The cal-api-version header is required for this endpoint. Without it, the request will fail with a 404 error.</Note>",
         "parameters": [
           {
             "name": "cal-api-version",
@@ -10593,166 +10232,6 @@
           }
         },
         "tags": ["Bookings"]
-      }
-    },
-    "/v2/bookings/{bookingUid}/attendees": {
-      "get": {
-        "operationId": "BookingAttendeesController_2024_08_13_getBookingAttendees",
-        "summary": "Get all attendees for a booking",
-        "description": "Retrieve all attendees for a specific booking by its UID.\n    \n    <Note>The cal-api-version header is required for this endpoint. Without it, the request will fail with a 404 error.</Note>\n    ",
-        "parameters": [
-          {
-            "name": "cal-api-version",
-            "in": "header",
-            "description": "Must be set to 2024-08-13. This header is required as this endpoint does not exist in older API versions.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "bookingUid",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "value must be `Bearer <token>` where `<token>` is api key prefixed with cal_ or managed user access token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetBookingAttendeesOutput_2024_08_13"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Bookings / Attendees"]
-      },
-      "post": {
-        "operationId": "BookingAttendeesController_2024_08_13_addAttendee",
-        "summary": "Add an attendee to a booking",
-        "description": "Add a new attendee to an existing booking by its UID.\n\n      **Side effects:**\n      - The booking's attendee list is updated in the database\n      - The calendar event is updated on connected calendars (Google Calendar, Outlook, etc.) to include the new attendee\n      - An email notification is sent to the new attendee with the booking details\n\n      **Permissions:**\n      - The authenticated user must be either the booking organizer, an existing attendee, or have the `booking.update` permission for the team\n\n      <Note>The cal-api-version header is required for this endpoint. Without it, the request will fail with a 404 error.</Note>\n      ",
-        "parameters": [
-          {
-            "name": "cal-api-version",
-            "in": "header",
-            "description": "Must be set to 2024-08-13. This header is required as this endpoint does not exist in older API versions.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "bookingUid",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "value must be `Bearer <token>` where `<token>` is api key prefixed with cal_ or managed user access token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddAttendeeInput_2024_08_13"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddAttendeeOutput_2024_08_13"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Bookings / Attendees"]
-      }
-    },
-    "/v2/bookings/{bookingUid}/attendees/{attendeeId}": {
-      "get": {
-        "operationId": "BookingAttendeesController_2024_08_13_getBookingAttendee",
-        "summary": "Get a specific attendee for a booking",
-        "description": "Retrieve a specific attendee by their ID for a booking identified by its UID.\n        \n      <Note>The cal-api-version header is required for this endpoint. Without it, the request will fail with a 404 error.</Note>\n      ",
-        "parameters": [
-          {
-            "name": "cal-api-version",
-            "in": "header",
-            "description": "Must be set to 2024-08-13. This header is required as this endpoint does not exist in older API versions.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "bookingUid",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "attendeeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "value must be `Bearer <token>` where `<token>` is api key prefixed with cal_ or managed user access token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetBookingAttendeeOutput_2024_08_13"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Bookings / Attendees"]
       }
     },
     "/v2/bookings/{bookingUid}/guests": {
@@ -10832,7 +10311,7 @@
             "name": "eventUid",
             "required": true,
             "in": "path",
-            "description": "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://cal.com/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://cal.com/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
+            "description": "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://freeCal/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://freeCal/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
             "schema": {
               "type": "string"
             }
@@ -10881,7 +10360,7 @@
             "name": "eventUid",
             "required": true,
             "in": "path",
-            "description": "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://cal.com/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://cal.com/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
+            "description": "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://freeCal/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://freeCal/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
             "schema": {
               "type": "string"
             }
@@ -10995,7 +10474,7 @@
       "get": {
         "operationId": "CalendarsController_getBusyTimes",
         "summary": "Get busy times",
-        "description": "Get busy times from a calendar. Example request URL is `https://api.cal.com/v2/calendars/busy-times?timeZone=Europe%2FMadrid&dateFrom=2024-12-18&dateTo=2024-12-18&calendarsToLoad[0][credentialId]=135&calendarsToLoad[0][externalId]=skrauciz%40gmail.com`. Note: loggedInUsersTz is deprecated, use timeZone instead.",
+        "description": "Get busy times from a calendar. Example request URL is `https://api.freeCal/v2/calendars/busy-times?timeZone=Europe%2FMadrid&dateFrom=2024-12-18&dateTo=2024-12-18&calendarsToLoad[0][credentialId]=135&calendarsToLoad[0][externalId]=skrauciz%40gmail.com`. Note: loggedInUsersTz is deprecated, use timeZone instead.",
         "parameters": [
           {
             "name": "loggedInUsersTz",
@@ -12142,14 +11621,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "clientId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "requestBody": {
@@ -12197,14 +11668,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "clientId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -12237,14 +11700,6 @@
           },
           {
             "name": "webhookId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "clientId",
             "required": true,
             "in": "path",
             "schema": {
@@ -12982,14 +12437,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -13036,14 +12483,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -13079,14 +12518,6 @@
             "in": "path",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -13479,14 +12910,6 @@
             "schema": {
               "type": "number"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -13592,14 +13015,6 @@
           },
           {
             "name": "managedOrganizationId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
             "required": true,
             "in": "path",
             "schema": {
@@ -13780,22 +13195,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -13836,22 +13235,6 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -13902,14 +13285,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -13958,14 +13333,6 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -14040,14 +13407,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -14111,14 +13470,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -14165,14 +13516,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -14218,14 +13561,6 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -15884,14 +15219,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -15935,14 +15262,6 @@
           },
           {
             "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "teamId",
             "required": true,
             "in": "path",
             "schema": {
@@ -16019,14 +15338,6 @@
               "example": 0,
               "type": "number"
             }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -16058,14 +15369,6 @@
           },
           {
             "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "teamId",
             "required": true,
             "in": "path",
             "schema": {
@@ -16108,22 +15411,6 @@
             "in": "path",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -16171,22 +15458,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "responses": {
@@ -16222,22 +15493,6 @@
             "in": "path",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "eventTypeId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -16638,14 +15893,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
           }
         ],
         "requestBody": {
@@ -16686,14 +15933,6 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "teamId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
             }
           }
         ],
@@ -17604,7 +16843,7 @@
     }
   },
   "info": {
-    "title": "Cal.com API v2",
+    "title": "freeCal API v2",
     "description": "",
     "version": "1.0.0",
     "contact": {}
@@ -17900,7 +17139,7 @@
           "avatarUrl": {
             "type": "string",
             "nullable": true,
-            "example": "https://cal.com/api/avatar/2b735186-b01b-46d3-87da-019b8f61776b.png",
+            "example": "https://freeCal/api/avatar/2b735186-b01b-46d3-87da-019b8f61776b.png",
             "description": "URL of the user's avatar image"
           },
           "metadata": {
@@ -18019,7 +17258,7 @@
           },
           "avatarUrl": {
             "type": "string",
-            "example": "https://cal.com/api/avatar/2b735186-b01b-46d3-87da-019b8f61776b.png",
+            "example": "https://freeCal/api/avatar/2b735186-b01b-46d3-87da-019b8f61776b.png",
             "description": "URL of the user's avatar image"
           },
           "bio": {
@@ -18168,7 +17407,7 @@
           },
           "avatarUrl": {
             "type": "string",
-            "example": "https://cal.com/api/avatar/2b735186-b01b-46d3-87da-019b8f61776b.png",
+            "example": "https://freeCal/api/avatar/2b735186-b01b-46d3-87da-019b8f61776b.png",
             "description": "URL of the user's avatar image"
           },
           "bio": {
@@ -18700,7 +17939,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `phone` and the URL contains query parameter `&phone=1234567890`,      the phone field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{phone: '+37122222222'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `phone` and the URL contains query parameter `&phone=1234567890`,      the phone field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{phone: '+37122222222'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18735,7 +17974,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `address` and the URL contains query parameter `&address=1234 Main St, London`,      the address field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{address: 'mainstreat 10, new york'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `address` and the URL contains query parameter `&address=1234 Main St, London`,      the address field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{address: 'mainstreat 10, new york'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18770,7 +18009,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `friend` and the URL contains query parameter `&friend=bob`,      the text field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{friend: 'bob'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `friend` and the URL contains query parameter `&friend=bob`,      the text field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{friend: 'bob'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18805,7 +18044,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `calories` and the URL contains query parameter `&calories=3000`,      the number field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{calories: 3000}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `calories` and the URL contains query parameter `&calories=3000`,      the number field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{calories: 3000}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18840,7 +18079,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `reflection` and the URL contains query parameter `&reflection=Today I shipped a feature`,      the text area will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{reflection: 'Today i shipped a feature'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `reflection` and the URL contains query parameter `&reflection=Today I shipped a feature`,      the text area will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{reflection: 'Today i shipped a feature'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18882,7 +18121,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18920,7 +18159,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and the URL contains query parameter `&language=en&language=it`,      the 'en' and 'it' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: ['en', 'it']}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and the URL contains query parameter `&language=en&language=it`,      the 'en' and 'it' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: ['en', 'it']}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18955,7 +18194,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `consultants` and the URL contains query parameter `&consultants=alice@gmail.com&consultants=bob@gmail.com`,      the these emails will be added and none more can be added. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{consultants: ['alice@gmail.com', 'bob@gmail.com']}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `consultants` and the URL contains query parameter `&consultants=alice@gmail.com&consultants=bob@gmail.com`,      the these emails will be added and none more can be added. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{consultants: ['alice@gmail.com', 'bob@gmail.com']}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -18993,7 +18232,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -19031,7 +18270,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' radio button will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' radio button will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -19062,7 +18301,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -19097,7 +18336,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `videourl` and the URL contains query parameter `&videourl=https://youtube.com/abc`the url field will be prefilled with this value and disabled.       In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{videourl: 'https://caltube.com/123'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `videourl` and the URL contains query parameter `&videourl=https://youtube.com/abc`the url field will be prefilled with this value and disabled.       In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{videourl: 'https://caltube.com/123'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -19376,7 +18615,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&name=bob`,      the name field will be prefilled with this value and disabled. In case of Booker atom need to pass 'name' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{name: 'bob'}}`. See guide https://cal.com/docs/platform/guides/booking-fields"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&name=bob`,      the name field will be prefilled with this value and disabled. In case of Booker atom need to pass 'name' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{name: 'bob'}}`. See guide https://freeCal/docs/platform/guides/booking-fields"
           }
         },
         "required": ["type", "label", "placeholder"]
@@ -19405,7 +18644,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&email=bob@gmail.com`,      the email field will be prefilled with this value and disabled. In case of Booker atom need to pass 'email' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{email: 'bob@gmail.com'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&email=bob@gmail.com`,      the email field will be prefilled with this value and disabled. In case of Booker atom need to pass 'email' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{email: 'bob@gmail.com'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           }
         },
         "required": ["type", "label", "placeholder"]
@@ -19433,7 +18672,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&title=journey`,      the title field will be prefilled with this value and disabled. In case of Booker atom need to pass 'title' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{title: 'very important meeting'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&title=journey`,      the title field will be prefilled with this value and disabled. In case of Booker atom need to pass 'title' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{title: 'very important meeting'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           }
         },
         "required": ["slug"]
@@ -19475,7 +18714,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&notes=journey`,      the notes field will be prefilled with this value and disabled. In case of Booker atom need to pass 'notes' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{notes: 'bring notebook and paper'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&notes=journey`,      the notes field will be prefilled with this value and disabled. In case of Booker atom need to pass 'notes' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{notes: 'bring notebook and paper'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           }
         },
         "required": ["slug"]
@@ -19503,7 +18742,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&guests=bob@cal.com`,      the guests field will be prefilled with this value and disabled. In case of Booker atom need to pass 'guests' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{guests: ['bob@gmail.com', 'alice@gmail.com']}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&guests=bob@freeCal`,      the guests field will be prefilled with this value and disabled. In case of Booker atom need to pass 'guests' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{guests: ['bob@gmail.com', 'alice@gmail.com']}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           }
         },
         "required": ["slug"]
@@ -19531,7 +18770,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&rescheduleReason=travel`,      the rescheduleReason field will be prefilled with this value and disabled. In case of Booker atom need to pass 'rescheduleReason' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{rescheduleReason: 'bob'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&rescheduleReason=travel`,      the rescheduleReason field will be prefilled with this value and disabled. In case of Booker atom need to pass 'rescheduleReason' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{rescheduleReason: 'bob'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           }
         },
         "required": ["slug"]
@@ -19973,7 +19212,7 @@
           },
           "locations": {
             "type": "array",
-            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the Cal.com web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
+            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the freeCal web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
             "items": {
               "oneOf": [
                 {
@@ -20161,7 +19400,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&email=bob@gmail.com`,      the email field will be prefilled with this value and disabled. In case of Booker atom need to pass 'email' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{email: 'bob@gmail.com'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&email=bob@gmail.com`,      the email field will be prefilled with this value and disabled. In case of Booker atom need to pass 'email' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{email: 'bob@gmail.com'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "isDefault": {
             "type": "object",
@@ -20193,7 +19432,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&name=bob`,      the name field will be prefilled with this value and disabled. In case of Booker atom need to pass 'name' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{name: 'bob'}}`. See guide https://cal.com/docs/platform/guides/booking-fields"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&name=bob`,      the name field will be prefilled with this value and disabled. In case of Booker atom need to pass 'name' to defaultFormValues prop with the desired value e.g. `defaultFormValues={{name: 'bob'}}`. See guide https://freeCal/docs/platform/guides/booking-fields"
           },
           "isDefault": {
             "type": "object",
@@ -20383,7 +19622,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&guests=lauris@cal.com`,      the guests field will be prefilled with this value and disabled."
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if URL contains query parameter `&guests=lauris@freeCal`,      the guests field will be prefilled with this value and disabled."
           },
           "isDefault": {
             "type": "object",
@@ -20424,7 +19663,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `address` and the URL contains query parameter `&address=1234 Main St, London`,      the address field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{address: 'mainstreat 10, new york'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `address` and the URL contains query parameter `&address=1234 Main St, London`,      the address field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{address: 'mainstreat 10, new york'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20461,7 +19700,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20505,7 +19744,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `notify` and the URL contains query parameter `&notify=true`,      the checkbox will be selected and the checkbox field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{notify: true}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20546,7 +19785,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `consultants` and the URL contains query parameter `&consultants=alice@gmail.com&consultants=bob@gmail.com`,      the these emails will be added and none more can be added. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{consultants: ['alice@gmail.com', 'bob@gmail.com']}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `consultants` and the URL contains query parameter `&consultants=alice@gmail.com&consultants=bob@gmail.com`,      the these emails will be added and none more can be added. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{consultants: ['alice@gmail.com', 'bob@gmail.com']}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20590,7 +19829,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and the URL contains query parameter `&language=en&language=it`,      the 'en' and 'it' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: ['en', 'it']}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and the URL contains query parameter `&language=en&language=it`,      the 'en' and 'it' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: ['en', 'it']}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20631,7 +19870,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `videourl` and the URL contains query parameter `&videourl=https://youtube.com/abc`the url field will be prefilled with this value and disabled.       In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{videourl: 'https://caltube.com/123'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `videourl` and the URL contains query parameter `&videourl=https://youtube.com/abc`the url field will be prefilled with this value and disabled.       In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{videourl: 'https://caltube.com/123'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20672,7 +19911,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `calories` and the URL contains query parameter `&calories=3000`,      the number field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{calories: 3000}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `calories` and the URL contains query parameter `&calories=3000`,      the number field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{calories: 3000}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20711,7 +19950,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `phone` and the URL contains query parameter `&phone=1234567890`,      the phone field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{phone: '+37122222222'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `phone` and the URL contains query parameter `&phone=1234567890`,      the phone field will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{phone: '+37122222222'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20755,7 +19994,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' radio button will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' radio button will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20803,7 +20042,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `language` and options of this select field are ['english', 'italian'] and the URL contains query parameter `&language=italian`,      the 'italian' will be selected and the select field will be disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{language: 'italian'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20844,7 +20083,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `reflection` and the URL contains query parameter `&reflection=Today I shipped a feature`,      the text area will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{reflection: 'Today i shipped a feature'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `reflection` and the URL contains query parameter `&reflection=Today I shipped a feature`,      the text area will be prefilled with this value and disabled. In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value  e.g. `defaultFormValues={{reflection: 'Today i shipped a feature'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -20885,7 +20124,7 @@
           },
           "disableOnPrefill": {
             "type": "boolean",
-            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `friend` and the URL contains query parameter `&friend=bob`,      the text field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{friend: 'bob'}}`. See guide https://cal.com/docs/platform/guides/booking-field"
+            "description": "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.      For example, if the slug is `friend` and the URL contains query parameter `&friend=bob`,      the text field will be prefilled with this value and disabled.  In case of Booker atom need to pass slug you used for this booking field to defaultFormValues prop with the desired value e.g. `defaultFormValues={{friend: 'bob'}}`. See guide https://freeCal/docs/platform/guides/booking-field"
           },
           "hidden": {
             "type": "boolean",
@@ -21251,7 +20490,7 @@
           "bookingUrl": {
             "type": "string",
             "description": "Full URL to the booking page for this event type",
-            "example": "https://cal.com/john-doe/30min",
+            "example": "https://freeCal/john-doe/30min",
             "format": "uri"
           }
         },
@@ -22088,7 +21327,7 @@
           },
           "locations": {
             "type": "array",
-            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the Cal.com web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
+            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the freeCal web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
             "items": {
               "oneOf": [
                 {
@@ -22399,7 +21638,7 @@
           },
           "logoUrl": {
             "type": "string",
-            "example": "https://i.cal.com/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
+            "example": "https://i.freeCal/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
             "description": "URL of the teams logo image"
           },
           "calVideoLogo": {
@@ -22441,7 +21680,7 @@
           },
           "bannerUrl": {
             "type": "string",
-            "example": "https://i.cal.com/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
+            "example": "https://i.freeCal/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
             "description": "URL of the teams banner image which is shown on booker"
           },
           "timeFormat": {
@@ -22480,7 +21719,7 @@
           },
           "logoUrl": {
             "type": "string",
-            "example": "https://i.cal.com/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
+            "example": "https://i.freeCal/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
             "description": "URL of the teams logo image"
           },
           "calVideoLogo": {
@@ -22523,7 +21762,7 @@
           },
           "bannerUrl": {
             "type": "string",
-            "example": "https://i.cal.com/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
+            "example": "https://i.freeCal/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
             "description": "URL of the teams banner image which is shown on booker"
           },
           "timeFormat": {
@@ -23811,7 +23050,7 @@
           },
           "locations": {
             "type": "array",
-            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the Cal.com web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
+            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the freeCal web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
             "items": {
               "oneOf": [
                 {
@@ -24356,7 +23595,7 @@
           },
           "locations": {
             "type": "array",
-            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the Cal.com web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
+            "description": "Locations where the event will take place. If not provided, cal video link will be used as the location. Note: Setting a location to a conferencing app does not install the app - the app must already be installed. Via API, only Google Meet (google-meet), Microsoft Teams (office365-video), and Zoom (zoom) can be installed. Cal Video (cal-video) is installed by default. All other conferencing apps must be connected via the freeCal web app and are not available for Platform plan customers. You can only set an event type location to an app that has already been installed or connected.",
             "items": {
               "oneOf": [
                 {
@@ -24545,7 +23784,7 @@
           "inviteLink": {
             "type": "string",
             "description": "Complete invitation URL that can be shared with prospective members. Opens the signup page with the token and redirects to getting started after signup.",
-            "example": "http://app.cal.com/signup?token=f6a5c8b1d2e34c7f90a1b2c3d4e5f6a5b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2&callbackUrl=/getting-started"
+            "example": "http://app.freeCal/signup?token=f6a5c8b1d2e34c7f90a1b2c3d4e5f6a5b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2&callbackUrl=/getting-started"
           }
         },
         "required": ["token", "inviteLink"]
@@ -24990,43 +24229,20 @@
         "properties": {
           "payloadTemplate": {
             "type": "string",
-            "description": "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+            "description": "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
             "example": "{\"content\":\"A new event has been scheduled\",\"type\":\"{{type}}\",\"name\":\"{{title}}\",\"organizer\":\"{{organizer.name}}\",\"booker\":\"{{attendees.0.name}}\"}"
-          },
-          "triggers": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "BOOKING_CREATED",
-                "BOOKING_PAYMENT_INITIATED",
-                "BOOKING_PAID",
-                "BOOKING_RESCHEDULED",
-                "BOOKING_REQUESTED",
-                "BOOKING_CANCELLED",
-                "BOOKING_REJECTED",
-                "BOOKING_NO_SHOW_UPDATED",
-                "FORM_SUBMITTED",
-                "MEETING_ENDED",
-                "MEETING_STARTED",
-                "RECORDING_READY",
-                "INSTANT_MEETING",
-                "RECORDING_TRANSCRIPTION_GENERATED",
-                "OOO_CREATED",
-                "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
-                "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
-                "FORM_SUBMITTED_NO_EVENT",
-                "ROUTING_FORM_FALLBACK_HIT",
-                "DELEGATION_CREDENTIAL_ERROR",
-                "WRONG_ASSIGNMENT_REPORT"
-              ]
-            }
           },
           "teamId": {
             "type": "number"
           },
           "id": {
             "type": "number"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           },
           "subscriberUrl": {
             "type": "string"
@@ -25038,7 +24254,7 @@
             "type": "string"
           }
         },
-        "required": ["payloadTemplate", "triggers", "teamId", "id", "subscriberUrl", "active"]
+        "required": ["payloadTemplate", "teamId", "id", "triggers", "subscriberUrl", "active"]
       },
       "TeamWebhooksOutputResponseDto": {
         "type": "object",
@@ -25062,7 +24278,7 @@
         "properties": {
           "payloadTemplate": {
             "type": "string",
-            "description": "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+            "description": "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
             "example": "{\"content\":\"A new event has been scheduled\",\"type\":\"{{type}}\",\"name\":\"{{title}}\",\"organizer\":\"{{organizer.name}}\",\"booker\":\"{{attendees.0.name}}\"}"
           },
           "active": {
@@ -25072,7 +24288,7 @@
             "type": "string"
           },
           "triggers": {
-            "type": "array",
+            "type": "string",
             "example": [
               "BOOKING_CREATED",
               "BOOKING_RESCHEDULED",
@@ -25083,32 +24299,28 @@
               "BOOKING_NO_SHOW",
               "BOOKING_REOPENED"
             ],
-            "items": {
-              "type": "string",
-              "enum": [
-                "BOOKING_CREATED",
-                "BOOKING_PAYMENT_INITIATED",
-                "BOOKING_PAID",
-                "BOOKING_RESCHEDULED",
-                "BOOKING_REQUESTED",
-                "BOOKING_CANCELLED",
-                "BOOKING_REJECTED",
-                "BOOKING_NO_SHOW_UPDATED",
-                "FORM_SUBMITTED",
-                "MEETING_ENDED",
-                "MEETING_STARTED",
-                "RECORDING_READY",
-                "INSTANT_MEETING",
-                "RECORDING_TRANSCRIPTION_GENERATED",
-                "OOO_CREATED",
-                "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
-                "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
-                "FORM_SUBMITTED_NO_EVENT",
-                "ROUTING_FORM_FALLBACK_HIT",
-                "DELEGATION_CREDENTIAL_ERROR",
-                "WRONG_ASSIGNMENT_REPORT"
-              ]
-            }
+            "enum": [
+              "BOOKING_CREATED",
+              "BOOKING_PAYMENT_INITIATED",
+              "BOOKING_PAID",
+              "BOOKING_RESCHEDULED",
+              "BOOKING_REQUESTED",
+              "BOOKING_CANCELLED",
+              "BOOKING_REJECTED",
+              "BOOKING_NO_SHOW_UPDATED",
+              "FORM_SUBMITTED",
+              "MEETING_ENDED",
+              "MEETING_STARTED",
+              "RECORDING_READY",
+              "INSTANT_MEETING",
+              "RECORDING_TRANSCRIPTION_GENERATED",
+              "OOO_CREATED",
+              "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
+              "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
+              "FORM_SUBMITTED_NO_EVENT",
+              "DELEGATION_CREDENTIAL_ERROR",
+              "WRONG_ASSIGNMENT_REPORT"
+            ]
           },
           "secret": {
             "type": "string"
@@ -25141,7 +24353,7 @@
         "properties": {
           "payloadTemplate": {
             "type": "string",
-            "description": "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+            "description": "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
             "example": "{\"content\":\"A new event has been scheduled\",\"type\":\"{{type}}\",\"name\":\"{{title}}\",\"organizer\":\"{{organizer.name}}\",\"booker\":\"{{attendees.0.name}}\"}"
           },
           "active": {
@@ -25151,7 +24363,7 @@
             "type": "string"
           },
           "triggers": {
-            "type": "array",
+            "type": "string",
             "example": [
               "BOOKING_CREATED",
               "BOOKING_RESCHEDULED",
@@ -25162,32 +24374,28 @@
               "BOOKING_NO_SHOW",
               "BOOKING_REOPENED"
             ],
-            "items": {
-              "type": "string",
-              "enum": [
-                "BOOKING_CREATED",
-                "BOOKING_PAYMENT_INITIATED",
-                "BOOKING_PAID",
-                "BOOKING_RESCHEDULED",
-                "BOOKING_REQUESTED",
-                "BOOKING_CANCELLED",
-                "BOOKING_REJECTED",
-                "BOOKING_NO_SHOW_UPDATED",
-                "FORM_SUBMITTED",
-                "MEETING_ENDED",
-                "MEETING_STARTED",
-                "RECORDING_READY",
-                "INSTANT_MEETING",
-                "RECORDING_TRANSCRIPTION_GENERATED",
-                "OOO_CREATED",
-                "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
-                "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
-                "FORM_SUBMITTED_NO_EVENT",
-                "ROUTING_FORM_FALLBACK_HIT",
-                "DELEGATION_CREDENTIAL_ERROR",
-                "WRONG_ASSIGNMENT_REPORT"
-              ]
-            }
+            "enum": [
+              "BOOKING_CREATED",
+              "BOOKING_PAYMENT_INITIATED",
+              "BOOKING_PAID",
+              "BOOKING_RESCHEDULED",
+              "BOOKING_REQUESTED",
+              "BOOKING_CANCELLED",
+              "BOOKING_REJECTED",
+              "BOOKING_NO_SHOW_UPDATED",
+              "FORM_SUBMITTED",
+              "MEETING_ENDED",
+              "MEETING_STARTED",
+              "RECORDING_READY",
+              "INSTANT_MEETING",
+              "RECORDING_TRANSCRIPTION_GENERATED",
+              "OOO_CREATED",
+              "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
+              "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
+              "FORM_SUBMITTED_NO_EVENT",
+              "DELEGATION_CREDENTIAL_ERROR",
+              "WRONG_ASSIGNMENT_REPORT"
+            ]
           },
           "secret": {
             "type": "string"
@@ -25199,72 +24407,6 @@
             "enum": ["2021-10-20"]
           }
         }
-      },
-      "UserOooOutputDto": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "number",
-            "description": "The ID of the user.",
-            "example": 2
-          },
-          "toUserId": {
-            "type": "number",
-            "description": "The ID of the user covering for the out of office period, if applicable.",
-            "example": 2
-          },
-          "id": {
-            "type": "number",
-            "description": "The ID of the ooo entry.",
-            "example": 2
-          },
-          "uuid": {
-            "type": "string",
-            "description": "The UUID of the ooo entry.",
-            "example": 2
-          },
-          "start": {
-            "format": "date-time",
-            "type": "string",
-            "description": "The start date and time of the out of office period in ISO 8601 format in UTC timezone.",
-            "example": "2023-05-01T00:00:00.000Z"
-          },
-          "end": {
-            "format": "date-time",
-            "type": "string",
-            "description": "The end date and time of the out of office period in ISO 8601 format in UTC timezone.",
-            "example": "2023-05-10T23:59:59.999Z"
-          },
-          "notes": {
-            "type": "string",
-            "description": "Optional notes for the out of office entry.",
-            "example": "Vacation in Hawaii"
-          },
-          "reason": {
-            "enum": ["unspecified", "vacation", "travel", "sick", "public_holiday"],
-            "type": "string",
-            "description": "the reason for the out of office entry, if applicable",
-            "example": "vacation"
-          }
-        },
-        "required": ["userId", "id", "uuid", "start", "end"]
-      },
-      "UserOoosOutputResponseDto": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success",
-            "enum": ["success", "error"]
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserOooOutputDto"
-            }
-          }
-        },
-        "required": ["status", "data"]
       },
       "CreateOutOfOfficeEntryDto": {
         "type": "object",
@@ -25299,20 +24441,6 @@
           }
         },
         "required": ["start", "end"]
-      },
-      "UserOooOutputResponseDto": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success",
-            "enum": ["success", "error"]
-          },
-          "data": {
-            "$ref": "#/components/schemas/UserOooOutputDto"
-          }
-        },
-        "required": ["status", "data"]
       },
       "UpdateOutOfOfficeEntryDto": {
         "type": "object",
@@ -25422,7 +24550,7 @@
           "subject": {
             "type": "string",
             "description": "Subject of the message",
-            "example": "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with Cal.com"
+            "example": "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with freeCal"
           },
           "html": {
             "type": "string",
@@ -25486,7 +24614,7 @@
           "sender": {
             "type": "string",
             "description": "Displayed sender name used for this step",
-            "example": "Cal.com Notifications"
+            "example": "freeCal Notifications"
           },
           "message": {
             "description": "Message content for this step",
@@ -25687,7 +24815,7 @@
           "sender": {
             "type": "string",
             "description": "Displayed sender name used for this step",
-            "example": "Cal.com Notifications"
+            "example": "freeCal Notifications"
           },
           "message": {
             "description": "Message content for this step",
@@ -26027,7 +25155,7 @@
           "subject": {
             "type": "string",
             "description": "Subject of the message",
-            "example": "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with Cal.com"
+            "example": "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with freeCal"
           },
           "html": {
             "type": "string",
@@ -26082,7 +25210,7 @@
             "description": "Email address if recipient is EMAIL, required for action EMAIL_ADDRESS",
             "example": "31214",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-an-email-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-an-email-for-an-org-team"
             }
           },
           "includeCalendarEvent": {
@@ -26247,7 +25375,7 @@
           "subject": {
             "type": "string",
             "description": "Subject of the message",
-            "example": "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with Cal.com"
+            "example": "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with freeCal"
           },
           "text": {
             "type": "string",
@@ -26359,7 +25487,7 @@
             "description": "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
             "example": "3243434",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
             }
           },
           "message": {
@@ -26418,7 +25546,7 @@
             "description": "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
             "example": "3243434",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
             }
           },
           "message": {
@@ -26476,7 +25604,7 @@
             "description": "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
             "example": "3243434",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
             },
             "allOf": [
               {
@@ -26788,7 +25916,7 @@
             "description": "Email address if recipient is EMAIL, required for action EMAIL_ADDRESS",
             "example": "31214",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-an-email-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-an-email-for-an-org-team"
             }
           },
           "includeCalendarEvent": {
@@ -27006,7 +26134,7 @@
             "description": "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
             "example": "3243434",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
             },
             "allOf": [
               {
@@ -27073,7 +26201,7 @@
             "description": "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
             "example": "3243434",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
             }
           },
           "message": {
@@ -27199,7 +26327,7 @@
             "description": "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
             "example": "3243434",
             "externalDocs": {
-              "url": "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
+              "url": "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team"
             }
           },
           "message": {
@@ -27390,7 +26518,7 @@
             "type": "string",
             "description": "Full booking URL for this private link",
             "format": "uri",
-            "example": "https://cal.com/d/abc123def456/30min"
+            "example": "https://freeCal/d/abc123def456/30min"
           },
           "expiresAt": {
             "type": "string",
@@ -27423,7 +26551,7 @@
             "type": "string",
             "description": "Full booking URL for this private link",
             "format": "uri",
-            "example": "https://cal.com/d/abc123def456/30min"
+            "example": "https://freeCal/d/abc123def456/30min"
           },
           "maxUsageCount": {
             "type": "number",
@@ -27562,7 +26690,7 @@
           },
           "logoUrl": {
             "type": "string",
-            "example": "https://i.cal.com/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
+            "example": "https://i.freeCal/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
             "description": "URL of the teams logo image"
           },
           "calVideoLogo": {
@@ -27605,7 +26733,7 @@
           },
           "bannerUrl": {
             "type": "string",
-            "example": "https://i.cal.com/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
+            "example": "https://i.freeCal/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
             "description": "URL of the teams banner image which is shown on booker"
           },
           "timeFormat": {
@@ -28056,11 +27184,11 @@
         "properties": {
           "urls": {
             "type": "array",
-            "example": ["https://cal.com/ics/feed.ics", "http://cal.com/ics/feed.ics"],
+            "example": ["https://freeCal/ics/feed.ics", "http://freeCal/ics/feed.ics"],
             "description": "An array of ICS URLs",
             "items": {
               "type": "string",
-              "example": "https://cal.com/ics/feed.ics"
+              "example": "https://freeCal/ics/feed.ics"
             }
           },
           "readOnly": {
@@ -29544,10 +28672,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RoutingFormResponseOutput"
-            }
+            "$ref": "#/components/schemas/RoutingFormResponseOutput"
           }
         },
         "required": ["status", "data"]
@@ -29637,7 +28762,7 @@
           },
           "routingExternalRedirectUrl": {
             "type": "string",
-            "description": "The external redirect URL to be used in case of routing to a non cal.com event type URL.",
+            "description": "The external redirect URL to be used in case of routing to a non freeCal event type URL.",
             "example": "https://example.com/"
           },
           "slots": {
@@ -30178,6 +29303,11 @@
             "description": "The name of the attendee.",
             "example": "John Doe"
           },
+          "email": {
+            "type": "string",
+            "description": "The email of the attendee.",
+            "example": "john.doe@example.com"
+          },
           "timeZone": {
             "type": "string",
             "description": "The time zone of the attendee.",
@@ -30238,11 +29368,6 @@
             "description": "The preferred language of the attendee. Used for booking confirmation.",
             "example": "it",
             "default": "en"
-          },
-          "email": {
-            "type": "string",
-            "description": "The email of the attendee.",
-            "example": "john.doe@example.com"
           }
         },
         "required": ["name", "timeZone"]
@@ -32366,300 +31491,6 @@
         },
         "required": ["status", "data"]
       },
-      "BookingAttendeeWithId_2024_08_13": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          },
-          "displayEmail": {
-            "type": "string",
-            "example": "john@example.com",
-            "description": "Clean email for display purposes"
-          },
-          "timeZone": {
-            "type": "string",
-            "example": "America/New_York"
-          },
-          "language": {
-            "type": "string",
-            "enum": [
-              "ar",
-              "ca",
-              "de",
-              "es",
-              "eu",
-              "he",
-              "id",
-              "ja",
-              "lv",
-              "pl",
-              "ro",
-              "sr",
-              "th",
-              "vi",
-              "az",
-              "cs",
-              "el",
-              "es-419",
-              "fi",
-              "hr",
-              "it",
-              "km",
-              "nl",
-              "pt",
-              "ru",
-              "sv",
-              "tr",
-              "zh-CN",
-              "bg",
-              "da",
-              "en",
-              "et",
-              "fr",
-              "hu",
-              "iw",
-              "ko",
-              "no",
-              "pt-BR",
-              "sk",
-              "ta",
-              "uk",
-              "zh-TW",
-              "bn"
-            ],
-            "example": "en"
-          },
-          "absent": {
-            "type": "boolean",
-            "example": false
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "+1234567890"
-          },
-          "id": {
-            "type": "number",
-            "example": 251
-          }
-        },
-        "required": ["name", "email", "displayEmail", "timeZone", "absent", "id"]
-      },
-      "GetBookingAttendeesOutput_2024_08_13": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success",
-            "enum": ["success", "error"]
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BookingAttendeeWithId_2024_08_13"
-            }
-          }
-        },
-        "required": ["status", "data"]
-      },
-      "GetBookingAttendeeOutput_2024_08_13": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success",
-            "enum": ["success", "error"]
-          },
-          "data": {
-            "$ref": "#/components/schemas/BookingAttendeeWithId_2024_08_13"
-          }
-        },
-        "required": ["status", "data"]
-      },
-      "AddAttendeeInput_2024_08_13": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the attendee.",
-            "example": "John Doe"
-          },
-          "timeZone": {
-            "type": "string",
-            "description": "The time zone of the attendee.",
-            "example": "America/New_York"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "description": "The phone number of the attendee in international format.",
-            "example": "+919876543210"
-          },
-          "language": {
-            "type": "string",
-            "enum": [
-              "ar",
-              "ca",
-              "de",
-              "es",
-              "eu",
-              "he",
-              "id",
-              "ja",
-              "lv",
-              "pl",
-              "ro",
-              "sr",
-              "th",
-              "vi",
-              "az",
-              "cs",
-              "el",
-              "es-419",
-              "fi",
-              "hr",
-              "it",
-              "km",
-              "nl",
-              "pt",
-              "ru",
-              "sv",
-              "tr",
-              "zh-CN",
-              "bg",
-              "da",
-              "en",
-              "et",
-              "fr",
-              "hu",
-              "iw",
-              "ko",
-              "no",
-              "pt-BR",
-              "sk",
-              "ta",
-              "uk",
-              "zh-TW",
-              "bn"
-            ],
-            "description": "The preferred language of the attendee. Used for booking confirmation.",
-            "example": "it",
-            "default": "en"
-          },
-          "email": {
-            "type": "string",
-            "description": "The email of the attendee.",
-            "example": "john.doe@example.com"
-          }
-        },
-        "required": ["name", "timeZone", "email"]
-      },
-      "BookingAttendeeOutput_2024_08_13": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          },
-          "displayEmail": {
-            "type": "string",
-            "example": "john@example.com",
-            "description": "Clean email for display purposes"
-          },
-          "timeZone": {
-            "type": "string",
-            "example": "America/New_York"
-          },
-          "language": {
-            "type": "string",
-            "enum": [
-              "ar",
-              "ca",
-              "de",
-              "es",
-              "eu",
-              "he",
-              "id",
-              "ja",
-              "lv",
-              "pl",
-              "ro",
-              "sr",
-              "th",
-              "vi",
-              "az",
-              "cs",
-              "el",
-              "es-419",
-              "fi",
-              "hr",
-              "it",
-              "km",
-              "nl",
-              "pt",
-              "ru",
-              "sv",
-              "tr",
-              "zh-CN",
-              "bg",
-              "da",
-              "en",
-              "et",
-              "fr",
-              "hu",
-              "iw",
-              "ko",
-              "no",
-              "pt-BR",
-              "sk",
-              "ta",
-              "uk",
-              "zh-TW",
-              "bn"
-            ],
-            "example": "en"
-          },
-          "absent": {
-            "type": "boolean",
-            "example": false
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "+1234567890"
-          },
-          "id": {
-            "type": "number",
-            "example": 251
-          },
-          "bookingId": {
-            "type": "number",
-            "example": 313
-          }
-        },
-        "required": ["name", "email", "displayEmail", "timeZone", "absent", "id", "bookingId"]
-      },
-      "AddAttendeeOutput_2024_08_13": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success",
-            "enum": ["success", "error"]
-          },
-          "data": {
-            "$ref": "#/components/schemas/BookingAttendeeOutput_2024_08_13"
-          }
-        },
-        "required": ["status", "data"]
-      },
       "Guest": {
         "type": "object",
         "properties": {
@@ -33071,43 +31902,20 @@
         "properties": {
           "payloadTemplate": {
             "type": "string",
-            "description": "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+            "description": "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
             "example": "{\"content\":\"A new event has been scheduled\",\"type\":\"{{type}}\",\"name\":\"{{title}}\",\"organizer\":\"{{organizer.name}}\",\"booker\":\"{{attendees.0.name}}\"}"
-          },
-          "triggers": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "BOOKING_CREATED",
-                "BOOKING_PAYMENT_INITIATED",
-                "BOOKING_PAID",
-                "BOOKING_RESCHEDULED",
-                "BOOKING_REQUESTED",
-                "BOOKING_CANCELLED",
-                "BOOKING_REJECTED",
-                "BOOKING_NO_SHOW_UPDATED",
-                "FORM_SUBMITTED",
-                "MEETING_ENDED",
-                "MEETING_STARTED",
-                "RECORDING_READY",
-                "INSTANT_MEETING",
-                "RECORDING_TRANSCRIPTION_GENERATED",
-                "OOO_CREATED",
-                "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
-                "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
-                "FORM_SUBMITTED_NO_EVENT",
-                "ROUTING_FORM_FALLBACK_HIT",
-                "DELEGATION_CREDENTIAL_ERROR",
-                "WRONG_ASSIGNMENT_REPORT"
-              ]
-            }
           },
           "userId": {
             "type": "number"
           },
           "id": {
             "type": "number"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           },
           "subscriberUrl": {
             "type": "string"
@@ -33119,7 +31927,7 @@
             "type": "string"
           }
         },
-        "required": ["payloadTemplate", "triggers", "userId", "id", "subscriberUrl", "active"]
+        "required": ["payloadTemplate", "userId", "id", "triggers", "subscriberUrl", "active"]
       },
       "UserWebhookOutputResponseDto": {
         "type": "object",
@@ -33157,43 +31965,20 @@
         "properties": {
           "payloadTemplate": {
             "type": "string",
-            "description": "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+            "description": "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
             "example": "{\"content\":\"A new event has been scheduled\",\"type\":\"{{type}}\",\"name\":\"{{title}}\",\"organizer\":\"{{organizer.name}}\",\"booker\":\"{{attendees.0.name}}\"}"
-          },
-          "triggers": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "BOOKING_CREATED",
-                "BOOKING_PAYMENT_INITIATED",
-                "BOOKING_PAID",
-                "BOOKING_RESCHEDULED",
-                "BOOKING_REQUESTED",
-                "BOOKING_CANCELLED",
-                "BOOKING_REJECTED",
-                "BOOKING_NO_SHOW_UPDATED",
-                "FORM_SUBMITTED",
-                "MEETING_ENDED",
-                "MEETING_STARTED",
-                "RECORDING_READY",
-                "INSTANT_MEETING",
-                "RECORDING_TRANSCRIPTION_GENERATED",
-                "OOO_CREATED",
-                "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
-                "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
-                "FORM_SUBMITTED_NO_EVENT",
-                "ROUTING_FORM_FALLBACK_HIT",
-                "DELEGATION_CREDENTIAL_ERROR",
-                "WRONG_ASSIGNMENT_REPORT"
-              ]
-            }
           },
           "eventTypeId": {
             "type": "number"
           },
           "id": {
             "type": "number"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           },
           "subscriberUrl": {
             "type": "string"
@@ -33205,7 +31990,7 @@
             "type": "string"
           }
         },
-        "required": ["payloadTemplate", "triggers", "eventTypeId", "id", "subscriberUrl", "active"]
+        "required": ["payloadTemplate", "eventTypeId", "id", "triggers", "subscriberUrl", "active"]
       },
       "EventTypeWebhookOutputResponseDto": {
         "type": "object",
@@ -33257,43 +32042,20 @@
         "properties": {
           "payloadTemplate": {
             "type": "string",
-            "description": "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+            "description": "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
             "example": "{\"content\":\"A new event has been scheduled\",\"type\":\"{{type}}\",\"name\":\"{{title}}\",\"organizer\":\"{{organizer.name}}\",\"booker\":\"{{attendees.0.name}}\"}"
-          },
-          "triggers": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "BOOKING_CREATED",
-                "BOOKING_PAYMENT_INITIATED",
-                "BOOKING_PAID",
-                "BOOKING_RESCHEDULED",
-                "BOOKING_REQUESTED",
-                "BOOKING_CANCELLED",
-                "BOOKING_REJECTED",
-                "BOOKING_NO_SHOW_UPDATED",
-                "FORM_SUBMITTED",
-                "MEETING_ENDED",
-                "MEETING_STARTED",
-                "RECORDING_READY",
-                "INSTANT_MEETING",
-                "RECORDING_TRANSCRIPTION_GENERATED",
-                "OOO_CREATED",
-                "AFTER_HOSTS_CAL_VIDEO_NO_SHOW",
-                "AFTER_GUESTS_CAL_VIDEO_NO_SHOW",
-                "FORM_SUBMITTED_NO_EVENT",
-                "ROUTING_FORM_FALLBACK_HIT",
-                "DELEGATION_CREDENTIAL_ERROR",
-                "WRONG_ASSIGNMENT_REPORT"
-              ]
-            }
           },
           "oAuthClientId": {
             "type": "string"
           },
           "id": {
             "type": "number"
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           },
           "subscriberUrl": {
             "type": "string"
@@ -33305,7 +32067,7 @@
             "type": "string"
           }
         },
-        "required": ["payloadTemplate", "triggers", "oAuthClientId", "id", "subscriberUrl", "active"]
+        "required": ["payloadTemplate", "oAuthClientId", "id", "triggers", "subscriberUrl", "active"]
       },
       "OAuthClientWebhookOutputResponseDto": {
         "type": "object",
@@ -33866,27 +32628,129 @@
         },
         "required": ["email", "code"]
       },
-      "UserVerifiedEmailOutputData": {
+      "WorkingHours": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "number",
-            "description": "The unique identifier for the verified email.",
-            "example": 789
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
           },
-          "email": {
-            "type": "string",
-            "description": "The verified email address.",
-            "example": "user@example.com",
-            "format": "email"
+          "startTime": {
+            "type": "number"
+          },
+          "endTime": {
+            "type": "number"
           },
           "userId": {
             "type": "number",
-            "description": "The ID of the associated user, if applicable.",
-            "example": 45
+            "nullable": true
           }
         },
-        "required": ["id", "email", "userId"]
+        "required": ["days", "startTime", "endTime"]
+      },
+      "AvailabilityModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "userId": {
+            "type": "number",
+            "nullable": true
+          },
+          "eventTypeId": {
+            "type": "number",
+            "nullable": true
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "startTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "scheduleId": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": ["id", "days", "startTime", "endTime"]
+      },
+      "ScheduleOutput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isManaged": {
+            "type": "boolean"
+          },
+          "workingHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkingHours"
+            }
+          },
+          "schedule": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityModel"
+            }
+          },
+          "availability": {
+            "items": {
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "dateOverrides": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "isLastSchedule": {
+            "type": "boolean"
+          },
+          "readOnly": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "isManaged",
+          "workingHours",
+          "schedule",
+          "availability",
+          "timeZone",
+          "isDefault",
+          "isLastSchedule",
+          "readOnly"
+        ]
       },
       "UserVerifiedEmailOutput": {
         "type": "object",
@@ -33897,7 +32761,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "$ref": "#/components/schemas/UserVerifiedEmailOutputData"
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
@@ -33918,28 +32782,6 @@
         },
         "required": ["phone", "code"]
       },
-      "UserVerifiedPhoneOutputData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "description": "The unique identifier for the verified email.",
-            "example": 789
-          },
-          "phoneNumber": {
-            "type": "string",
-            "description": "The verified phone number.",
-            "example": "+37255556666",
-            "format": "phone"
-          },
-          "userId": {
-            "type": "number",
-            "description": "The ID of the associated user, if applicable.",
-            "example": 45
-          }
-        },
-        "required": ["id", "phoneNumber", "userId"]
-      },
       "UserVerifiedPhoneOutput": {
         "type": "object",
         "properties": {
@@ -33949,7 +32791,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "$ref": "#/components/schemas/UserVerifiedPhoneOutputData"
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
@@ -33963,10 +32805,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserVerifiedEmailOutputData"
-            }
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
@@ -33980,41 +32819,10 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserVerifiedPhoneOutputData"
-            }
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
-      },
-      "TeamVerifiedEmailOutputData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "description": "The unique identifier for the verified email.",
-            "example": 789
-          },
-          "email": {
-            "type": "string",
-            "description": "The verified email address.",
-            "example": "user@example.com",
-            "format": "email"
-          },
-          "teamId": {
-            "type": "number",
-            "description": "The ID of the associated team, if applicable.",
-            "example": 89
-          },
-          "userId": {
-            "type": "number",
-            "nullable": true,
-            "description": "The ID of the associated user, if applicable.",
-            "example": 45
-          }
-        },
-        "required": ["id", "email", "teamId"]
       },
       "TeamVerifiedEmailOutput": {
         "type": "object",
@@ -34025,38 +32833,10 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "$ref": "#/components/schemas/TeamVerifiedEmailOutputData"
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
-      },
-      "TeamVerifiedPhoneOutputData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "description": "The unique identifier for the verified email.",
-            "example": 789
-          },
-          "phoneNumber": {
-            "type": "string",
-            "description": "The verified phone number.",
-            "example": "+37255556666",
-            "format": "phone"
-          },
-          "userId": {
-            "type": "number",
-            "nullable": true,
-            "description": "The ID of the associated user, if applicable.",
-            "example": 45
-          },
-          "teamId": {
-            "type": "number",
-            "description": "The ID of the associated team, if applicable.",
-            "example": 89
-          }
-        },
-        "required": ["id", "phoneNumber", "teamId"]
       },
       "TeamVerifiedPhoneOutput": {
         "type": "object",
@@ -34067,7 +32847,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "$ref": "#/components/schemas/TeamVerifiedPhoneOutputData"
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
@@ -34081,10 +32861,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TeamVerifiedEmailOutputData"
-            }
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]
@@ -34098,10 +32875,7 @@
             "enum": ["success", "error"]
           },
           "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TeamVerifiedPhoneOutputData"
-            }
+            "$ref": "#/components/schemas/ScheduleOutput"
           }
         },
         "required": ["status", "data"]

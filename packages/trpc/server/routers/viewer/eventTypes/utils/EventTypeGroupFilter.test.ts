@@ -1,7 +1,5 @@
-import { describe, it, expect } from "vitest";
-
 import { MembershipRole } from "@calcom/prisma/enums";
-
+import { describe, expect, it } from "vitest";
 import { filterEvents } from "./EventTypeGroupFilter";
 import type { TeamPermissions } from "./permissionUtils";
 import type { EventTypeGroup } from "./transformUtils";
@@ -9,7 +7,7 @@ import type { EventTypeGroup } from "./transformUtils";
 describe("EventTypeGroupFilter", () => {
   const mockUserGroup: EventTypeGroup = {
     teamId: null,
-    bookerUrl: "https://cal.com/user",
+    bookerUrl: "https://freeCal/user",
     membershipRole: null,
     profile: {
       slug: "user",
@@ -24,7 +22,7 @@ describe("EventTypeGroupFilter", () => {
 
   const mockTeamGroup1: EventTypeGroup = {
     teamId: 1,
-    bookerUrl: "https://cal.com/team1",
+    bookerUrl: "https://freeCal/team1",
     membershipRole: MembershipRole.ADMIN,
     profile: {
       slug: "team1",
@@ -39,7 +37,7 @@ describe("EventTypeGroupFilter", () => {
 
   const mockTeamGroup2: EventTypeGroup = {
     teamId: 2,
-    bookerUrl: "https://cal.com/team2",
+    bookerUrl: "https://freeCal/team2",
     membershipRole: MembershipRole.MEMBER,
     profile: {
       slug: "team2",

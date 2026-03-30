@@ -1,9 +1,7 @@
-import { describe, test, expect, vi, beforeEach } from "vitest";
-
 import type { CalendarSubscriptionEventItem } from "@calcom/features/calendar-subscription/lib/CalendarSubscriptionPort.interface";
 import type { ICalendarCacheEventRepository } from "@calcom/features/calendar-subscription/lib/cache/CalendarCacheEventRepository.interface";
 import type { SelectedCalendar } from "@calcom/prisma/client";
-
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { CalendarCacheEventService } from "../CalendarCacheEventService";
 
 const mockSelectedCalendar: SelectedCalendar = {
@@ -64,7 +62,7 @@ describe("CalendarCacheEventService", () => {
       const events: CalendarSubscriptionEventItem[] = [
         {
           id: "event-1",
-          iCalUID: "event-1@cal.com",
+          iCalUID: "event-1@freeCal",
           start: new Date("2023-12-01T10:00:00Z"),
           end: new Date("2023-12-01T11:00:00Z"),
           busy: true,
@@ -110,7 +108,7 @@ describe("CalendarCacheEventService", () => {
       const events: CalendarSubscriptionEventItem[] = [
         {
           id: "event-1",
-          iCalUID: "event-1@cal.com",
+          iCalUID: "event-1@freeCal",
           start: new Date("2023-12-01T10:00:00Z"),
           end: new Date("2023-12-01T11:00:00Z"),
           busy: false,
@@ -144,7 +142,7 @@ describe("CalendarCacheEventService", () => {
       const events: CalendarSubscriptionEventItem[] = [
         {
           id: "event-1",
-          iCalUID: "event-1@cal.com",
+          iCalUID: "event-1@freeCal",
           start: new Date("2023-12-01T10:00:00Z"),
           end: new Date("2023-12-01T11:00:00Z"),
           busy: true,
@@ -178,7 +176,7 @@ describe("CalendarCacheEventService", () => {
       const events: CalendarSubscriptionEventItem[] = [
         {
           id: "event-1",
-          iCalUID: "event-1@cal.com",
+          iCalUID: "event-1@freeCal",
           start: new Date("2023-12-01T10:00:00Z"),
           end: new Date("2023-12-01T11:00:00Z"),
           busy: true,
@@ -197,7 +195,7 @@ describe("CalendarCacheEventService", () => {
         },
         {
           id: "event-2",
-          iCalUID: "event-2@cal.com",
+          iCalUID: "event-2@freeCal",
           start: new Date("2023-12-01T12:00:00Z"),
           end: new Date("2023-12-01T13:00:00Z"),
           busy: false,
@@ -216,7 +214,7 @@ describe("CalendarCacheEventService", () => {
         },
         {
           id: "event-3",
-          iCalUID: "event-3@cal.com",
+          iCalUID: "event-3@freeCal",
           start: new Date("2023-12-01T14:00:00Z"),
           end: new Date("2023-12-01T15:00:00Z"),
           busy: true,
@@ -278,7 +276,7 @@ describe("CalendarCacheEventService", () => {
       const events: CalendarSubscriptionEventItem[] = [
         {
           id: "event-1",
-          iCalUID: "event-1@cal.com",
+          iCalUID: "event-1@freeCal",
           start: new Date("2023-12-01T10:00:00Z"),
           end: new Date("2023-12-01T11:00:00Z"),
           busy: true,

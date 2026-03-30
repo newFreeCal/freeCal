@@ -1,7 +1,7 @@
 import prismock from "@calcom/testing/lib/__mocks__/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
+import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 import { describe, expect, it } from "vitest";
-import type { UserFromSession } from "@calcom/features/auth/lib/userFromSessionUtils";
 import { FilterSegmentRepository } from "../../repositories/filterSegment";
 import type { TDeleteFilterSegmentInputSchema } from "../../repositories/filterSegment.type";
 
@@ -12,7 +12,7 @@ describe("FilterSegmentRepository.delete()", () => {
   const mockUser = {
     id: userId,
     name: "Test User",
-  } as NonNullable<UserFromSession>;
+  } as NonNullable<TrpcSessionUser>;
 
   it("should delete a user-scoped filter segment", async () => {
     // Create a user-scoped segment first

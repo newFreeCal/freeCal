@@ -1,8 +1,9 @@
 "use client";
 
+import process from "node:process";
 import { ErrorCode } from "@calcom/features/auth/lib/ErrorCode";
 import { Dialog } from "@calcom/features/components/controlled-dialog";
-import { isCompanyEmail } from "@calcom/features/ee/organizations/lib/utils";
+import { isCompanyEmail } from "@calcom/features/organizations/lib/stubs/utils";
 import SettingsHeader from "@calcom/features/settings/appDir/SettingsHeader";
 import SectionBottomActions from "@calcom/features/settings/SectionBottomActions";
 import { APP_NAME, FULL_NAME_LENGTH_MAX_LIMIT } from "@calcom/lib/constants";
@@ -29,8 +30,8 @@ import CustomEmailTextField from "@components/settings/CustomEmailTextField";
 import SecondaryEmailConfirmModal from "@components/settings/SecondaryEmailConfirmModal";
 import SecondaryEmailModal from "@components/settings/SecondaryEmailModal";
 import { UsernameAvailabilityField } from "@components/ui/UsernameAvailability";
-import { InfoIcon } from "@coss/ui/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react";
 import type { TRPCClientErrorLike } from "@trpc/client";
 import { revalidateSettingsProfile } from "app/cache/path/settings/my-account";
 // eslint-disable-next-line no-restricted-imports
@@ -71,7 +72,6 @@ const ProfileView = ({ user }: Props) => {
   const utils = trpc.useUtils();
   const session = useSession();
   const { update } = session;
-  const [showSecondaryEmailModalOpen, setShowSecondaryEmailModalOpen] = useState(false);
   const updateProfileMutation = trpc.viewer.me.updateProfile.useMutation({
     onSuccess: async (res) => {
       await update(res);
@@ -130,6 +130,7 @@ const ProfileView = ({ user }: Props) => {
   const [confirmPasswordErrorMessage, setConfirmPasswordDeleteErrorMessage] = useState("");
   const [showCreateAccountPasswordDialog, setShowCreateAccountPasswordDialog] = useState(false);
   const [showAccountDisconnectWarning, setShowAccountDisconnectWarning] = useState(false);
+  const [showSecondaryEmailModalOpen, setShowSecondaryEmailModalOpen] = useState(false);
   const [secondaryEmailAddErrorMessage, setSecondaryEmailAddErrorMessage] = useState("");
   const [newlyAddedSecondaryEmail, setNewlyAddedSecondaryEmail] = useState<undefined | string>(undefined);
 
@@ -146,7 +147,7 @@ const ProfileView = ({ user }: Props) => {
     showToast(t("Your account was deleted"), "success");
 
     setHasDeleteErrors(false); // dismiss any open errors
-    if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.cal.com") {
+    if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.freeCal") {
       signOut({ callbackUrl: "/auth/logout?survey=true" });
     } else {
       signOut({ callbackUrl: "/auth/logout" });
@@ -322,7 +323,11 @@ const ProfileView = ({ user }: Props) => {
       <Dialog open={deleteAccountOpen} onOpenChange={setDeleteAccountOpen}>
         <SectionBottomActions align="end">
           <DialogTrigger asChild>
-            <Button data-testid="delete-account" color="destructive" className="mt-1" StartIcon="trash-2">
+            <Button
+              data-testid="delete-account"
+              color="destructive"
+              className="mt-1"
+              CustomStartIcon={<Icon icon="glyphs-poly:stop-hand" className="h-4 w-4" />}>
               {t("delete_account")}
             </Button>
           </DialogTrigger>
@@ -330,8 +335,7 @@ const ProfileView = ({ user }: Props) => {
         <DialogContent
           title={t("delete_account_modal_title")}
           description={t("confirm_delete_account_modal", { appName: APP_NAME })}
-          type="creation"
-          Icon="triangle-alert">
+          type="creation">
           <>
             <div className="mb-10">
               <p className="text-subtle mb-4 text-sm">{t("delete_account_confirmation_message")}</p>
@@ -374,8 +378,7 @@ const ProfileView = ({ user }: Props) => {
         <DialogContent
           title={t("confirm_password")}
           description={t("confirm_password_change_email")}
-          type="creation"
-          Icon="triangle-alert">
+          type="creation">
           <div className="mb-10">
             <div className="mb-4 grid gap-2 md:grid-cols-2">
               <div>
@@ -420,8 +423,7 @@ const ProfileView = ({ user }: Props) => {
         <DialogContent
           title={t("create_account_password")}
           description={t("create_account_password_hint")}
-          type="creation"
-          Icon="triangle-alert">
+          type="creation">
           <DialogFooter>
             <DialogClose />
           </DialogFooter>
@@ -432,8 +434,7 @@ const ProfileView = ({ user }: Props) => {
         <DialogContent
           title={t("disconnect_account")}
           description={t("disconnect_account_hint")}
-          type="creation"
-          Icon="triangle-alert">
+          type="creation">
           <DialogFooter>
             <Button
               color="primary"
@@ -654,7 +655,7 @@ const ProfileForm = ({
         </div>
         {extraField}
         <p className="text-subtle mt-1 flex gap-1 text-sm">
-          <InfoIcon className="mt-0.5 shrink-0" />
+          <Icon icon="glyphs-poly:info-circle" className="mt-0.5 h-4 w-4 shrink-0" />
           <span className="flex-1">{t("tip_username_plus")}</span>
         </p>
         <div className="mt-6">
@@ -690,7 +691,7 @@ const ProfileForm = ({
             </div>
             <Button
               color="secondary"
-              StartIcon="plus"
+              CustomStartIcon={<Icon icon="glyphs-poly:plus" className="h-4 w-4" />}
               className="mt-2"
               onClick={() => handleAddSecondaryEmail()}
               data-testid="add-secondary-email">

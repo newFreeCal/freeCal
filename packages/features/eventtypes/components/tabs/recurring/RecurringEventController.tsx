@@ -1,23 +1,20 @@
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import { LearnMoreLink } from "@calcom/features/eventtypes/components/LearnMoreLink";
 import type {
   EventTypeSetup,
+  FormValues,
   InputClassNames,
   SelectClassNames,
   SettingsToggleClassNames,
 } from "@calcom/features/eventtypes/lib/types";
-import type { FormValues } from "@calcom/features/eventtypes/lib/types";
+import useLockedFieldsManager from "@calcom/features/managed-event-types/lib/stubs/useLockedFieldsManager";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Frequency } from "@calcom/prisma/zod-utils";
 import type { RecurringEvent } from "@calcom/types/Calendar";
 import classNames from "@calcom/ui/classNames";
 import { Alert } from "@calcom/ui/components/alert";
-import { Select } from "@calcom/ui/components/form";
-import { SettingsToggle } from "@calcom/ui/components/form";
-import { TextField } from "@calcom/ui/components/form";
+import { Select, SettingsToggle, TextField } from "@calcom/ui/components/form";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 export type RecurringEventControllerProps = {
   eventType: EventTypeSetup;
@@ -96,7 +93,7 @@ export default function RecurringEventController({
                 <LearnMoreLink
                   t={t}
                   i18nKey="recurring_event_description"
-                  href="https://cal.com/help/event-types/recurring-events"
+                  href="https://freeCal/help/event-types/recurring-events"
                 />
               }
               checked={!!recurringEventState}

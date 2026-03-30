@@ -17,9 +17,9 @@ import {
   eventTypeMetaDataSchemaWithTypedApps,
 } from "@calcom/app-store/zod-utils";
 import dayjs from "@calcom/dayjs";
-import { scheduleMandatoryReminder } from "@calcom/ee/workflows/lib/reminders/scheduleMandatoryReminder";
 import getICalUID from "@calcom/emails/lib/getICalUID";
 import { verifyCodeUnAuthenticated } from "@calcom/features/auth/lib/verifyCodeUnAuthenticated";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
 import type { ActionSource } from "@calcom/features/booking-audit/lib/types/actionSource";
 import type {
   BookingDataSchemaGetter,
@@ -38,23 +38,15 @@ import type { BookingRescheduledPayload } from "@calcom/features/bookings/lib/on
 import type { BookingEmailAndSmsTasker } from "@calcom/features/bookings/lib/tasker/BookingEmailAndSmsTasker";
 import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
 import { getSpamCheckService } from "@calcom/features/di/watchlist/containers/SpamCheckService.container";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
-import AssignmentReasonRecorder from "@calcom/features/ee/round-robin/assignmentReason/AssignmentReasonRecorder";
-import { BookingLocationService } from "@calcom/features/ee/round-robin/lib/bookingLocationService";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-import { WorkflowRepository } from "@calcom/features/ee/workflows/repositories/WorkflowRepository";
-import {
-  type EventTypeBrandingData,
-  getEventTypeService,
-} from "@calcom/features/eventtypes/di/EventTypeService.container";
 import { getUsernameList } from "@calcom/features/eventtypes/lib/defaultEvents";
 import { getEventName, updateHostInEventName } from "@calcom/features/eventtypes/lib/eventNaming";
 import type { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { getFullName } from "@calcom/features/form-builder/utils";
 import type { HashedLinkService } from "@calcom/features/hashedLink/lib/service/HashedLinkService";
+import { getBookerBaseUrl } from "@calcom/features/organizations/lib/stubs/getBookerUrlServer";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
+import AssignmentReasonRecorder from "@calcom/features/round-robin/lib/stubs/assignmentReason/AssignmentReasonRecorder";
+import { BookingLocationService } from "@calcom/features/round-robin/lib/stubs/bookingLocationService";
 import { getRoutingTraceService } from "@calcom/features/routing-trace/di/RoutingTraceService.container";
 import { handleAnalyticsEvents } from "@calcom/features/tasker/tasks/analytics/handleAnalyticsEvents";
 import type { UserRepository } from "@calcom/features/users/repositories/UserRepository";
@@ -68,6 +60,10 @@ import {
   scheduleTrigger,
 } from "@calcom/features/webhooks/lib/scheduleTrigger";
 import type { EventPayloadType, EventTypeInfo } from "@calcom/features/webhooks/lib/sendPayload";
+import { getAllWorkflowsFromEventType } from "@calcom/features/workflows/lib/stubs/getAllWorkflowsFromEventType";
+import { StubWorkflowRepository as WorkflowRepository } from "@calcom/features/workflows/lib/stubs/StubWorkflowRepository";
+import { WorkflowService } from "@calcom/features/workflows/lib/stubs/StubWorkflowService";
+import { scheduleMandatoryReminder } from "@calcom/features/workflows/lib/stubs/scheduleMandatoryReminder";
 import { groupHostsByGroupId } from "@calcom/lib/bookings/hostGroupUtils";
 import { shouldIgnoreContactOwner } from "@calcom/lib/bookings/routing/utils";
 import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
@@ -82,7 +78,7 @@ import { criticalLogger } from "@calcom/lib/logger.server";
 import { getPiiFreeCalendarEvent, getPiiFreeEventType } from "@calcom/lib/piiFreeData";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import { getServerErrorFromUnknown } from "@calcom/lib/server/getServerErrorFromUnknown";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import { getTimeFormatStringFromUserTimeFormat } from "@calcom/lib/timeFormat";
 import { distributedTracing } from "@calcom/lib/tracing/factory";
 import type { PrismaClient } from "@calcom/prisma";
@@ -170,10 +166,10 @@ function getICalSequence(originalRescheduledBooking: BookingType | null) {
   return originalRescheduledBooking.iCalSequence + 1;
 }
 
-type CreatedBooking = Booking & {
+type CreatedBooking = any & {
   isShortCircuitedBooking?: boolean;
 } & { appsStatus?: AppsStatus[]; paymentUid?: string; paymentId?: number };
-type ReturnTypeCreateBooking = Awaited<ReturnType<typeof createBooking>>;
+type ReturnTypeCreateBooking = any;
 export const buildDryRunBooking = ({
   eventTypeId,
   organizerUser,
@@ -318,7 +314,7 @@ export const buildEventForTeamEventType = async ({
   const teamMemberPromises = filteredUsers
     .filter((user) => user.email !== organizerUser.email)
     .map(async (user) => {
-      // TODO: Add back once EventManager tests are ready https://github.com/calcom/cal.com/pull/14610#discussion_r1567817120
+      // TODO: Add back once EventManager tests are ready https://github.com/calcom/freeCal/pull/14610#discussion_r1567817120
       // push to teamDestinationCalendars if it's a team event but collective only
       if (schedulingType === "COLLECTIVE" && user.destinationCalendar) {
         teamDestinationCalendars.push({
@@ -603,7 +599,6 @@ async function handler(
     skipEventLimitsCheck = false,
     skipCalendarSyncTaskCreation = false,
     traceContext: passedTraceContext,
-    impersonatedByUserUuid,
   } = input;
   let bookingEmailsAndSmsTaskerAction: BookingActionType = BookingActionMap.requested;
 
@@ -1330,15 +1325,17 @@ async function handler(
         prismaClient: deps.prismaClient,
       });
 
-      locationBodyString = result.locationBodyString;
-      organizerOrFirstDynamicGroupMemberDefaultLocationUrl = result.organizerDefaultLocationUrl;
-      perHostCredentialId = result.perHostCredentialId;
+      if (result) {
+        locationBodyString = (result as any).locationBodyString;
+        organizerOrFirstDynamicGroupMemberDefaultLocationUrl = (result as any).organizerDefaultLocationUrl;
+        perHostCredentialId = (result as any).perHostCredentialId;
 
-      tracingLogger.info("Using per-host location", {
-        userId: organizerUser.id,
-        locationType: result.locationBodyString,
-        credentialId: result.perHostCredentialId,
-      });
+        tracingLogger.info("Using per-host location", {
+          userId: organizerUser.id,
+          locationType: (result as any).locationBodyString,
+          credentialId: (result as any).perHostCredentialId,
+        });
+      }
     }
   }
 
@@ -1488,11 +1485,6 @@ async function handler(
     where: {
       userId: organizerUser.id,
     },
-    select: {
-      organizationId: true,
-      username: true,
-      organization: { select: { hideBranding: true } },
-    },
   });
 
   const organizerOrganizationId = organizerOrganizationProfile?.organizationId;
@@ -1581,20 +1573,6 @@ async function handler(
     })
     .withOrganization(organizerOrganizationId)
     .withHashedLink(hasHashedBookingLink ? (reqBody.hashedLink ?? null) : null)
-    .withHideBranding(
-      await getEventTypeService().shouldHideBrandingForEventType(eventType.id, {
-        team: eventType.team
-          ? { hideBranding: eventType.team.hideBranding, parent: eventType.team.parent }
-          : null,
-        owner: {
-          id: organizerUser.id,
-          hideBranding: organizerUser.hideBranding,
-          profiles: organizerOrganizationProfile
-            ? [{ organization: organizerOrganizationProfile.organization }]
-            : [],
-        },
-      } satisfies EventTypeBrandingData)
-    )
     .build();
 
   if (!builtEvt) {
@@ -1833,7 +1811,6 @@ async function handler(
         organizationId: eventOrganizationId,
         actionSource,
         traceContext,
-        impersonatedByUserUuid: impersonatedByUserUuid ?? null,
         deps,
       },
       deps.featuresRepository
@@ -2044,7 +2021,7 @@ async function handler(
 
       if (booking && booking.id && eventType.seatsPerTimeSlot) {
         const currentAttendee = booking.attendees.find(
-          (attendee) =>
+          (attendee: { email: string; phoneNumber?: string }) =>
             attendee.email === bookingData.responses.email ||
             (bookingData.responses.attendeePhoneNumber &&
               attendee.phoneNumber === bookingData.responses.attendeePhoneNumber)
@@ -2520,11 +2497,10 @@ async function handler(
     isRecurringBooking: !!input.bookingData.allRecurringDates,
     attendeeSeatId: evt.attendeeSeatId ?? null,
     tracingLogger,
-    impersonatedByUserUuid: impersonatedByUserUuid ?? null,
     isBookingAuditEnabled,
   });
 
-  const webhookLocation= metadata?.videoCallUrl || evt.location;
+  const webhookLocation = metadata?.videoCallUrl || evt.location;
 
   const { assignmentReason: _emailAssignmentReason, ...evtWithoutAssignmentReason } = evt;
   const webhookData: EventPayloadType = {
@@ -2637,14 +2613,16 @@ async function handler(
       };
 
       if (isNormalBookingOrFirstRecurringSlot) {
-        const creditService = new CreditService();
+        const creditService = new StubCreditService();
 
         await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
           workflows,
           smsReminderNumber: smsReminderNumber || null,
           calendarEvent: calendarEventForWorkflow,
-          hideBranding: evt.hideBranding || !!platformClientId,
+          hideBranding: !!eventType.owner?.hideBranding || !!platformClientId,
           seatReferenceUid: evt.attendeeSeatId,
+          isNormalBookingOrFirstRecurringSlot,
+          isRescheduleEvent: !!rescheduleUid,
           isDryRun,
           triggers: [WorkflowTriggerEvents.BOOKING_PAYMENT_INITIATED],
           creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
@@ -2827,7 +2805,7 @@ async function handler(
       evt: evtWithMetadata,
       workflows,
       requiresConfirmation: !isConfirmedByDefault,
-      hideBranding: (evt.hideBranding ?? false) || !!platformClientId,
+      hideBranding: !!eventType.owner?.hideBranding || !!platformClientId,
       seatReferenceUid: evt.attendeeSeatId,
       isPlatformNoEmail: noEmail && Boolean(platformClientId),
       isDryRun,
@@ -2836,13 +2814,13 @@ async function handler(
   }
 
   try {
-    const creditService = new CreditService();
+    const creditService = new StubCreditService();
 
     await WorkflowService.scheduleWorkflowsForNewBooking({
       workflows,
       smsReminderNumber: smsReminderNumber || null,
       calendarEvent: evtWithMetadata,
-      hideBranding: evt.hideBranding || !!platformClientId,
+      hideBranding: !!eventType.owner?.hideBranding || !!platformClientId,
       seatReferenceUid: evt.attendeeSeatId,
       isDryRun,
       isConfirmedByDefault,
@@ -2882,14 +2860,14 @@ async function handler(
       bookingInfo: {
         name: fullName,
         email: bookerEmail,
-        eventName: "Cal.com lead",
+        eventName: "freeCal lead",
       },
       isTeamEventType,
     });
 
     // Unused until we deploy to trigger.dev production
-    // for now we only enable for cal.com org and we keep our current email system
-    // cal.com org members will see emails in double while we test
+    // for now we only enable for freeCal org and we keep our current email system
+    // freeCal org members will see emails in double while we test
     if (ENABLE_ASYNC_TASKER && !noEmail && isBookingEmailSmsTaskerEnabled) {
       try {
         await deps.bookingEmailAndSmsTasker.send({
@@ -2964,7 +2942,6 @@ export class RegularBookingService implements IBookingService {
     isRecurringBooking,
     attendeeSeatId,
     tracingLogger,
-    impersonatedByUserUuid,
     isBookingAuditEnabled,
   }: {
     booking: {
@@ -2991,7 +2968,6 @@ export class RegularBookingService implements IBookingService {
     isRecurringBooking: boolean;
     tracingLogger: ReturnType<typeof distributedTracing.getTracingLogger>;
     attendeeSeatId: string | null;
-    impersonatedByUserUuid: string | null;
     isBookingAuditEnabled: boolean;
   }) {
     try {
@@ -3025,8 +3001,6 @@ export class RegularBookingService implements IBookingService {
         logger: tracingLogger,
       });
 
-      const auditContext = impersonatedByUserUuid ? { impersonatedBy: impersonatedByUserUuid } : undefined;
-
       // For recurring bookings we fire the events in the RecurringBookingService
       if (!isRecurringBooking) {
         if (originalRescheduledBooking) {
@@ -3047,7 +3021,6 @@ export class RegularBookingService implements IBookingService {
             }),
             source: actionSource,
             operationId: null,
-            context: auditContext,
             isBookingAuditEnabled,
           });
         } else {
@@ -3057,7 +3030,6 @@ export class RegularBookingService implements IBookingService {
             auditData: buildBookingCreatedAuditData({ booking, attendeeSeatId }),
             source: actionSource,
             operationId: null,
-            context: auditContext,
             isBookingAuditEnabled,
           });
         }
@@ -3068,25 +3040,11 @@ export class RegularBookingService implements IBookingService {
   }
 
   async createBooking(input: { bookingData: CreateRegularBookingData; bookingMeta?: CreateBookingMeta }) {
-    return handler.bind(this)(
-      {
-        bookingData: input.bookingData,
-        ...input.bookingMeta,
-        impersonatedByUserUuid: input.bookingMeta?.impersonatedByUserUuid ?? null,
-      },
-      this.deps
-    );
+    return handler.bind(this)({ bookingData: input.bookingData, ...input.bookingMeta }, this.deps);
   }
 
   async rescheduleBooking(input: { bookingData: CreateRegularBookingData; bookingMeta?: CreateBookingMeta }) {
-    return handler.bind(this)(
-      {
-        bookingData: input.bookingData,
-        ...input.bookingMeta,
-        impersonatedByUserUuid: input.bookingMeta?.impersonatedByUserUuid ?? null,
-      },
-      this.deps
-    );
+    return handler.bind(this)({ bookingData: input.bookingData, ...input.bookingMeta }, this.deps);
   }
 
   /**
@@ -3097,11 +3055,11 @@ export class RegularBookingService implements IBookingService {
     bookingMeta?: CreateBookingMeta;
     bookingDataSchemaGetter: BookingDataSchemaGetter;
   }) {
+    const bookingMeta = input.bookingMeta ?? {};
     return handler.bind(this)(
       {
         bookingData: input.bookingData,
-        ...input.bookingMeta,
-        impersonatedByUserUuid: input.bookingMeta?.impersonatedByUserUuid ?? null,
+        ...bookingMeta,
       },
       this.deps,
       input.bookingDataSchemaGetter

@@ -13,7 +13,7 @@ export class BookingDetailsService {
   }
 
   async getBookingDetails({ userId, bookingUid }: { userId: number; bookingUid: string }) {
-    const hasAccess = await this.bookingAccessService.doesUserIdHaveAccessToBooking({
+    const hasAccess = await this.bookingAccessService.checkBookingAccessWithPBAC({
       userId,
       bookingUid,
     });

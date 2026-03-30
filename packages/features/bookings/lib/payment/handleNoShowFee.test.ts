@@ -1,13 +1,11 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-
 import { PaymentServiceMap } from "@calcom/app-store/payment.services.generated";
 import { sendNoShowFeeChargedEmail } from "@calcom/emails/billing-email-service";
 import { CredentialRepository } from "@calcom/features/credentials/repositories/CredentialRepository";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/TeamRepository";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { ErrorWithCode } from "@calcom/lib/errors";
-import { getTranslation } from "@calcom/i18n/server";
-
+import { getTranslation } from "@calcom/lib/server/i18n";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { handleNoShowFee } from "./handleNoShowFee";
 
 vi.mock("@calcom/app-store/payment.services.generated", () => ({
@@ -26,7 +24,7 @@ vi.mock("@calcom/emails/billing-email-service", () => ({
   sendNoShowFeeChargedEmail: vi.fn(),
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn().mockResolvedValue((key: string) => key),
 }));
 
@@ -51,7 +49,7 @@ vi.mock("@calcom/features/membership/repositories/MembershipRepository", () => (
   MembershipRepository: MockMembershipRepository,
 }));
 
-vi.mock("@calcom/features/ee/teams/repositories/TeamRepository", () => ({
+vi.mock("@calcom/features/teams/lib/stubs/TeamRepository", () => ({
   TeamRepository: vi.fn().mockImplementation(function () {
     return {
       findParentOrganizationByTeamId: vi.fn(),
@@ -61,7 +59,6 @@ vi.mock("@calcom/features/ee/teams/repositories/TeamRepository", () => ({
 
 vi.mock("@calcom/prisma", () => ({
   default: {},
-  prisma: {},
 }));
 
 describe("handleNoShowFee", () => {

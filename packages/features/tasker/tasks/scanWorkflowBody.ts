@@ -1,15 +1,14 @@
-import z from "zod";
-
-import { getTemplateBodyForAction } from "@calcom/features/ee/workflows/lib/actionHelperFunctions";
-import compareReminderBodyToTemplate from "@calcom/features/ee/workflows/lib/compareReminderBodyToTemplate";
-import { scheduleWorkflowNotifications } from "@calcom/features/ee/workflows/lib/scheduleWorkflowNotifications";
+import process from "node:process";
 import { Task } from "@calcom/features/tasker/repository";
+import { getTemplateBodyForAction } from "@calcom/features/workflows/lib/stubs/actionHelperFunctions";
+import compareReminderBodyToTemplate from "@calcom/features/workflows/lib/stubs/compareReminderBodyToTemplate";
+import { scheduleWorkflowNotifications } from "@calcom/features/workflows/lib/stubs/scheduleWorkflowNotifications";
 import { URL_SCANNING_ENABLED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import { getTimeFormatStringFromUserTimeFormat } from "@calcom/lib/timeFormat";
 import prisma from "@calcom/prisma";
-
+import z from "zod";
 import { submitWorkflowStepForUrlScanning } from "./scanWorkflowUrls";
 
 export const scanWorkflowBodySchema = z.object({

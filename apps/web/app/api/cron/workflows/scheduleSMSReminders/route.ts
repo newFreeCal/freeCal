@@ -1,5 +1,4 @@
+import { handler } from "@calcom/features/workflows/lib/stubs/scheduleSMSReminders";
 import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
-
-import { handler } from "@calcom/features/ee/workflows/api/scheduleSMSReminders";
 
 export const POST = defaultResponderForAppDir(handler);

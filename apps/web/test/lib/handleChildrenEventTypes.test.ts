@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import prismaMock from "@calcom/testing/lib/__mocks__/prismaMock";
-import updateChildrenEventTypes from "@calcom/features/ee/managed-event-types/lib/handleChildrenEventTypes";
+import updateChildrenEventTypes from "@calcom/features/managed-event-types/lib/stubs/lib/handleChildrenEventTypes";
 import logger from "@calcom/lib/logger";
 import { buildEventType } from "@calcom/lib/test/builder";
 import type { EventType, Prisma, User, WorkflowsOnEventTypes } from "@calcom/prisma/client";
@@ -47,7 +47,7 @@ vi.mock("@calcom/emails/integration-email-service", () => {
   };
 });
 
-vi.mock("@calcom/i18n/server", () => {
+vi.mock("@calcom/lib/server/i18n", () => {
   return {
     getTranslation: async (locale: string, namespace: string) => {
       const t = (key: string) => key;

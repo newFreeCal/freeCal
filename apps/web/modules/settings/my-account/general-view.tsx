@@ -11,11 +11,11 @@ import { trpc } from "@calcom/trpc/react";
 import classNames from "@calcom/ui/classNames";
 import { Button } from "@calcom/ui/components/button";
 import { Form, Label, Select, SettingsToggle } from "@calcom/ui/components/form";
-import { Icon } from "@calcom/ui/components/icon";
 import { showToast } from "@calcom/ui/components/toast";
 import { revalidateTravelSchedules } from "@calcom/web/app/cache/travelSchedule";
 import { TimezoneSelect } from "@calcom/web/modules/timezone/components/TimezoneSelect";
 import TravelScheduleModal from "@components/settings/TravelScheduleModal";
+import { Icon } from "@iconify/react";
 import { revalidateSettingsGeneral } from "app/(use-page-wrapper)/settings/(settings-layout)/my-account/general/actions";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -176,7 +176,6 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
                     options={localeOptions}
                     value={value}
                     onChange={onChange}
-                    data-testid="locale-select"
                   />
                 </>
               )}
@@ -206,7 +205,7 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
                       <Button
                         className="w-full sm:w-1/2"
                         color="secondary"
-                        StartIcon="calendar"
+                        CustomStartIcon={<Icon icon="glyphs-poly:calendar" className="h-4 w-4" />}
                         onClick={() => setIsTZScheduleOpen(true)}>
                         {t("schedule_timezone_change")}
                       </Button>
@@ -247,7 +246,7 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
                           color="destructive"
                           className="ml-auto"
                           variant="icon"
-                          StartIcon="trash-2"
+                          CustomStartIcon={<Icon icon="glyphs-poly:trash-2" className="h-4 w-4" />}
                           onClick={() => {
                             const updatedSchedules = watchedTzSchedules.filter(
                               (s, filterIndex) => filterIndex !== index
@@ -260,7 +259,7 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
                   })}
                 </div>
                 <Button
-                  StartIcon="plus"
+                  CustomStartIcon={<Icon icon="glyphs-poly:plus" className="h-4 w-4" />}
                   color="secondary"
                   className="mt-4"
                   onClick={() => setIsTZScheduleOpen(true)}>
@@ -288,7 +287,7 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
               )}
             />
             <div className="text-gray text-subtle mt-2 flex items-center text-xs">
-              <Icon name="info" className="mr-2" />
+              <Icon icon="glyphs-poly:info" className="mr-2 h-4 w-4" />
               {t("timeformat_profile_hint")}
             </div>
             <Controller

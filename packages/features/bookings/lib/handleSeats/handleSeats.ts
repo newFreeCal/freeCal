@@ -1,22 +1,22 @@
 import dayjs from "@calcom/dayjs";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
+import type { ActionSource } from "@calcom/features/booking-audit/lib/types/actionSource";
 import { handleWebhookTrigger } from "@calcom/features/bookings/lib/handleWebhookTrigger";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-import type { EventPayloadType } from "@calcom/features/webhooks/lib/sendPayload";
+import type { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
 import type { FeaturesRepository } from "@calcom/features/flags/features.repository";
+import type { EventPayloadType } from "@calcom/features/webhooks/lib/sendPayload";
+import { WorkflowService } from "@calcom/features/workflows/lib/stubs/WorkflowService";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { HttpError } from "@calcom/lib/http-error";
+import { safeStringify } from "@calcom/lib/safeStringify";
 import prisma from "@calcom/prisma";
 import { BookingStatus } from "@calcom/prisma/enums";
-import { safeStringify } from "@calcom/lib/safeStringify";
+import { getBookingAuditActorForNewBooking } from "../handleNewBooking/getBookingAuditActorForNewBooking";
 import { createLoggerWithEventDetails } from "../handleNewBooking/logger";
+import type { BookingEventHandlerService } from "../onBookingEvents/BookingEventHandlerService";
 import createNewSeat from "./create/createNewSeat";
 import rescheduleSeatedBooking from "./reschedule/rescheduleSeatedBooking";
-import type { NewSeatedBookingObject, SeatedBooking, HandleSeatsResultBooking } from "./types";
-import { getBookingAuditActorForNewBooking } from "../handleNewBooking/getBookingAuditActorForNewBooking";
-import type { BookingEventHandlerService } from "../onBookingEvents/BookingEventHandlerService";
-import type { ActionSource } from "@calcom/features/booking-audit/lib/types/actionSource";
-import type { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
+import type { HandleSeatsResultBooking, NewSeatedBookingObject, SeatedBooking } from "./types";
 
 const fireBookingEvents = async ({
   previousSeatedBooking,
@@ -29,7 +29,6 @@ const fireBookingEvents = async ({
   rescheduledBy,
   actionSource,
   actorUserUuid,
-  impersonatedByUserUuid,
   isBookingAuditEnabled,
   deps,
 }: {
@@ -43,7 +42,6 @@ const fireBookingEvents = async ({
   rescheduledBy: string | undefined;
   actionSource: ActionSource;
   actorUserUuid: string | null;
-  impersonatedByUserUuid: string | null;
   isBookingAuditEnabled: boolean;
   deps: {
     bookingEventHandler: BookingEventHandlerService;
@@ -51,9 +49,9 @@ const fireBookingEvents = async ({
   };
 }) => {
   try {
-    const bookerAttendeeId = newBooking.attendees?.find((attendee) => attendee.email === bookerEmail)?.id;
+    const bookerAttendeeId = newBooking.attendees?.find((attendee: { email: string }) => attendee.email === bookerEmail)?.id;
     const rescheduledByAttendeeId = newBooking.attendees?.find(
-      (attendee) => attendee.email === rescheduledBy
+      (attendee: { email: string }) => attendee.email === rescheduledBy
     )?.id;
     const rescheduledByUserUuid = newBooking.user?.email === rescheduledBy ? newBooking.user?.uuid : null;
 
@@ -76,8 +74,6 @@ const fireBookingEvents = async ({
     if (!seatReferenceUid) {
       return;
     }
-
-    const auditContext = impersonatedByUserUuid ? { impersonatedBy: impersonatedByUserUuid } : undefined;
 
     if (rescheduleUid && originalRescheduledBooking) {
       const movedToDifferentBooking = newBooking.uid && newBooking.uid !== previousSeatedBooking.uid;
@@ -111,7 +107,6 @@ const fireBookingEvents = async ({
           },
         },
         source: actionSource,
-        context: auditContext,
         isBookingAuditEnabled,
       });
     } else {
@@ -127,7 +122,6 @@ const fireBookingEvents = async ({
           endTime: previousSeatedBooking.endTime.getTime(),
         },
         source: actionSource,
-        context: auditContext,
         isBookingAuditEnabled,
       });
     }
@@ -165,7 +159,6 @@ const handleSeats = async (
     fullName,
     traceContext,
     actionSource,
-    impersonatedByUserUuid,
     deps: { bookingEventHandler },
   } = newSeatedBookingObject;
   // TODO: We could allow doing more things to support good dry run for seats
@@ -251,7 +244,6 @@ const handleSeats = async (
       rescheduledBy,
       actionSource,
       actorUserUuid: reqUserUuid ?? null,
-      impersonatedByUserUuid,
       isBookingAuditEnabled,
       deps: { bookingEventHandler, logger: loggerWithEventDetails },
     });
@@ -262,7 +254,7 @@ const handleSeats = async (
     // For seated events, use the phone number from the specific attendee being added
     const attendeePhoneNumber = invitee[0]?.phoneNumber || smsReminderNumber || null;
     try {
-      const creditService = new CreditService();
+      const creditService = new StubCreditService();
 
       await WorkflowService.scheduleWorkflowsForNewBooking({
         workflows: workflows,

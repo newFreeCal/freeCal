@@ -1,9 +1,8 @@
 import { expect } from "@playwright/test";
-
 import { test } from "./lib/fixtures";
 
 // IMPORTANT: we do NOT load different translations based on URL locale
-// We load different translations based on the browser locale or Cal.com User settings
+// We load different translations based on the browser locale or freeCal User settings
 // This test suite is just to make sure that the routing works correctly
 test.describe("Locale-specific pages must not 404", () => {
   for (const locale of ["en", "fr"]) {
@@ -59,7 +58,7 @@ test.describe("Locale-specific pages must not 404", () => {
       });
 
       test(`/${locale}/teams page shouldn't 404`, async ({ page, users }) => {
-        const user = await users.create(undefined, { hasTeam: true });
+        const user = await users.create();
         await user.apiLogin();
         const response = await page.goto(`/${locale}/teams`);
         expect(response?.status()).not.toBe(404);
@@ -67,7 +66,7 @@ test.describe("Locale-specific pages must not 404", () => {
       });
 
       test(`/${locale}/routing page shouldn't 404`, async ({ page, users }) => {
-        const user = await users.create(undefined, { hasTeam: true });
+        const user = await users.create();
         await user.apiLogin();
         const response = await page.goto(`/${locale}/routing`);
         expect(response?.status()).not.toBe(404);
@@ -75,7 +74,7 @@ test.describe("Locale-specific pages must not 404", () => {
       });
 
       test(`/${locale}/insights page shouldn't 404`, async ({ page, users }) => {
-        const user = await users.create(undefined, { hasTeam: true });
+        const user = await users.create();
         await user.apiLogin();
         const response = await page.goto(`/${locale}/insights`);
         expect(response?.status()).not.toBe(404);

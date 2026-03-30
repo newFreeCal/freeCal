@@ -1,6 +1,6 @@
 import type z from "zod";
 
-import type { Workflow } from "@calcom/features/ee/workflows/lib/types";
+import type { Workflow } from "@calcom/features/workflows/lib/stubs/types";
 import type { TraceContext } from "@calcom/lib/tracing";
 import type { Prisma } from "@calcom/prisma/client";
 import type { AppsStatus, CalendarEvent } from "@calcom/types/Calendar";
@@ -10,6 +10,7 @@ import type { ActionSource } from "@calcom/features/booking-audit/lib/types/acti
 import type { Booking } from "../handleNewBooking/createBooking";
 import type { NewBookingEventType } from "../handleNewBooking/getEventTypesFromDB";
 import type { OriginalRescheduledBooking } from "../handleNewBooking/originalRescheduledBookingUtils";
+import type { getAllCredentialsIncludeServiceAccountKey } from "../getAllCredentialsForUsersOnEvent/getAllCredentials";
 
 export type BookingSeat = Prisma.BookingSeatGetPayload<{ include: { booking: true; attendee: true } }> | null;
 export type Invitee = {
@@ -65,7 +66,6 @@ export type NewSeatedBookingObject = {
   organizationId?: number | null;
   actionSource: ActionSource;
   traceContext: TraceContext;
-  impersonatedByUserUuid: string | null;
   deps: {
     bookingEventHandler: BookingEventHandlerService;
   }

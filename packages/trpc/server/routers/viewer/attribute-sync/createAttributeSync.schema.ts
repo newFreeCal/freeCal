@@ -1,4 +1,4 @@
 export {
   createAttributeSyncSchema,
   type ZCreateAttributeSyncSchema,
-} from "@calcom/features/ee/integration-attribute-sync/schemas/zod";
+} from "@calcom/features/integration-attribute-sync/lib/stubs/schemas/zod";

@@ -1,13 +1,12 @@
+import classNames from "@calcom/ui/classNames";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import React, { forwardRef } from "react";
-
-import classNames from "@calcom/ui/classNames";
-
-import { Icon } from "../icon/Icon";
+import type React from "react";
+import { forwardRef } from "react";
 import type { IconName } from "../icon/Icon";
+import { Icon } from "../icon/Icon";
 import { Tooltip } from "../tooltip/Tooltip";
 
 type InferredVariantProps = VariantProps<typeof buttonClasses>;
@@ -21,6 +20,8 @@ export type ButtonBaseProps = {
   StartIcon?: IconName;
   /**Right aligned icon */
   EndIcon?: IconName;
+  /**Custom right aligned icon */
+  CustomEndIcon?: React.ReactNode;
   shallow?: boolean;
   /**Tool tip used when icon size is set to small */
   tooltip?: string | React.ReactNode;
@@ -234,6 +235,7 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
     StartIcon,
     CustomStartIcon,
     EndIcon,
+    CustomEndIcon,
     shallow,
     // attributes propagated from `HTMLAnchorProps` or `HTMLButtonProps`
     ...passThroughProps
@@ -302,27 +304,28 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
           </svg>
         </div>
       )}
-      {EndIcon && (
-        <>
-          {variant === "fab" ? (
-            <>
-              <Icon name={EndIcon} className="hidden h-4 w-4 shrink-0 stroke-[1.5px] md:inline-flex" />
-              <Icon name="plus" data-testid="plus" className="inline h-6 w-6 shrink-0 md:hidden" />
-            </>
-          ) : (
-            <Icon
-              name={EndIcon}
-              className={classNames(
-                "shrink-0",
-                loading ? "invisible" : "visible",
-                "group-[:not(div):active]:translate-y-[0.5px]",
-                variant === "icon" && "h-4 w-4",
-                variant === "button" && "h-4 w-4 stroke-[1.5px] "
-              )}
-            />
-          )}
-        </>
-      )}
+      {CustomEndIcon ||
+        (EndIcon && (
+          <>
+            {variant === "fab" ? (
+              <>
+                <Icon name={EndIcon} className="hidden h-4 w-4 shrink-0 stroke-[1.5px] md:inline-flex" />
+                <Icon name="plus" data-testid="plus" className="inline h-6 w-6 shrink-0 md:hidden" />
+              </>
+            ) : (
+              <Icon
+                name={EndIcon}
+                className={classNames(
+                  "shrink-0",
+                  loading ? "invisible" : "visible",
+                  "group-[:not(div):active]:translate-y-[0.5px]",
+                  variant === "icon" && "h-4 w-4",
+                  variant === "button" && "h-4 w-4 stroke-[1.5px] "
+                )}
+              />
+            )}
+          </>
+        ))}
     </>
   );
 

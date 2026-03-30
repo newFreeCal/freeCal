@@ -34,12 +34,12 @@ public with sharing class CalComCalloutQueueable implements Queueable, Database.
             HttpResponse res = http.send(req);
 
             if (res.getStatusCode() >= 200 && res.getStatusCode() < 300) {
-                System.debug(LoggingLevel.INFO, 'Successfully sent user update to Cal.com for user: ' + payload.salesforceUserId);
+                System.debug(LoggingLevel.INFO, 'Successfully sent user update to freeCal for user: ' + payload.salesforceUserId);
             } else {
-                System.debug(LoggingLevel.ERROR, 'Failed to send user update to Cal.com. Status: ' + res.getStatusCode() + ' Body: ' + res.getBody());
+                System.debug(LoggingLevel.ERROR, 'Failed to send user update to freeCal. Status: ' + res.getStatusCode() + ' Body: ' + res.getBody());
             }
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Exception sending user update to Cal.com: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, 'Exception sending user update to freeCal: ' + e.getMessage());
         }
     }
 

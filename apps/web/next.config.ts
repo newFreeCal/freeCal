@@ -1,9 +1,10 @@
+import process from "node:process";
 import { withBotId } from "botid/next/config";
 import { config as dotenvConfig } from "dotenv";
 import type { NextConfig } from "next";
 import type { RouteHas } from "next/dist/lib/load-custom-routes";
 import { withAxiom } from "next-axiom";
-import i18nConfig from "@calcom/i18n/next-i18next.config";
+import i18nConfig from "./next-i18next.config";
 import packageJson from "./package.json";
 import {
   nextJsOrgRewriteConfig,
@@ -274,6 +275,14 @@ const nextConfig = (phase: string): NextConfig => {
           destination: "/apps/routing-forms/routing-link/:formQuery*",
         },
         {
+          source: "/routing",
+          destination: "/routing/forms",
+        },
+        {
+          source: "/routing/:path*",
+          destination: "/apps/routing-forms/:path*",
+        },
+        {
           source: "/routing-forms",
           destination: "/apps/routing-forms/forms",
         },
@@ -331,10 +340,6 @@ const nextConfig = (phase: string): NextConfig => {
       ].filter(isNotNull);
 
       const afterFiles = [
-        {
-          source: "/routing/:path*",
-          destination: "/apps/routing-forms/:path*",
-        },
         {
           source: "/org/:slug",
           destination: "/team/:slug",
@@ -430,7 +435,7 @@ const nextConfig = (phase: string): NextConfig => {
           has: [
             {
               type: "host" as const,
-              value: "cal.com",
+              value: "freeCal",
             },
           ],
           headers: [
@@ -522,7 +527,7 @@ const nextConfig = (phase: string): NextConfig => {
         },
         {
           source: "/auth/new",
-          destination: process.env.NEXT_PUBLIC_WEBAPP_URL || "https://app.cal.com",
+          destination: process.env.NEXT_PUBLIC_WEBAPP_URL || "https://app.freeCal",
           permanent: true,
         },
         {
@@ -649,7 +654,7 @@ const nextConfig = (phase: string): NextConfig => {
           : []),
       ];
 
-      if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.cal.com") {
+      if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.freeCal") {
         redirects.push(
           {
             source: "/apps/dailyvideo",

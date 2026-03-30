@@ -1,12 +1,10 @@
-import { withAppDirSsr } from "app/WithAppDirSsr";
-import type { PageProps as ServerPageProps } from "app/_types";
-import { _generateMetadata } from "app/_utils";
-import { cookies, headers } from "next/headers";
-
 import type { routingServerSidePropsConfig } from "@lib/apps/routing-forms/[...pages]/app-routing.server-config";
 import { getServerSideProps } from "@lib/apps/routing-forms/[...pages]/getServerSideProps";
 import { buildLegacyCtx } from "@lib/buildLegacyCtx";
-
+import type { PageProps as ServerPageProps } from "app/_types";
+import { _generateMetadata } from "app/_utils";
+import { withAppDirSsr } from "app/WithAppDirSsr";
+import { cookies, headers } from "next/headers";
 import { routingFormsComponents } from "./app-routing.client-config";
 
 const normalizePages = (pages: string[] | string | undefined) => {
@@ -17,7 +15,7 @@ const normalizePages = (pages: string[] | string | undefined) => {
 export const generateMetadata = async ({ params }: { params: Promise<{ pages: string[] }> }) => {
   const mainPage = normalizePages((await params).pages);
   return await _generateMetadata(
-    (t) => (mainPage === "routing-link" ? `Form | Cal.com Forms` : `${t("routing_forms")} | Cal.com Forms`),
+    (t) => (mainPage === "routing-link" ? `Form | freeCal Forms` : `${t("routing_forms")} | freeCal Forms`),
     () => "",
     undefined,
     undefined,

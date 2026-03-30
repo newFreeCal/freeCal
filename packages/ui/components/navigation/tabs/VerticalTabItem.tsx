@@ -1,18 +1,17 @@
-import Link from "next/link";
-import { Fragment } from "react";
-import posthog from "posthog-js";
-
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { useUrlMatchesCurrentUrl } from "@calcom/lib/hooks/useUrlMatchesCurrentUrl";
 import classNames from "@calcom/ui/classNames";
-
-import { Icon } from "../../icon";
+import Link from "next/link";
+import posthog from "posthog-js";
+import { Fragment } from "react";
 import type { IconName } from "../../icon";
+import { Icon } from "../../icon";
 
 export type VerticalTabItemProps = {
   name: string;
   info?: string;
   icon?: IconName;
+  CustomIcon?: React.ReactNode;
   disabled?: boolean;
   children?: VerticalTabItemProps[];
   textClassNames?: string;
@@ -76,13 +75,14 @@ const VerticalTabItem = ({
             )}
             data-testid={`vertical-tab-${props["data-testid"]}`}
             aria-current={isCurrent ? "page" : undefined}>
-            {props.icon && (
-              <Icon
-                name={props.icon}
-                className={classNames("me-2 h-4 w-4", props.iconClassName)}
-                data-testid="icon-component"
-              />
-            )}
+            {props.CustomIcon ||
+              (props.icon && (
+                <Icon
+                  name={props.icon}
+                  className={classNames("me-2 h-4 w-4", props.iconClassName)}
+                  data-testid="icon-component"
+                />
+              ))}
             <div className="h-fit min-w-0 flex-1">
               <span className="flex items-center gap-2">
                 {t(name)}

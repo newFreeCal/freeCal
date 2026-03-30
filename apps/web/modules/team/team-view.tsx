@@ -1,31 +1,27 @@
 "use client";
 
-// This route is reachable by
-// 1. /team/[slug]
-// 2. / (when on org domain e.g. http://calcom.cal.com/. This is through a rewrite from next.config.js)
-// Also the getServerSideProps and default export are reused by
-// 1. org/[orgSlug]/team/[slug]
-// 2. org/[orgSlug]/[user]/[type]
-import classNames from "classnames";
-import Link from "next/link";
-
 import { sdkActionManager, useIsEmbed } from "@calcom/embed-core/embed-iframe";
-import EventTypeDescription from "@calcom/web/modules/event-types/components/EventTypeDescription";
 import { getOrgOrTeamAvatar } from "@calcom/lib/defaultAvatarImage";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { useRouterQuery } from "@calcom/lib/hooks/useRouterQuery";
 import useTheme from "@calcom/lib/hooks/useTheme";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
-import { UserAvatarGroup } from "@calcom/ui/components/avatar";
-import { Avatar } from "@calcom/ui/components/avatar";
+import { Avatar, UserAvatarGroup } from "@calcom/ui/components/avatar";
 import { Button } from "@calcom/ui/components/button";
 import { UnpublishedEntity } from "@calcom/ui/components/unpublished-entity";
-
+import EventTypeDescription from "@calcom/web/modules/event-types/components/EventTypeDescription";
+import Team from "@components/team/screens/Team";
 import { useToggleQuery } from "@lib/hooks/useToggleQuery";
 import type { getServerSideProps } from "@lib/team/[slug]/getServerSideProps";
 import type { inferSSRProps } from "@lib/types/inferSSRProps";
-
-import Team from "@components/team/screens/Team";
+// This route is reachable by
+// 1. /team/[slug]
+// 2. / (when on org domain e.g. http://calcom.freeCal/. This is through a rewrite from next.config.js)
+// Also the getServerSideProps and default export are reused by
+// 1. org/[orgSlug]/team/[slug]
+// 2. org/[orgSlug]/[user]/[type]
+import classNames from "classnames";
+import Link from "next/link";
 
 export type PageProps = inferSSRProps<typeof getServerSideProps>;
 function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
@@ -61,7 +57,7 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
 
   const EventTypes = ({ eventTypes }: { eventTypes: NonNullable<(typeof team)["eventTypes"]> }) => (
     <ul className="border-subtle rounded-md border">
-      {eventTypes.map((type, index) => (
+      {eventTypes.map((type: any, index: number) => (
         <li
           key={index}
           className={classNames(
@@ -101,9 +97,9 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
   const SubTeams = () =>
     team.children.length ? (
       <ul className="divide-subtle border-subtle bg-default static! w-full divide-y rounded-md border">
-        {team.children.map((ch, i) => {
+        {team.children.map((ch: any, i: number) => {
           const memberCount = team.members.filter(
-            (mem) => mem.subteams?.includes(ch.slug) && mem.accepted
+            (mem: any) => mem.subteams?.includes(ch.slug) && mem.accepted
           ).length;
           return (
             <li key={i} className="hover:bg-cal-muted w-full rounded-md transition">
@@ -122,7 +118,7 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
                   className="mr-6"
                   size="sm"
                   truncateAfter={4}
-                  users={team.members.filter((mem) => mem.subteams?.includes(ch.slug) && mem.accepted)}
+                  users={team.members.filter((mem: any) => mem.subteams?.includes(ch.slug) && mem.accepted)}
                 />
               </Link>
             </li>

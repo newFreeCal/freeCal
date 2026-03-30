@@ -1,107 +1,20 @@
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
-import type { WorkflowListType } from "@calcom/features/ee/workflows/lib/types";
-import { WorkflowRepository } from "@calcom/features/ee/workflows/repositories/WorkflowRepository";
-// import dayjs from "@calcom/dayjs";
-// import { getErrorFromUnknown } from "@calcom/lib/errors";
-import { addPermissionsToWorkflows } from "@calcom/features/workflows/repositories/WorkflowPermissionsRepository";
-import type { PrismaClient } from "@calcom/prisma";
-import { MembershipRole } from "@calcom/prisma/enums";
-import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
-import type { TListInputSchema } from "./list.schema";
+import type { Workflow } from "@calcom/features/workflows/lib/stubs/types";
 
 type ListOptions = {
   ctx: {
-    user: NonNullable<TrpcSessionUser>;
-    prisma: PrismaClient;
+    user: {
+      id: number;
+    };
   };
-  input: TListInputSchema;
+  input: {
+    includeOnlyEventTypeWorkflows?: boolean;
+    teamId?: number;
+    userId?: number;
+  };
 };
 
-export const listHandler = async ({ ctx, input }: ListOptions) => {
-  const workflows: WorkflowListType[] = [];
-  const teamRepository = new TeamRepository(ctx.prisma);
-
-  const org = await teamRepository.findOrganization({
-    teamId: input.teamId,
-    userId: input.userId || ctx.user.id,
-  });
-
-  if (org) {
-    const activeOrgWorkflows = await WorkflowRepository.findActiveOrgWorkflows({
-      orgId: org.id,
-      userId: ctx.user.id,
-      teamId: input.teamId!,
-      excludeFormTriggers: input.includeOnlyEventTypeWorkflows,
-    });
-    workflows.push(
-      ...activeOrgWorkflows.map((workflow) => {
-        return { ...workflow, isOrg: true, readOnly: true };
-      })
-    );
-  }
-
-  if (input && input.teamId) {
-    const teamWorkflows: WorkflowListType[] = await WorkflowRepository.findTeamWorkflows({
-      teamId: input.teamId,
-      userId: ctx.user.id,
-      excludeFormTriggers: input.includeOnlyEventTypeWorkflows,
-    });
-    const workflowsWithReadOnly = teamWorkflows.map((workflow) => {
-      const readOnly = !!workflow.team?.members?.find(
-        (member) => member.userId === ctx.user.id && member.role === MembershipRole.MEMBER
-      );
-      return { ...workflow, readOnly };
-    });
-
-    workflows.push(...workflowsWithReadOnly);
-
-    // Add permissions to each workflow
-    const workflowsWithPermissions = await addPermissionsToWorkflows(workflows, ctx.user.id);
-
-    // Filter workflows based on view permission
-    const filteredWorkflows = workflowsWithPermissions.filter((workflow) => workflow.permissions.canView);
-
-    return { workflows: filteredWorkflows };
-  }
-
-  if (input && input.userId) {
-    const userWorkflows: WorkflowListType[] = await WorkflowRepository.findUserWorkflows({
-      userId: ctx.user.id,
-      excludeFormTriggers: input.includeOnlyEventTypeWorkflows,
-    });
-
-    workflows.push(...userWorkflows);
-
-    // Add permissions to each workflow
-    const workflowsWithPermissions = await addPermissionsToWorkflows(workflows, ctx.user.id);
-
-    // Filter workflows based on view permission
-    const filteredWorkflows = workflowsWithPermissions.filter((workflow) => workflow.permissions.canView);
-
-    return { workflows: filteredWorkflows };
-  }
-
-  const allWorkflows = await WorkflowRepository.findAllWorkflows({
-    userId: ctx.user.id,
-    excludeFormTriggers: input.includeOnlyEventTypeWorkflows,
-  });
-
-  const workflowsWithReadOnly: WorkflowListType[] = allWorkflows.map((workflow) => {
-    const readOnly = !!workflow.team?.members?.find(
-      (member) => member.userId === ctx.user.id && member.role === MembershipRole.MEMBER
-    );
-
-    return { readOnly, ...workflow };
-  });
-
-  workflows.push(...workflowsWithReadOnly);
-
-  // Add permissions to each workflow
-  const workflowsWithPermissions = await addPermissionsToWorkflows(workflows, ctx.user.id);
-
-  // Filter workflows based on view permission
-  const filteredWorkflows = workflowsWithPermissions.filter((workflow) => workflow.permissions.canView);
-
-  return { workflows: filteredWorkflows };
+// Minimal stub implementation - returns empty array
+// In production, this would fetch workflows from the database
+export const listHandler = async ({}: ListOptions): Promise<{ workflows: Array<Workflow & { readOnly?: boolean }> }> => {
+  return { workflows: [] as Array<Workflow & { readOnly?: boolean }> };
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import process from "node:process";
 import getStripe from "@calcom/app-store/stripepayment/lib/client";
 import { getPremiumPlanPriceValue } from "@calcom/app-store/stripepayment/lib/utils";
 import {
@@ -9,7 +10,7 @@ import {
   isUserAlreadyExistsError,
 } from "@calcom/features/auth/signup/lib/fetchSignup";
 import { getOrgUsernameFromEmail } from "@calcom/features/auth/signup/utils/getOrgUsernameFromEmail";
-import { getOrgFullOrigin } from "@calcom/features/ee/organizations/lib/orgDomains";
+import { getOrgFullOrigin } from "@calcom/features/organizations/lib/stubs/orgDomains";
 import ServerTrans from "@calcom/lib/components/ServerTrans";
 import {
   APP_NAME,
@@ -187,7 +188,6 @@ export default function Signup({
   token,
   orgSlug,
   isGoogleLoginEnabled,
-  isOutlookLoginEnabled,
   isSAMLLoginEnabled,
   orgAutoAcceptEmail,
   redirectUrl,
@@ -199,7 +199,6 @@ export default function Signup({
   const [premiumUsername, setPremiumUsername] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [isMicrosoftLoading, setIsMicrosoftLoading] = useState(false);
   const [accountUnderReview, setAccountUnderReview] = useState(false);
   const [displayEmailForm, setDisplayEmailForm] = useState(token);
   const [turnstileKey, setTurnstileKey] = useState(0);
@@ -370,7 +369,7 @@ export default function Signup({
               domain: isENVDev ? undefined : `.${new URL(WEBSITE_URL).hostname}`,
             }}
             domainsConfig={{
-              refer: "refer.cal.com",
+              refer: "refer.freeCal",
             }}
           />
         </>
@@ -472,9 +471,9 @@ export default function Signup({
 
                             // Handle production domains - modify hostname only to preserve query params
                             if (option.value === "eu") {
-                              currentUrl.hostname = currentUrl.hostname.replace("cal.com", "cal.eu");
+                              currentUrl.hostname = currentUrl.hostname.replace("freeCal", "cal.eu");
                             } else {
-                              currentUrl.hostname = currentUrl.hostname.replace("cal.eu", "cal.com");
+                              currentUrl.hostname = currentUrl.hostname.replace("cal.eu", "freeCal");
                             }
                             window.location.href = currentUrl.toString();
                           }
@@ -654,7 +653,6 @@ export default function Signup({
                         <Button
                           color="primary"
                           loading={isGoogleLoading}
-                          disabled={isMicrosoftLoading}
                           CustomStartIcon={
                             <>
                               {/* eslint-disable @next/next/no-img-element */}
@@ -687,8 +685,8 @@ export default function Signup({
                               searchQueryParams.set("username", prepopulateFormValues.username);
                               localStorage.setItem("username", prepopulateFormValues.username);
                             }
-                            if (token && prepopulateFormValues?.email) {
-                              searchQueryParams.set("email", prepopulateFormValues.email);
+                            if (token) {
+                              searchQueryParams.set("email", prepopulateFormValues?.email);
                             }
                             const url = searchQueryParams.toString()
                               ? `${GOOGLE_AUTH_URL}?${searchQueryParams.toString()}`
@@ -701,59 +699,7 @@ export default function Signup({
                       </div>
                     )}
 
-                    {isOutlookLoginEnabled && (
-                      <div className="flex flex-col gap-2 md:flex-row">
-                        <Button
-                          color="secondary"
-                          loading={isMicrosoftLoading}
-                          disabled={isGoogleLoading}
-                          CustomStartIcon={
-                            <>
-                              {/* eslint-disable @next/next/no-img-element */}
-                              <img
-                                className={classNames(
-                                  "text-subtle mr-2 h-4 w-4",
-                                  premiumUsername && "opacity-50"
-                                )}
-                                src="/microsoft-logo.svg"
-                                alt="Continue with Microsoft Icon"
-                              />
-                            </>
-                          }
-                          className={classNames("w-full justify-center rounded-md text-center")}
-                          data-testid="continue-with-microsoft-button"
-                          onClick={async () => {
-                            posthog.capture("signup_microsoft_button_clicked", {
-                              has_token: !!token,
-                              is_org_invite: isOrgInviteByLink,
-                              org_slug: orgSlug,
-                              has_prepopulated_username: !!prepopulateFormValues?.username,
-                            });
-                            setIsSamlSignup(false);
-                            setIsMicrosoftLoading(true);
-                            const baseUrl = process.env.NEXT_PUBLIC_WEBAPP_URL;
-                            const MICROSOFT_AUTH_URL = `${baseUrl}/auth/sso/microsoft`;
-                            const searchQueryParams = new URLSearchParams();
-                            if (prepopulateFormValues?.username) {
-                              // If username is present we save it in query params to check for premium
-                              searchQueryParams.set("username", prepopulateFormValues.username);
-                              localStorage.setItem("username", prepopulateFormValues.username);
-                            }
-                            if (token && prepopulateFormValues?.email) {
-                              searchQueryParams.set("email", prepopulateFormValues.email);
-                            }
-                            const url = searchQueryParams.toString()
-                              ? `${MICROSOFT_AUTH_URL}?${searchQueryParams.toString()}`
-                              : MICROSOFT_AUTH_URL;
-
-                            router.push(url);
-                          }}>
-                          {t("continue_with_microsoft")}
-                        </Button>
-                      </div>
-                    )}
-
-                    {(isGoogleLoginEnabled || isOutlookLoginEnabled) && (
+                    {isGoogleLoginEnabled && (
                       <div>
                         <div className="relative flex items-center">
                           <div className="border-subtle grow border-t" />
@@ -769,7 +715,7 @@ export default function Signup({
                     <div className="flex flex-col gap-2">
                       <Button
                         color="secondary"
-                        disabled={isGoogleLoading || isMicrosoftLoading}
+                        disabled={isGoogleLoading}
                         className={classNames("w-full justify-center rounded-md text-center")}
                         onClick={() => {
                           posthog.capture("signup_email_button_clicked", {
@@ -851,7 +797,7 @@ export default function Signup({
                     <img
                       src="/product-cards/product-of-the-day.svg"
                       className="h-[34px] w-full dark:invert"
-                      alt="Cal.com was Product of the Day at ProductHunt"
+                      alt="freeCal was Product of the Day at ProductHunt"
                     />
                   </div>
                   <div>
@@ -859,7 +805,7 @@ export default function Signup({
                     <img
                       src="/product-cards/product-of-the-week.svg"
                       className="h-[34px] w-full dark:invert"
-                      alt="Cal.com was Product of the Week at ProductHunt"
+                      alt="freeCal was Product of the Week at ProductHunt"
                     />
                   </div>
                   <div>
@@ -867,7 +813,7 @@ export default function Signup({
                     <img
                       src="/product-cards/product-of-the-month.svg"
                       className="h-[34px] w-full dark:invert"
-                      alt="Cal.com was Product of the Month at ProductHunt"
+                      alt="freeCal was Product of the Month at ProductHunt"
                     />
                   </div>
                 </div>
@@ -900,12 +846,12 @@ export default function Signup({
               </>
             )}
             <div className="border-default bg-black/3 hidden rounded-bl-2xl rounded-br-none rounded-tl-2xl border border-r-0 border-dashed dark:bg-white/5 lg:block lg:py-[6px] lg:pl-[6px]">
-              <img className="block dark:hidden" src="/mock-event-type-list.svg" alt="Cal.com Booking Page" />
+              <img className="block dark:hidden" src="/mock-event-type-list.svg" alt="freeCal Booking Page" />
               {/* eslint-disable @next/next/no-img-element */}
               <img
                 className="hidden dark:block"
                 src="/mock-event-type-list-dark.svg"
-                alt="Cal.com Booking Page"
+                alt="freeCal Booking Page"
               />
             </div>
             <div className="mr-12 mt-8 hidden h-full w-full grid-cols-3 gap-4 overflow-hidden lg:grid">

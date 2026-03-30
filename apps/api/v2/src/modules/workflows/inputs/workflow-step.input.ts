@@ -1,8 +1,7 @@
+import { WorkflowActions, WorkflowTemplates } from "@calcom/platform-libraries";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsNumber, IsBoolean, IsString, ValidateNested, IsIn, IsOptional } from "class-validator";
-
-import { WorkflowActions, WorkflowTemplates } from "@calcom/platform-libraries";
+import { IsBoolean, IsIn, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 
 export const EMAIL_HOST = "email_host";
 export const EMAIL_ATTENDEE = "email_attendee";
@@ -89,7 +88,7 @@ export type RecipientType = (typeof RECIPIENT_TYPES)[number];
 export class BaseWorkflowMessageDto {
   @ApiProperty({
     description: "Subject of the message",
-    example: "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with Cal.com",
+    example: "Reminder: Your Meeting {EVENT_NAME} - {EVENT_DATE_ddd, MMM D, YYYY h:mma} with freeCal",
   })
   @IsString()
   subject!: string;
@@ -180,7 +179,7 @@ export class WorkflowEmailAddressStepDto extends BaseWorkflowStepDto {
     description: "Email address if recipient is EMAIL, required for action EMAIL_ADDRESS",
     example: "31214",
     externalDocs: {
-      url: "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-an-email-for-an-org-team",
+      url: "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-an-email-for-an-org-team",
     },
   })
   @IsNumber()
@@ -236,7 +235,7 @@ export class WorkflowPhoneWhatsAppNumberStepDto extends BaseWorkflowStepDto {
       "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
     example: "3243434",
     externalDocs: {
-      url: "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team",
+      url: "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team",
     },
   })
   @IsNumber()
@@ -262,7 +261,7 @@ export class WorkflowPhoneAttendeeStepDto extends BaseWorkflowStepDto {
       "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
     example: "3243434",
     externalDocs: {
-      url: "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team",
+      url: "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team",
     },
   })
   @ApiProperty({ description: "Message content for this step", type: TextWorkflowMessageDto })
@@ -294,7 +293,7 @@ export class WorkflowPhoneNumberStepDto extends BaseWorkflowStepDto {
       "Phone number if recipient is PHONE_NUMBER, required for actions SMS_NUMBER and WHATSAPP_NUMBER",
     example: "3243434",
     externalDocs: {
-      url: "https://cal.com/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team",
+      url: "https://freeCal/docs/api-reference/v2/organization-team-verified-resources/verify-a-phone-number-for-an-org-team",
     },
   })
   @IsNumber()

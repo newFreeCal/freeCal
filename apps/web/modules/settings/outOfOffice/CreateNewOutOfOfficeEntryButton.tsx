@@ -7,7 +7,6 @@ import { trpc } from "@calcom/trpc/react";
 import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 import type { ButtonProps } from "@calcom/ui/components/button";
 import { Button } from "@calcom/ui/components/button";
-
 import { OutOfOfficeTab } from "./OutOfOfficeToggleGroup";
 
 const CreateNewOutOfOfficeEntryButton = ({
@@ -22,7 +21,7 @@ const CreateNewOutOfOfficeEntryButton = ({
   const { t } = useLocale();
   const me = useMeQuery();
   const { data: orgData } = trpc.viewer.organizations.listCurrent.useQuery();
-  const isOrgAdminOrOwner = orgData && checkAdminOrOwner(orgData.user.role);
+  const isOrgAdminOrOwner = orgData?.user && checkAdminOrOwner(orgData.user.role);
   const hasTeamOOOAdminAccess = isOrgAdminOrOwner || me?.data?.canUpdateTeams;
 
   const params = useCompatSearchParams();

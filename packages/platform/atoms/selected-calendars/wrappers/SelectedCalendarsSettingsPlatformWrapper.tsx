@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { CALENDARS } from "@calcom/platform-constants";
 import { QueryCell } from "@calcom/trpc/components/QueryCell";
@@ -13,7 +11,7 @@ import { DisconnectIntegrationComponent } from "@calcom/ui/components/disconnect
 import { Dropdown, DropdownMenuContent, DropdownMenuTrigger } from "@calcom/ui/components/dropdown";
 import { Switch } from "@calcom/ui/components/form";
 import { List } from "@calcom/ui/components/list";
-
+import { useState } from "react";
 import * as Connect from "../../connect";
 import { AppleConnect } from "../../connect/apple/AppleConnect";
 import { useAddSelectedCalendar } from "../../hooks/calendars/useAddSelectedCalendar";
@@ -117,7 +115,7 @@ export const SelectedCalendarsSettingsPlatformWrapper = ({
                           shouldHighlight
                           slug={connectedCalendar.integration.slug}
                           title={connectedCalendar.integration.name}
-                          logo={`https://app.cal.com${connectedCalendar.integration.logo}`}
+                          logo={`https://app.freeCal${connectedCalendar.integration.logo}`}
                           description={
                             connectedCalendar.primary?.email ?? connectedCalendar.integration.description
                           }

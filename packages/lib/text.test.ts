@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import { truncate, truncateOnWord } from "./text";
 
 describe("Text util tests", () => {
@@ -99,9 +98,9 @@ describe("Text util tests", () => {
           expected: "The quick...",
         },
         {
-          input: "Cal.com is the scheduling infrastructure for everyone",
+          input: "freeCal is the scheduling infrastructure for everyone",
           maxLength: 14,
-          expected: "Cal.com is...",
+          expected: "freeCal is...",
         },
       ];
 
@@ -137,9 +136,9 @@ describe("Text util tests", () => {
           expected: "supercalif...",
         },
         {
-          input: "https://cal.com/pro/30min/extremely-long-url-without-any-spaces",
+          input: "https://freeCal/pro/30min/extremely-long-url-without-any-spaces",
           maxLength: 20,
-          expected: "https://cal.com/pro/...",
+          expected: "https://freeCal/pro/...",
         },
       ];
 

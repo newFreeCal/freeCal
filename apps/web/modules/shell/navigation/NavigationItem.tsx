@@ -1,19 +1,58 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import posthog from "posthog-js";
-import React, { Fragment, useState, useEffect } from "react";
-
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import useMediaQuery from "@calcom/lib/hooks/useMediaQuery";
 import { sessionStorage } from "@calcom/lib/webstorage";
 import classNames from "@calcom/ui/classNames";
 import { Badge } from "@calcom/ui/components/badge";
-import { Icon } from "@calcom/ui/components/icon";
-import type { IconName } from "@calcom/ui/components/icon";
 import { SkeletonText } from "@calcom/ui/components/skeleton";
 import { Tooltip } from "@calcom/ui/components/tooltip";
-
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import posthog from "posthog-js";
+import type React from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useShouldDisplayNavigationItem } from "./useShouldDisplayNavigationItem";
+
+const iconNames = {
+  apps: "custom:apps",
+  calendar: "custom:calendar",
+  clock: "glyphs-poly:clock",
+  building: "glyphs-poly:building",
+  users: "glyphs-poly:users",
+  "grid-3x3": "glyphs-poly:grid",
+  ellipsis: "glyphs-poly:ellipsis",
+  split: "glyphs-poly:arrows-split",
+  zap: "glyphs-poly:zap",
+  "chart-bar": "glyphs-poly:chart-bar",
+  "layout-dashboard": "glyphs-poly:layout-2",
+  terminal: "glyphs-poly:terminal",
+  atom: "glyphs-poly:bezier-hexagon",
+  "credit-card": "glyphs-poly:credit-card",
+  "external-link": "glyphs-poly:external-link",
+  copy: "glyphs-poly:copy",
+  gift: "glyphs-poly:gift",
+  lock: "glyphs-poly:lock",
+  settings: "glyphs-poly:cog",
+  "rotate-cw": "glyphs-poly:arrow-round",
+  "chevron-down": "custom:chevronDown",
+  "chevron-up": "glyphs-poly:chevron",
+  "arrow-right": "custom:arrowRight",
+  link: "glyphs-poly:link",
+  "grid-list": "glyphs-poly:grid-list",
+  "share-link": "glyphs-poly:arrow-external",
+};
+
+export function DynamicIcon({
+  name,
+  className,
+  size = 24,
+}: {
+  name: keyof typeof iconNames;
+  className?: string;
+  size?: number;
+}) {
+  return <Icon icon={iconNames[name]} width={size} height={size} className={className} />;
+}
 
 const usePersistedExpansionState = (itemName: string) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -47,7 +86,7 @@ export type NavigationItemType = {
   onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
   target?: HTMLAnchorElement["target"];
   badge?: React.ReactNode;
-  icon?: IconName;
+  icon?: keyof typeof iconNames;
   child?: NavigationItemType[];
   pro?: true;
   onlyMobile?: boolean;
@@ -168,16 +207,15 @@ export const NavigationItem: React.FC<{
             )}>
             {item.icon && (
               <div className="relative">
-                <Icon
+                <DynamicIcon
                   name={item.isLoading ? "rotate-cw" : item.icon}
                   className={classNames(
-                    "todesktop:!text-blue-500 h-4 w-4 shrink-0 lg:ltr:mr-2 lg:rtl:ml-2",
+                    "h-5 w-5 shrink-0 lg:ltr:mr-2 lg:rtl:ml-2",
                     item.isLoading && "animate-spin"
                   )}
-                  aria-hidden="true"
                 />
                 {shouldShowChevron && (
-                  <Icon
+                  <DynamicIcon
                     name={isExpanded ? "chevron-up" : "chevron-down"}
                     className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-subtle p-0.5 lg:hidden"
                   />
@@ -195,9 +233,9 @@ export const NavigationItem: React.FC<{
               <SkeletonText className="h-[20px] w-full" />
             )}
             {shouldShowChevron && (
-              <Icon
+              <DynamicIcon
                 name={isExpanded ? "chevron-up" : "chevron-down"}
-                className="ml-auto hidden h-4 w-4 lg:block"
+                className="ml-auto hidden h-5 w-5 lg:block"
               />
             )}
           </button>
@@ -226,14 +264,12 @@ export const NavigationItem: React.FC<{
             )}
             aria-current={current ? "page" : undefined}>
             {item.icon && (
-              <Icon
+              <DynamicIcon
                 name={item.isLoading ? "rotate-cw" : item.icon}
                 className={classNames(
-                  "todesktop:!text-blue-500 h-4 w-4 shrink-0 aria-[aria-current='page']:text-inherit lg:ltr:mr-2 lg:rtl:ml-2",
+                  "h-5 w-5 shrink-0 aria-[aria-current='page']:text-inherit lg:ltr:mr-2 lg:rtl:ml-2",
                   item.isLoading && "animate-spin"
                 )}
-                aria-hidden="true"
-                aria-current={current ? "page" : undefined}
               />
             )}
             {isLocaleReady ? (
@@ -288,11 +324,9 @@ export const MobileNavigationItem: React.FC<{
       aria-current={current ? "page" : undefined}>
       {item.badge && <div className="absolute right-1 top-1">{item.badge}</div>}
       {item.icon && (
-        <Icon
+        <DynamicIcon
           name={item.icon}
           className="[&[aria-current='page']]:text-emphasis  mx-auto mb-1 block h-5 w-5 shrink-0 text-center text-inherit"
-          aria-hidden="true"
-          aria-current={current ? "page" : undefined}
         />
       )}
       {isLocaleReady ? <span className="block truncate">{t(item.name)}</span> : <SkeletonText />}
@@ -317,12 +351,10 @@ export const MobileNavigationMoreItem: React.FC<{
   const itemContent = (
     <>
       <span className="text-default flex items-center font-semibold ">
-        {item.icon && (
-          <Icon name={item.icon} className="h-5 w-5 shrink-0 ltr:mr-3 rtl:ml-3" aria-hidden="true" />
-        )}
+        {item.icon && <DynamicIcon name={item.icon} className="h-5 w-5 shrink-0 ltr:mr-3 rtl:ml-3" />}
         {isLocaleReady ? t(item.name) : <SkeletonText />}
       </span>
-      {!isActionItem && <Icon name="arrow-right" className="text-subtle h-5 w-5" />}
+      {!isActionItem && <DynamicIcon name="arrow-right" className="text-subtle h-5 w-5" />}
     </>
   );
 
@@ -334,12 +366,10 @@ export const MobileNavigationMoreItem: React.FC<{
             onClick={() => setIsExpanded(!isExpanded)}
             className="hover:bg-subtle flex w-full items-center justify-between p-5 text-left transition">
             <span className="text-default flex items-center font-semibold">
-              {item.icon && (
-                <Icon name={item.icon} className="h-5 w-5 shrink-0 ltr:mr-3 rtl:ml-3" aria-hidden="true" />
-              )}
+              {item.icon && <DynamicIcon name={item.icon} className="h-5 w-5 shrink-0 ltr:mr-3 rtl:ml-3" />}
               {isLocaleReady ? t(item.name) : <SkeletonText />}
             </span>
-            <Icon name={isExpanded ? "chevron-up" : "chevron-down"} className="text-subtle h-5 w-5" />
+            <DynamicIcon name={isExpanded ? "chevron-up" : "chevron-down"} className="text-subtle h-5 w-5" />
           </button>
           <div
             className={classNames(

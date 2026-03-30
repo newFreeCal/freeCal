@@ -6,7 +6,7 @@ Webhooks offer a great way to automate the flow with other apps when invitees sc
 
 <iframe style={{ width:"100%",maxWidth:"560px" }} height="315" src="https://www.youtube.com/embed/Yy9me5E09LA?si=_2Mz-CKL2ajsFivd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
 
-The webhook subscription allows you to listen to specific trigger events, such as when a booking has been scheduled, for example. You can always listen to the webhook by providing a custom subscriber URL with your own development work. However, if you wish to trigger automations without any development work, you can use the integration with Zapier which connects Cal.com to your apps.
+The webhook subscription allows you to listen to specific trigger events, such as when a booking has been scheduled, for example. You can always listen to the webhook by providing a custom subscriber URL with your own development work. However, if you wish to trigger automations without any development work, you can use the integration with Zapier which connects freeCal to your apps.
 
 <Note>
   Please note that the webhooks can be associated with user as well as individual event types, including team event types.
@@ -794,16 +794,16 @@ Select a version and trigger event to view the example payload:
             "iCalSequence": 0,
             "uid": "unique-booking-uid",
             "bookingId": 100,
-            
+
             "eventTitle": "Consultation Session",
             "eventDescription": "",
             "requiresConfirmation": false,
             "price": 1000,
             "currency": "USD",
             "length": 30,
-            
+
             "paymentId": 500,
-            
+
             "status": "ACCEPTED",
             "metadata": {}
           }
@@ -1118,7 +1118,7 @@ Select a version and trigger event to view the example payload:
             ],
             "uid": "REDACTED_UID_STRING",
             "customReplyToEmail": null,
-            "downloadLink": "https://app.cal.com/api/video/recording?token=REDACTED_TOKEN"
+            "downloadLink": "https://app.freeCal/api/video/recording?token=REDACTED_TOKEN"
           }
         }
         ```
@@ -1175,7 +1175,7 @@ Select a version and trigger event to view the example payload:
                   "link": "https://s3.amazonaws.com/path/to/transcript.vtt?REDACTED_AWS_SIGNATURE"
                 }
               ],
-              "recording": "https://app.cal.com/api/video/recording?token=REDACTED_TOKEN"
+              "recording": "https://app.freeCal/api/video/recording?token=REDACTED_TOKEN"
             }
           }
         }

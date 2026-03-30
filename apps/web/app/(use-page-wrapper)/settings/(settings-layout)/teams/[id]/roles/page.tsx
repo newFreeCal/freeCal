@@ -1,5 +1,4 @@
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { getTeamWithMembers } from "@calcom/features/ee/teams/lib/queries";
 import type { AppFlags } from "@calcom/features/flags/config";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { PermissionMapper } from "@calcom/features/pbac/domain/mappers/PermissionMapper";
@@ -7,8 +6,8 @@ import { CrudAction, Resource, Scope } from "@calcom/features/pbac/domain/types/
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { RoleService } from "@calcom/features/pbac/services/role.service";
 import SettingsHeader from "@calcom/features/settings/appDir/SettingsHeader";
+import { getTeamWithMembers } from "@calcom/features/teams/lib/stubs/queries";
 import { prisma } from "@calcom/prisma";
-import { FullscreenUpgradeBannerForRolesAndPermissions } from "@calcom/web/modules/billing/upgrade-banners/FullscreenUpgradeBannerForRolesAndPermissions";
 import { buildLegacyRequest } from "@lib/buildLegacyCtx";
 import { _generateMetadata, getTranslate } from "app/_utils";
 import { unstable_cache } from "next/cache";
@@ -108,9 +107,9 @@ const Page = async ({
     return notFound();
   }
 
-  // Standalone teams (not in an org): show upgrade banner
+  // Check if team has a parent (is a sub-team)
   if (!team.parent?.id) {
-    return <FullscreenUpgradeBannerForRolesAndPermissions />;
+    return notFound();
   }
 
   // Check if parent team has PBAC feature enabled

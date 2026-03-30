@@ -12,7 +12,7 @@ You need a PostgresDB database hosted somewhere. [Supabase](https://supabase.com
 
 ## One Click Deployment
 
-<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2Fcal.com%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=cal.com&build-command=cd%20../..%20%26%26%20yarn%20build&root-directory=apps%2Fweb%2F" target="_blank">
+<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcalcom%2FfreeCal&env=DATABASE_URL,NEXT_PUBLIC_WEBAPP_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,CRON_API_KEY,CALENDSO_ENCRYPTION_KEY&envDescription=See%20all%20available%20env%20vars&envLink=https%3A%2F%2Fgithub.com%2Fcalcom%2FfreeCal%2Fblob%2Fmain%2F.env.example&project-name=cal&repo-name=freeCal&build-command=cd%20../..%20%26%26%20yarn%20build&root-directory=apps%2Fweb%2F" target="_blank">
 <img src="https://vercel.com/button" noZoom alt="Deploy with Vercel" />
 </a>
 
@@ -23,13 +23,13 @@ You need a PostgresDB database hosted somewhere. [Supabase](https://supabase.com
 <Steps>
     <Step title="Fork and clone the repository">
         ```
-            git clone https://github.com/\<your-fork\>/cal.com.git
+            git clone https://github.com/\<your-fork\>/freeCal.git
         ```
     </Step>
     <Step title="Set environment variables">
-        Copy the `.env.example` file in `apps/web`, rename it to `.env` and fill it with your settings ([See manual setup](https://github.com/calcom/cal.com#manual-setup) and [Obtaining the Google API Credentials](https://github.com/calcom/cal.com#obtaining-the-google-api-credentials))
+        Copy the `.env.example` file in `apps/web`, rename it to `.env` and fill it with your settings ([See manual setup](https://github.com/calcom/freeCal#manual-setup) and [Obtaining the Google API Credentials](https://github.com/calcom/freeCal#obtaining-the-google-api-credentials))
     </Step>
-    <Step title="Install packages with yarn">        
+    <Step title="Install packages with yarn">
         ```
         yarn install
         ```
@@ -59,7 +59,7 @@ You need a PostgresDB database hosted somewhere. [Supabase](https://supabase.com
 </Steps>
 
 <Warning>
-Sometimes, yarn install might fail during deployment on Vercel, in which case, you can use ```YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install``` as the install command instead. 
+Sometimes, yarn install might fail during deployment on Vercel, in which case, you can use ```YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install``` as the install command instead.
 </Warning>
 
 #### Deployment

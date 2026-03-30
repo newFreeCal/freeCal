@@ -5,8 +5,7 @@ import { RoleManagementFactory } from "@calcom/features/pbac/services/role-manag
 import SettingsHeader from "@calcom/features/settings/appDir/SettingsHeader";
 import { prisma } from "@calcom/prisma";
 import { viewerTeamsRouter } from "@calcom/trpc/server/routers/viewer/teams/_router";
-import { WideUpgradeBannerForMembers } from "@calcom/web/modules/billing/upgrade-banners/WideUpgradeBannerForMembers";
-import { TeamMembersView } from "@calcom/web/modules/ee/teams/views/team-members-view";
+import { TeamMembersView } from "@calcom/web/modules/teams/views/team-members-view";
 import { buildLegacyRequest } from "@lib/buildLegacyCtx";
 import { createRouterCaller } from "app/_trpc/context";
 import { _generateMetadata, getTranslate } from "app/_utils";
@@ -72,7 +71,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   // Get organization ID (either the team's parent or the team itself if it's an org)
-  const organizationId = team.parentId || teamId;
+  const organizationId = team.parent?.id || teamId;
 
   // Load PBAC roles and attributes if available
   const [roles, attributes, memberPermissions] = await Promise.all([
@@ -98,11 +97,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <SettingsHeader title={t("team_members")} description={t("members_team_description")}>
-      {!team.parentId && (
-        <div className="mb-4">
-          <WideUpgradeBannerForMembers />
-        </div>
-      )}
       <TeamMembersView
         team={team}
         facetedTeamValues={facetedTeamValues}

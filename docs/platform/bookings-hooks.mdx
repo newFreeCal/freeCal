@@ -3,13 +3,13 @@ title: Bookings hooks
 description:  Overview of all the hooks associated with bookings.
 ---
 
-Optimize your development workflow using our custom hooks. Our custom hooks are designed to simplify the integration of the Cal.com API into your products. With these hooks, you can effortlessly manage state, handle side effects, and optimize performance, allowing you to focus on building exceptional user experiences without the hassle of complex API interactions. 
+Optimize your development workflow using our custom hooks. Our custom hooks are designed to simplify the integration of the freeCal API into your products. With these hooks, you can effortlessly manage state, handle side effects, and optimize performance, allowing you to focus on building exceptional user experiences without the hassle of complex API interactions.
 
 Below is a list of hooks you can find that are associated with bookings. Notably, all of these hooks are available only for platform customers.
 
 ### 1. get all bookings - `useBookings`
 
-The useBookings hook returns an array of bookings that belong to the user whose access token is passed to [\<CalProvider\>](https://cal.com/docs/platform/atoms/cal-provider). You can filter bookings by status, event type id, attendee email etc. - [see this class](https://github.com/calcom/cal.com/blob/307b2946a2cb6dcdb32dbee6c4f448e8a01c4285/packages/platform/types/bookings/2024-08-13/inputs/get-bookings.input.ts#L32) for filters you can pass to the hook.
+The useBookings hook returns an array of bookings that belong to the user whose access token is passed to [\<CalProvider\>](https://freeCal/docs/platform/atoms/cal-provider). You can filter bookings by status, event type id, attendee email etc. - [see this class](https://github.com/calcom/freeCal/blob/307b2946a2cb6dcdb32dbee6c4f448e8a01c4285/packages/platform/types/bookings/2024-08-13/inputs/get-bookings.input.ts#L32) for filters you can pass to the hook.
 
 Below code snippet shows how to use the useBookings hook to fetch bookings for a specific user using take, skip and status filters:
 
@@ -43,7 +43,7 @@ export default function Bookings() {
 
 ### 2. get specific booking - `useBooking`
 
-The useBooking hook returns detailed information about a single booking. Simply provide the booking's unique identifier ***(bookingUid)*** as a parameter to fetch its associated data. 
+The useBooking hook returns detailed information about a single booking. Simply provide the booking's unique identifier ***(bookingUid)*** as a parameter to fetch its associated data.
 
 Below code snippet shows how to use the useBooking hook to fetch a specific booking for a user.
 
@@ -102,11 +102,11 @@ export default function CancelBooking() {
 
 ### 4. get all bookings of a user as an organization admin - `useOrganizationUserBookings`
 
-The useBookings hooks returns bookings of user associated with the access token passed to the [\<CalProvider\>](https://cal.com/docs/platform/atoms/cal-provider), but this hook
+The useBookings hooks returns bookings of user associated with the access token passed to the [\<CalProvider\>](https://freeCal/docs/platform/atoms/cal-provider), but this hook
 allows organization admins to fetch bookings of any organization member.
 
-The access token passed to the [\<CalProvider\>](https://cal.com/docs/platform/atoms/cal-provider) must belong
-to a managed user who is an organization admin. That means you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [organizations memberships endpoint](https://cal.com/docs/api-reference/v2/orgs-memberships/create-a-membership). Example body:
+The access token passed to the [\<CalProvider\>](https://freeCal/docs/platform/atoms/cal-provider) must belong
+to a managed user who is an organization admin. That means you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [organizations memberships endpoint](https://freeCal/docs/api-reference/v2/orgs-memberships/create-a-membership). Example body:
 ```js
 {
   "userId": 1006,
@@ -114,8 +114,8 @@ to a managed user who is an organization admin. That means you have to create a 
   "role": "ADMIN"
 }
 ```
-then you have to pass the access token of this managed user to the [CalProvider](https://cal.com/docs/platform/atoms/cal-provider) to then finally be able to
-use the "useOrganizationUserBookings" by specifying "userId" which will return an array of that user's bookings. You can filter bookings by status, event type id, attendee email etc. - [see this class](https://github.com/calcom/cal.com/blob/307b2946a2cb6dcdb32dbee6c4f448e8a01c4285/packages/platform/types/bookings/2024-08-13/inputs/get-bookings.input.ts#L32) for filters you can pass to the hook.
+then you have to pass the access token of this managed user to the [CalProvider](https://freeCal/docs/platform/atoms/cal-provider) to then finally be able to
+use the "useOrganizationUserBookings" by specifying "userId" which will return an array of that user's bookings. You can filter bookings by status, event type id, attendee email etc. - [see this class](https://github.com/calcom/freeCal/blob/307b2946a2cb6dcdb32dbee6c4f448e8a01c4285/packages/platform/types/bookings/2024-08-13/inputs/get-bookings.input.ts#L32) for filters you can pass to the hook.
 
 Below code snippet shows how to use the "useOrganizationUserBookings" hook to fetch bookings for a specific user using take, skip and status filters:
 
@@ -151,11 +151,11 @@ export default function Bookings() {
 
 ### 5. get all organization bookings as an organization admin - `useOrganizationBookings`
 
-The useBookings hooks returns bookings of user associated with the access token passed to the [\<CalProvider\>](https://cal.com/docs/platform/atoms/cal-provider), but this hook
+The useBookings hooks returns bookings of user associated with the access token passed to the [\<CalProvider\>](https://freeCal/docs/platform/atoms/cal-provider), but this hook
 allows organization admins to fetch bookings of the whole organization.
 
-The access token passed to the [\<CalProvider\>](https://cal.com/docs/platform/atoms/cal-provider) must belong
-to a managed user who is an organization admin. That means you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [organizations memberships endpoint](https://cal.com/docs/api-reference/v2/orgs-memberships/create-a-membership). Example body:
+The access token passed to the [\<CalProvider\>](https://freeCal/docs/platform/atoms/cal-provider) must belong
+to a managed user who is an organization admin. That means you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [organizations memberships endpoint](https://freeCal/docs/api-reference/v2/orgs-memberships/create-a-membership). Example body:
 ```js
 {
   "userId": 1006,
@@ -163,8 +163,8 @@ to a managed user who is an organization admin. That means you have to create a 
   "role": "ADMIN"
 }
 ```
-then you have to pass the access token of this managed user to the [CalProvider](https://cal.com/docs/platform/atoms/cal-provider) to then finally be able to
-use the "useOrganizationBookings" which will return an array of organization bookings. You can filter bookings by status, user ids, event type ids, attendee email etc. - [see this class](https://github.com/calcom/cal.com/blob/307b2946a2cb6dcdb32dbee6c4f448e8a01c4285/packages/platform/types/bookings/2024-08-13/inputs/get-bookings.input.ts#L32) for filters you can pass to the hook + you can use "userIds" filter like in example below.
+then you have to pass the access token of this managed user to the [CalProvider](https://freeCal/docs/platform/atoms/cal-provider) to then finally be able to
+use the "useOrganizationBookings" which will return an array of organization bookings. You can filter bookings by status, user ids, event type ids, attendee email etc. - [see this class](https://github.com/calcom/freeCal/blob/307b2946a2cb6dcdb32dbee6c4f448e8a01c4285/packages/platform/types/bookings/2024-08-13/inputs/get-bookings.input.ts#L32) for filters you can pass to the hook + you can use "userIds" filter like in example below.
 
 Below code snippet shows how to use the "useOrganizationBookings" hook to fetch bookings for a specific users using take, skip and userIds filters:
 

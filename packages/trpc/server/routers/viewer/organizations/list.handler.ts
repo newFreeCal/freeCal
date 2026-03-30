@@ -1,8 +1,8 @@
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
+import { getOrganizationRepository } from "@calcom/features/organizations/lib/stubs/OrganizationRepository";
 import prisma from "@calcom/prisma";
+import type { MembershipRole } from "@calcom/prisma/enums";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 import { TRPCError } from "@trpc/server";
 
 type ListHandlerInput = {
@@ -11,8 +11,25 @@ type ListHandlerInput = {
   };
 };
 
+type CurrentOrg = {
+  id: number;
+  slug: string;
+  name: string | null;
+  isPlatform: boolean;
+  isPrivate?: boolean;
+  canAdminImpersonate?: boolean;
+  user?: {
+    role: MembershipRole;
+    accepted?: boolean;
+  };
+  organizationSettings?: any;
+  requestedSlug?: string;
+};
+
 // This functionality is essentially the same as the teams/list.handler.ts but it's easier for SOC to have it in a separate file.
-export const listHandler = async ({ ctx }: ListHandlerInput) => {
+export const listHandler = async ({
+  ctx,
+}: ListHandlerInput): Promise<(CurrentOrg & { features: { delegationCredential: boolean } }) | null> => {
   const organizationId = ctx.user.organization?.id ?? ctx.user.profiles[0]?.organizationId;
   if (!organizationId) {
     throw new TRPCError({ code: "BAD_REQUEST", message: "You do not belong to an organization" });
@@ -25,7 +42,7 @@ export const listHandler = async ({ ctx }: ListHandlerInput) => {
   });
 
   if (!currentOrg) {
-    return currentOrg;
+    return null;
   }
 
   const featureRepo = new FeaturesRepository(prisma);

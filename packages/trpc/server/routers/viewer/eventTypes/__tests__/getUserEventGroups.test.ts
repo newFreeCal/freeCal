@@ -1,10 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-
 import type { PrismaClient } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getUserEventGroups } from "../getUserEventGroups.handler";
 
 // Mock dependencies
@@ -44,12 +41,12 @@ vi.mock("../teamAccessUseCase", () => ({
   }),
 }));
 
-vi.mock("@calcom/features/ee/organizations/lib/getBookerUrlServer", () => ({
-  getBookerBaseUrl: vi.fn().mockResolvedValue("https://cal.com"),
+vi.mock("@calcom/features/organizations/lib/stubs/getBookerUrlServer", () => ({
+  getBookerBaseUrl: vi.fn().mockResolvedValue("https://freeCal"),
 }));
 
-vi.mock("@calcom/features/ee/organizations/lib/getBookerBaseUrlSync", () => ({
-  getBookerBaseUrlSync: vi.fn().mockReturnValue("https://cal.com"),
+vi.mock("@calcom/features/organizations/lib/stubs/getBookerBaseUrlSync", () => ({
+  getBookerBaseUrlSync: vi.fn().mockReturnValue("https://freeCal"),
 }));
 
 vi.mock("@calcom/lib/getAvatarUrl", () => ({

@@ -3,7 +3,7 @@ title: "Setting up mailtrap for email testing"
 ---
 Mailtrap is a versatile tool for testing email notifications without sending them to the real users of your application. It's especially useful for testing and ensuring that the system sends out accurate emails in a secure and efficient manner.
 
-To set up Mailtrap for email testing on Cal.com, follow these steps:
+To set up Mailtrap for email testing on freeCal, follow these steps:
 
 <Steps>
     <Step title="Create an Account">
@@ -12,10 +12,10 @@ To set up Mailtrap for email testing on Cal.com, follow these steps:
     <Step title="Create an Inbox">
         After registering, create an inbox for your application. Each inbox comes with its SMTP and POP3 credentials, which can be used to send and retrieve emails.
     </Step>
-    <Step title="Configure the Cal.com env file">
+    <Step title="Configure the freeCal env file">
         Change the tab to nodemailer and copy the information to `.env`:
         ```
-        EMAIL_SERVER_HOST='sandbox.smtp.mailtrap.io' 
+        EMAIL_SERVER_HOST='sandbox.smtp.mailtrap.io'
         EMAIL_SERVER_PORT=2525
         EMAIL_SERVER_USER='XXX'
         EMAIL_SERVER_PASSWORD='XXX'
@@ -25,7 +25,7 @@ To set up Mailtrap for email testing on Cal.com, follow these steps:
     <Step title="Set EMAIL_FROM">
         Set the `EMAIL_FROM` environment variable in the `.env` file. For example:
         ```
-        EMAIL_FROM='notifications@yourselfhostedcal.com'
+        EMAIL_FROM='notifications@yourselfhostedfreeCal'
         ```
     </Step>
     <Step title="Send Test Emails">

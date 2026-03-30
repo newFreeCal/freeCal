@@ -1,10 +1,8 @@
 // Figure out why routing-forms/env.d.ts doesn't work
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
 import type { Operators, Types } from "./BasicConfig";
 import BasicConfig from "./BasicConfig";
-import { ConfigFor } from "./types";
 import type { WidgetsWithoutFactory } from "./types";
+import { ConfigFor } from "./types";
 
 function getWidgetsWithoutFactory(_configFor: ConfigFor) {
   const widgetsWithoutFactory: WidgetsWithoutFactory = {
@@ -76,7 +74,7 @@ function getSettingsWithoutRenderFns() {
     ...BasicConfig.settings,
     groupActionsPosition: "bottomCenter" as const,
     // TODO: Test it and then enable it. It might allow us to show better error messages.
-    // But it doesn't detect every kind of error like an operator gone missing e.g. what happened in https://github.com/calcom/cal.com/pull/17102
+    // But it doesn't detect every kind of error like an operator gone missing e.g. what happened in https://github.com/calcom/freeCal/pull/17102
     showErrorMessage: true,
     // Disable groups
     maxNesting: 1,

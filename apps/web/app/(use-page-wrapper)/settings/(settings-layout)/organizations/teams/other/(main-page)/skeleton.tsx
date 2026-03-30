@@ -2,8 +2,7 @@
 
 import SettingsHeader from "@calcom/features/settings/appDir/SettingsHeader";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
-
-import SkeletonLoaderTeamList from "~/ee/teams/components/SkeletonloaderTeamList";
+import SkeletonLoaderTeamList from "~/teams/components/SkeletonloaderTeamList";
 
 export function SkeletonLoader() {
   const { t } = useLocale();

@@ -1,29 +1,34 @@
 import { Logger } from "@nestjs/common";
 import { ApiProperty, ApiProperty as DocsProperty } from "@nestjs/swagger";
 import { plainToInstance } from "class-transformer";
-import { IsBoolean, IsOptional, IsString } from "class-validator";
 import type { ValidationOptions, ValidatorConstraintInterface } from "class-validator";
-import { registerDecorator, validate, ValidatorConstraint } from "class-validator";
-
 import {
-  PhoneFieldInput_2024_06_14,
+  IsBoolean,
+  IsOptional,
+  IsString,
+  registerDecorator,
+  ValidatorConstraint,
+  validate,
+} from "class-validator";
+import {
   AddressFieldInput_2024_06_14,
-  TextFieldInput_2024_06_14,
-  NumberFieldInput_2024_06_14,
-  TextAreaFieldInput_2024_06_14,
-  SelectFieldInput_2024_06_14,
-  MultiSelectFieldInput_2024_06_14,
-  MultiEmailFieldInput_2024_06_14,
-  CheckboxGroupFieldInput_2024_06_14,
-  RadioGroupFieldInput_2024_06_14,
   BooleanFieldInput_2024_06_14,
-  NameDefaultFieldInput_2024_06_14,
+  CheckboxGroupFieldInput_2024_06_14,
   EmailDefaultFieldInput_2024_06_14,
   GuestsDefaultFieldInput_2024_06_14,
+  MultiEmailFieldInput_2024_06_14,
+  MultiSelectFieldInput_2024_06_14,
+  NameDefaultFieldInput_2024_06_14,
   NotesDefaultFieldInput_2024_06_14,
+  NumberFieldInput_2024_06_14,
+  PhoneFieldInput_2024_06_14,
+  RadioGroupFieldInput_2024_06_14,
   RescheduleReasonDefaultFieldInput_2024_06_14,
-  TitleDefaultFieldInput_2024_06_14,
+  SelectFieldInput_2024_06_14,
   SplitNameDefaultFieldInput_2024_06_14,
+  TextAreaFieldInput_2024_06_14,
+  TextFieldInput_2024_06_14,
+  TitleDefaultFieldInput_2024_06_14,
   UrlFieldInput_2024_06_14,
 } from "../inputs";
 
@@ -42,11 +47,7 @@ export class NameDefaultFieldOutput_2024_06_14 extends NameDefaultFieldInput_202
   })
   slug!: "name";
 
-  @IsString()
-  @DocsProperty({
-    default: "name",
-  })
-  type!: "name";
+  declare type: "name";
 
   @IsBoolean()
   @DocsProperty()
@@ -72,7 +73,7 @@ export class SplitNameDefaultFieldOutput_2024_06_14 extends SplitNameDefaultFiel
   @DocsProperty({
     default: "splitName",
   })
-  type!: "splitName";
+  declare type: "splitName";
 }
 
 export class EmailDefaultFieldOutput_2024_06_14 extends EmailDefaultFieldInput_2024_06_14 {
@@ -90,22 +91,9 @@ export class EmailDefaultFieldOutput_2024_06_14 extends EmailDefaultFieldInput_2
   })
   slug!: "email";
 
-  @IsString()
-  @DocsProperty({
-    default: "email",
-  })
-  type!: "email";
-
-  @IsBoolean()
-  @DocsProperty()
-  required!: boolean;
-
-  @IsBoolean()
-  @DocsProperty({
-    description: `If true show under event type settings but don't show this booking field in the Booker. If false show in both. Can only be hidden
-      for organization team event types when also providing attendee phone number booking field.`,
-  })
-  hidden!: boolean;
+  declare type: "email";
+  declare required: boolean;
+  declare hidden: boolean;
 }
 
 export class LocationDefaultFieldOutput_2024_06_14 {
@@ -157,11 +145,7 @@ export class RescheduleReasonDefaultFieldOutput_2024_06_14 extends RescheduleRea
   })
   isDefault = true;
 
-  @IsString()
-  @DocsProperty({
-    default: "rescheduleReason",
-  })
-  slug!: "rescheduleReason";
+  declare slug: "rescheduleReason";
 
   @IsString()
   @DocsProperty({
@@ -169,36 +153,11 @@ export class RescheduleReasonDefaultFieldOutput_2024_06_14 extends RescheduleRea
   })
   type!: "textarea";
 
-  @IsBoolean()
-  @DocsProperty()
-  required!: boolean;
-
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
-
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  label?: string;
-
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  placeholder?: string;
-
-  @IsBoolean()
-  @ApiProperty({
-    type: Boolean,
-    description:
-      "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.\
-      For example, if URL contains query parameter `&rescheduleReason=busy`,\
-      the reschedule reason field will be prefilled with this value and disabled.",
-  })
-  disableOnPrefill!: boolean;
+  declare required: boolean;
+  declare hidden: boolean;
+  declare label: string;
+  declare placeholder: string;
+  declare disableOnPrefill: boolean;
 }
 
 export class TitleDefaultFieldOutput_2024_06_14 extends TitleDefaultFieldInput_2024_06_14 {
@@ -210,48 +169,19 @@ export class TitleDefaultFieldOutput_2024_06_14 extends TitleDefaultFieldInput_2
   })
   isDefault = true;
 
-  @IsString()
-  @DocsProperty({
-    default: "title",
-  })
-  slug!: "title";
+  declare slug: "title";
 
-  @IsString()
-  @DocsProperty({
-    default: "text",
-  })
-  type!: "text";
+  declare type: "text";
 
-  @IsBoolean()
-  @DocsProperty()
-  required!: boolean;
+  declare required: boolean;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  label?: string;
+  declare label?: string;
 
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  placeholder?: string;
+  declare placeholder?: string;
 
-  @IsBoolean()
-  @ApiProperty({
-    type: Boolean,
-    description:
-      "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.\
-      For example, if URL contains query parameter `&title=masterclass`,\
-      the title field will be prefilled with this value and disabled.",
-  })
-  disableOnPrefill!: boolean;
+  declare disableOnPrefill: boolean;
 }
 
 export class NotesDefaultFieldOutput_2024_06_14 extends NotesDefaultFieldInput_2024_06_14 {
@@ -263,48 +193,19 @@ export class NotesDefaultFieldOutput_2024_06_14 extends NotesDefaultFieldInput_2
   })
   isDefault = true;
 
-  @IsString()
-  @DocsProperty({
-    default: "notes",
-  })
-  slug!: "notes";
+  declare slug: "notes";
 
-  @IsString()
-  @DocsProperty({
-    default: "textarea",
-  })
-  type!: "textarea";
+  declare type: "textarea";
 
-  @IsBoolean()
-  @DocsProperty()
-  required!: boolean;
+  declare required: boolean;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  label?: string;
+  declare label?: string;
 
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  placeholder?: string;
+  declare placeholder?: string;
 
-  @IsBoolean()
-  @ApiProperty({
-    type: Boolean,
-    description:
-      "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.\
-      For example, if URL contains query parameter `&notes=hello`,\
-      the notes field will be prefilled with this value and disabled.",
-  })
-  disableOnPrefill!: boolean;
+  declare disableOnPrefill: boolean;
 }
 
 export class GuestsDefaultFieldOutput_2024_06_14 extends GuestsDefaultFieldInput_2024_06_14 {
@@ -316,48 +217,19 @@ export class GuestsDefaultFieldOutput_2024_06_14 extends GuestsDefaultFieldInput
   })
   isDefault = true;
 
-  @IsString()
-  @DocsProperty({
-    default: "guests",
-  })
-  slug!: "guests";
+  declare slug: "guests";
 
-  @IsString()
-  @DocsProperty({
-    default: "multiemail",
-  })
-  type!: "multiemail";
+  declare type: "multiemail";
 
-  @IsBoolean()
-  @DocsProperty()
-  required!: boolean;
+  declare required: boolean;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  label?: string;
+  declare label?: string;
 
-  @IsString()
-  @IsOptional()
-  @DocsProperty()
-  placeholder?: string;
+  declare placeholder?: string;
 
-  @IsBoolean()
-  @ApiProperty({
-    type: Boolean,
-    description:
-      "Disable this booking field if the URL contains query parameter with key equal to the slug and prefill it with the provided value.\
-      For example, if URL contains query parameter `&guests=lauris@cal.com`,\
-      the guests field will be prefilled with this value and disabled.",
-  })
-  disableOnPrefill!: boolean;
+  declare disableOnPrefill: boolean;
 }
 
 export class PhoneDefaultFieldOutput_2024_06_14 {
@@ -422,12 +294,7 @@ export class PhoneFieldOutput_2024_06_14 extends PhoneFieldInput_2024_06_14 {
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class AddressFieldOutput_2024_06_14 extends AddressFieldInput_2024_06_14 {
@@ -439,12 +306,7 @@ export class AddressFieldOutput_2024_06_14 extends AddressFieldInput_2024_06_14 
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class TextFieldOutput_2024_06_14 extends TextFieldInput_2024_06_14 {
@@ -456,12 +318,7 @@ export class TextFieldOutput_2024_06_14 extends TextFieldInput_2024_06_14 {
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class UrlFieldOutput_2024_06_14 extends UrlFieldInput_2024_06_14 {
@@ -473,12 +330,7 @@ export class UrlFieldOutput_2024_06_14 extends UrlFieldInput_2024_06_14 {
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class NumberFieldOutput_2024_06_14 extends NumberFieldInput_2024_06_14 {
@@ -490,12 +342,7 @@ export class NumberFieldOutput_2024_06_14 extends NumberFieldInput_2024_06_14 {
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class TextAreaFieldOutput_2024_06_14 extends TextAreaFieldInput_2024_06_14 {
@@ -507,12 +354,7 @@ export class TextAreaFieldOutput_2024_06_14 extends TextAreaFieldInput_2024_06_1
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class SelectFieldOutput_2024_06_14 extends SelectFieldInput_2024_06_14 {
@@ -524,12 +366,7 @@ export class SelectFieldOutput_2024_06_14 extends SelectFieldInput_2024_06_14 {
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class MultiSelectFieldOutput_2024_06_14 extends MultiSelectFieldInput_2024_06_14 {
@@ -541,12 +378,7 @@ export class MultiSelectFieldOutput_2024_06_14 extends MultiSelectFieldInput_202
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class MultiEmailFieldOutput_2024_06_14 extends MultiEmailFieldInput_2024_06_14 {
@@ -558,12 +390,7 @@ export class MultiEmailFieldOutput_2024_06_14 extends MultiEmailFieldInput_2024_
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class CheckboxGroupFieldOutput_2024_06_14 extends CheckboxGroupFieldInput_2024_06_14 {
@@ -575,12 +402,7 @@ export class CheckboxGroupFieldOutput_2024_06_14 extends CheckboxGroupFieldInput
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class RadioGroupFieldOutput_2024_06_14 extends RadioGroupFieldInput_2024_06_14 {
@@ -592,12 +414,7 @@ export class RadioGroupFieldOutput_2024_06_14 extends RadioGroupFieldInput_2024_
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class BooleanFieldOutput_2024_06_14 extends BooleanFieldInput_2024_06_14 {
@@ -609,12 +426,7 @@ export class BooleanFieldOutput_2024_06_14 extends BooleanFieldInput_2024_06_14 
   })
   isDefault = false;
 
-  @IsBoolean()
-  @DocsProperty({
-    description:
-      "If true show under event type settings but don't show this booking field in the Booker. If false show in both.",
-  })
-  hidden!: boolean;
+  declare hidden: boolean;
 }
 
 export class OutputUnknownBookingField_2024_06_14 {
@@ -767,7 +579,7 @@ class OutputBookingFieldValidator_2024_06_14 implements ValidatorConstraintInter
 
 export function ValidateOutputBookingFields_2024_06_14(validationOptions?: ValidationOptions) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function (object: any, propertyName: string) {
+  return (object: any, propertyName: string) => {
     registerDecorator({
       name: "ValidateOutputBookingFields",
       target: object.constructor,

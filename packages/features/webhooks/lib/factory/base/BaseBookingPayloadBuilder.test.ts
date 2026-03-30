@@ -1,7 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
 import { BookingStatus, WebhookTriggerEvents } from "@calcom/prisma/enums";
 import type { CalendarEvent } from "@calcom/types/Calendar";
-
+import { describe, expect, it, vi } from "vitest";
 import type { BookingWebhookEventDTO, EventTypeInfo } from "../../dto/types";
 import { BookingPayloadBuilder } from "../versioned/v2021-10-20/BookingPayloadBuilder";
 
@@ -41,7 +40,7 @@ describe("BookingPayloadBuilder (v2021-10-20)", () => {
         language: { locale: "en" },
       },
     ],
-    location: "https://cal.com/video/123",
+    location: "https://freeCal/video/123",
     uid: "booking-uid-123",
     customInputs: {},
     responses: {},

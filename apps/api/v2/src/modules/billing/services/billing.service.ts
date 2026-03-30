@@ -39,7 +39,7 @@ export class BillingService implements IBillingService, OnModuleDestroy {
     private readonly platformBillingTasker: PlatformBillingTasker,
     @InjectQueue(BILLING_QUEUE) private readonly billingQueue: Queue
   ) {
-    this.webAppUrl = this.configService.get("app.baseUrl", { infer: true }) ?? "https://app.cal.com";
+    this.webAppUrl = this.configService.get("app.baseUrl", { infer: true }) ?? "https://app.freeCal";
   }
 
   async getBillingData(teamId: number): Promise<BillingData> {
@@ -349,7 +349,11 @@ export class BillingService implements IBillingService, OnModuleDestroy {
     }
 
     const activeUserBillingService = getActiveUserBillingService();
-    return activeUserBillingService.getActiveUserCountForPlatformOrg(subscriptionId, invoiceStart, invoiceEnd);
+    return activeUserBillingService.getActiveUserCountForPlatformOrg(
+      subscriptionId,
+      invoiceStart,
+      invoiceEnd
+    );
   }
 
   async updateStripeSubscriptionForTeam(teamId: number, plan: PlatformPlan): Promise<void> {

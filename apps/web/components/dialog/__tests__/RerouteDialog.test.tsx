@@ -1,12 +1,10 @@
+import { RouteActionType } from "@calcom/app-store/routing-forms/zod";
+import { BookingStatus, SchedulingType } from "@calcom/prisma/enums";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { vi } from "vitest";
-
-import { RouteActionType } from "@calcom/app-store/routing-forms/zod";
-import { BookingStatus, SchedulingType } from "@calcom/prisma/enums";
-
 import { RerouteDialog } from "../RerouteDialog";
 
 const mockRouter = {
@@ -85,7 +83,7 @@ vi.mock("@calcom/lib/hooks/useLocale", () => ({
   useLocale: vi.fn(() => ({ t: (key: string) => key })),
 }));
 
-vi.mock("@calcom/features/ee/organizations/context/provider", () => ({
+vi.mock("@calcom/features/organizations/lib/stubs/context/provider", () => ({
   useOrgBranding: vi.fn(() => null),
 }));
 
@@ -361,7 +359,7 @@ describe("RerouteDialog", () => {
 
     expectEventTypeInfoInCurrentRouting({
       eventTypeText: "team/test-team/test-event",
-      eventTypeHref: "https://cal.com/team/test-team/test-event",
+      eventTypeHref: "https://freeCal/team/test-team/test-event",
     });
     expectOrganizerInfoInCurrentRouting({
       organizerText: "user@example.com",
@@ -429,7 +427,7 @@ describe("RerouteDialog", () => {
 
       expectEventTypeInfoInReroutePreview({
         eventTypeText: "team/test-team/new-test-event",
-        eventTypeHref: "https://cal.com/team/test-team/new-test-event",
+        eventTypeHref: "https://freeCal/team/test-team/new-test-event",
       });
       await expect(screen.getByText("verify_new_route")).toBeEnabled();
       expect(screen.getByTestId("reroute-preview-hosts")).toHaveTextContent("reroute_preview_possible_host");
@@ -462,7 +460,7 @@ describe("RerouteDialog", () => {
         });
 
         const rescheduleTabUrl = mockOpen.mock.calls[0][0] as unknown as string;
-        const rescheduleTabUrlObject = new URL(rescheduleTabUrl, "http://mockcal.com");
+        const rescheduleTabUrlObject = new URL(rescheduleTabUrl, "http://mockfreeCal");
         expect(Object.fromEntries(rescheduleTabUrlObject.searchParams.entries())).toEqual(
           expect.objectContaining({
             rescheduleUid: mockBooking.uid,

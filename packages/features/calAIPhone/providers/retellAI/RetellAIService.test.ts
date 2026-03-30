@@ -1,13 +1,11 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
-
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { AgentRepositoryInterface } from "../interfaces/AgentRepositoryInterface";
 import type { PhoneNumberRepositoryInterface } from "../interfaces/PhoneNumberRepositoryInterface";
 import type { TransactionInterface } from "../interfaces/TransactionInterface";
-import { RetellAIService } from "./RetellAIService";
 import { RetellAIError } from "./errors";
+import { RetellAIService } from "./RetellAIService";
 import { createMockDatabaseAgent } from "./services/__tests__/test-utils";
 import type { RetellAIRepository } from "./types";
 
@@ -19,7 +17,7 @@ vi.mock("@calcom/app-store/stripepayment/lib/utils", () => ({
   getPhoneNumberMonthlyPriceId: vi.fn(),
 }));
 
-vi.mock("@calcom/features/ee/payments/server/stripe", () => ({
+vi.mock("@calcom/features/payments/lib/stubs/stripe", () => ({
   default: {
     checkout: {
       sessions: {
@@ -49,7 +47,7 @@ vi.mock("@calcom/lib/checkRateLimitAndThrowError", () => ({
   checkRateLimitAndThrowError: vi.fn(),
 }));
 
-vi.mock("@calcom/ee/api-keys/lib/apiKeys", () => ({
+vi.mock("@calcom/features/api-keys/lib/stubs/apiKeys", () => ({
   generateUniqueAPIKey: vi.fn().mockReturnValue(["hashed-key", "api-key"]),
 }));
 
@@ -187,7 +185,7 @@ describe("RetellAIService", () => {
       );
     });
 
-    it("should include Cal.com tools when API key and eventTypeId are provided", async () => {
+    it("should include freeCal tools when API key and eventTypeId are provided", async () => {
       const mockLLM = { llm_id: "llm-123" };
       const mockAgent = { agent_id: "agent-123" };
 
@@ -645,7 +643,7 @@ describe("RetellAIService", () => {
     it("should generate checkout session successfully", async () => {
       const { getStripeCustomerIdFromUserId } = await import("@calcom/app-store/stripepayment/lib/customer");
       const { getPhoneNumberMonthlyPriceId } = await import("@calcom/app-store/stripepayment/lib/utils");
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
 
       (getPhoneNumberMonthlyPriceId as any).mockReturnValue("price_123");
       (getStripeCustomerIdFromUserId as any).mockResolvedValue("cus_123");
@@ -679,7 +677,7 @@ describe("RetellAIService", () => {
 
   describe("cancelPhoneNumberSubscription", () => {
     it("should cancel subscription successfully", async () => {
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
 
       mockPhoneNumberRepository.findByIdAndUserId.mockResolvedValue({
         id: 1,

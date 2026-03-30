@@ -1,9 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-
-import { subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
+import { subdomainSuffix } from "@calcom/features/organizations/lib/stubs/orgDomains";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Avatar } from "@calcom/ui/components/avatar";
 import { Badge } from "@calcom/ui/components/badge";
@@ -16,9 +13,11 @@ import {
   RotateCwIcon,
   UsersIcon,
 } from "@coss/ui/icons";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 type OnboardingMigrateTeamsBrowserViewProps = {
-  teams: Array<{ id: number; name: string; slug: string | null; isSelected?: boolean }>;
+  teams: Array<{ id: number; name: string | null; slug: string | null; isSelected?: boolean }>;
   organizationLogo?: string | null;
   organizationName?: string;
   organizationBanner?: string | null;
@@ -138,11 +137,13 @@ export const OnboardingMigrateTeamsBrowserView = ({
                       <div className="flex items-center gap-3 px-5 py-4">
                         <Avatar
                           size="md"
-                          alt={team.name}
+                          alt={team.name || ""}
                           className="border-default border-2"
                           fallback={
                             <div className="bg-emphasis flex h-full w-full items-center justify-center text-white">
-                              <span className="text-sm font-semibold uppercase">{team.name.charAt(0)}</span>
+                              <span className="text-sm font-semibold uppercase">
+                                {(team.name || "").charAt(0)}
+                              </span>
                             </div>
                           }
                         />

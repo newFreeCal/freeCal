@@ -1,15 +1,13 @@
-import type { TFunction } from "i18next";
-import { describe, expect, test, vi, beforeEach } from "vitest";
-
-import { sendSmsOrFallbackEmail } from "@calcom/features/ee/workflows/lib/reminders/messageDispatcher";
+import { sendSmsOrFallbackEmail } from "@calcom/features/workflows/lib/stubs/lib/reminders/messageDispatcher.ts";
 import { checkSMSRateLimit } from "@calcom/lib/smsLockState";
 import prisma from "@calcom/prisma";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
-
+import type { TFunction } from "i18next";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import SMSManager from "../sms-manager";
 
 vi.mock("@calcom/lib/smsLockState");
-vi.mock("@calcom/features/ee/workflows/lib/reminders/messageDispatcher");
+vi.mock("@calcom/features/workflows/lib/stubs/lib/reminders/messageDispatcher.ts");
 vi.mock("@calcom/prisma", () => {
   const mockObj = {
     team: {
@@ -75,7 +73,7 @@ describe("SMSManager", () => {
     attendees: [
       {
         name: "John Doe",
-        email: "john@sms.cal.com",
+        email: "john@sms.freeCal",
         phoneNumber: "+1234567890",
         timeZone: "America/New_York",
         language: { translate: mockTranslate, locale: "en" },
@@ -116,7 +114,7 @@ describe("SMSManager", () => {
       expect(sendSmsOrFallbackEmail).not.toHaveBeenCalled();
     });
 
-    test("should not send SMS if email is not @sms.cal.com", async () => {
+    test("should not send SMS if email is not @sms.freeCal", async () => {
       const smsManager = new TestSMSManager(mockCalEvent);
       const attendeeWithRegularEmail: TestAttendee = {
         ...mockCalEvent.attendees[0],
@@ -131,7 +129,7 @@ describe("SMSManager", () => {
       expect(sendSmsOrFallbackEmail).not.toHaveBeenCalled();
     });
 
-    test("should send SMS only when both phone number and @sms.cal.com email are present", async () => {
+    test("should send SMS only when both phone number and @sms.freeCal email are present", async () => {
       const smsManager = new TestSMSManager(mockCalEvent);
       const mockSmsResponse = { success: true };
 
@@ -200,7 +198,7 @@ describe("SMSManager", () => {
   });
 
   describe("sendSMSToAttendees", () => {
-    test("should send SMS only to attendees with phone number and @sms.cal.com email", async () => {
+    test("should send SMS only to attendees with phone number and @sms.freeCal email", async () => {
       const smsManager = new TestSMSManager(mockCalEvent);
       const mockSmsResponse = { success: true };
 
@@ -209,7 +207,7 @@ describe("SMSManager", () => {
 
       await smsManager.sendSMSToAttendees();
 
-      // Only one attendee has both phone number and @sms.cal.com email
+      // Only one attendee has both phone number and @sms.freeCal email
       expect(sendSmsOrFallbackEmail).toHaveBeenCalledTimes(1);
     });
 

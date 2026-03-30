@@ -1,25 +1,24 @@
-import { isValidPhoneNumber } from "libphonenumber-js/max";
-import { v4 as uuidv4 } from "uuid";
-
-import { PrismaApiKeyRepository } from "@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository";
+import process from "node:process";
+import { PrismaApiKeyRepository } from "@calcom/features/api-keys/lib/stubs/repositories/PrismaApiKeyRepository";
 import { EventTypeRepository } from "@calcom/features/eventtypes/repositories/eventTypeRepository";
-import { RETELL_AI_TEST_MODE, RETELL_AI_TEST_EVENT_TYPE_MAP } from "@calcom/lib/constants";
+import { RETELL_AI_TEST_EVENT_TYPE_MAP, RETELL_AI_TEST_MODE } from "@calcom/lib/constants";
 import { timeZoneSchema } from "@calcom/lib/dayjs/timeZone.schema";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
-
+import { isValidPhoneNumber } from "libphonenumber-js/max";
+import { v4 as uuidv4 } from "uuid";
 import type {
-  AIPhoneServiceUpdateModelParams,
-  AIPhoneServiceProviderType,
   AIPhoneServiceAgent,
   AIPhoneServiceModel,
+  AIPhoneServiceProviderType,
   AIPhoneServiceTools,
+  AIPhoneServiceUpdateModelParams,
 } from "../../../interfaces/AIPhoneService.interface";
 import type { AgentRepositoryInterface } from "../../interfaces/AgentRepositoryInterface";
 import type { PhoneNumberRepositoryInterface } from "../../interfaces/PhoneNumberRepositoryInterface";
 import { RetellAIServiceMapper } from "../RetellAIServiceMapper";
-import type { RetellAIRepository, Language } from "../types";
+import type { Language, RetellAIRepository } from "../types";
 import { getLlmId } from "../types";
 import { replaceEventTypePlaceholders } from "../utils/promptUtils";
 
@@ -143,7 +142,7 @@ export class AgentService {
           name: `check_availability_${eventTypeId}`,
           type: "check_availability_cal",
           event_type_id: eventTypeId,
-          cal_api_key: apiKey,
+          cal_api_key: typeof apiKey === "string" ? apiKey : apiKey.key,
           timezone: data.timeZone,
         });
       }
@@ -152,7 +151,7 @@ export class AgentService {
           name: `book_appointment_${eventTypeId}`,
           type: "book_appointment_cal",
           event_type_id: eventTypeId,
-          cal_api_key: apiKey,
+          cal_api_key: typeof apiKey === "string" ? apiKey : apiKey.key,
           timezone: data.timeZone,
         });
       }

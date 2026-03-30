@@ -1,9 +1,9 @@
 import { sendAttendeeRequestEmailAndSMS, sendOrganizerRequestEmail } from "@calcom/emails/email-manager";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
 import { getWebhookProducer } from "@calcom/features/di/webhooks/containers/webhook";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-import type { Workflow } from "@calcom/features/ee/workflows/lib/types";
+import { getAllWorkflowsFromEventType } from "@calcom/features/workflows/lib/stubs/getAllWorkflowsFromEventType";
+import type { Workflow } from "@calcom/features/workflows/lib/stubs/types";
+import { WorkflowService } from "@calcom/features/workflows/lib/stubs/WorkflowService";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
@@ -93,14 +93,14 @@ export async function handleBookingRequested(args: {
       }
     }
 
-    const workflows = await getAllWorkflowsFromEventType(booking.eventType, booking.userId);
+    const workflows = booking.userId ? await getAllWorkflowsFromEventType(booking.eventType, booking.userId) : [];
     if (workflows.length > 0) {
-      const creditService = new CreditService();
+      const creditService = new StubCreditService();
 
       await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
         workflows,
         smsReminderNumber: booking.smsReminderNumber,
-        hideBranding: evt.hideBranding,
+        hideBranding: !!booking.eventType?.owner?.hideBranding,
         calendarEvent: {
           ...evt,
           bookerUrl: evt.bookerUrl as string,

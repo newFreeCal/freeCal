@@ -1,12 +1,10 @@
-import { describe, test, expect, vi, beforeEach } from "vitest";
-
 import { checkIfEmailIsBlockedInWatchlistController } from "@calcom/features/watchlist/operations/check-if-email-in-watchlist.controller";
 import { hashPassword } from "@calcom/lib/auth/hashPassword";
 import { CreationSource } from "@calcom/prisma/enums";
-
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { UserCreationService } from "./userCreationService";
 
-vi.mock("@calcom/i18n/server", () => {
+vi.mock("@calcom/lib/server/i18n", () => {
   return {
     getTranslation: async (locale: string, namespace: string) => {
       const t = (key: string) => key;

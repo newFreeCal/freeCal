@@ -99,7 +99,7 @@ describe("Trigger Host No Show:", () => {
       const { dateString: plus1DateString } = getDate({ dateIncrement: 1 });
 
       const uidOfBooking = "n5Wv3eHgconAED2j4gcVhP";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
       const subscriberUrl = "http://my-webhook.example.com";
       const bookingStartTime = `${plus1DateString}T05:00:00.000Z`;
 
@@ -251,7 +251,7 @@ describe("Trigger Host No Show:", () => {
       const { dateString: plus1DateString } = getDate({ dateIncrement: 1 });
 
       const uidOfBooking = "n5Wv3eHgconAED2j4gcVhP";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
       const subscriberUrl = "http://my-webhook.example.com";
       const bookingStartTime = `${plus1DateString}T05:00:00.000Z`;
 
@@ -429,12 +429,12 @@ describe("Trigger Host No Show:", () => {
       const { dateString: plus1DateString } = getDate({ dateIncrement: 1 });
 
       const uidOfBooking = "j5Wv3eHgconAED2j4gcVhP";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
       const subscriberUrl = "http://my-webhook.example.com";
       const bookingStartTime = `${plus1DateString}T05:00:00.000Z`;
 
       const newUidOfBooking = "k5Wv3eHgconAED2j4gcVhP";
-      const newiCalUID = `${newUidOfBooking}@Cal.com`;
+      const newiCalUID = `${newUidOfBooking}@freeCal`;
       const newBookingStartTime = `${plus1DateString}T05:15:00.000Z`;
 
       await createBookingScenario(
@@ -647,7 +647,7 @@ describe("Trigger Host No Show:", () => {
       const { dateString: plus1DateString } = getDate({ dateIncrement: 1 });
 
       const uidOfBooking = "n5Wv3eHgconAED2j4gcVhP";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
       const subscriberUrl = "http://my-webhook.example.com";
       const bookingStartTime = `${plus1DateString}T05:00:00.000Z`;
 
@@ -812,7 +812,7 @@ describe("Trigger Host No Show:", () => {
       const { dateString: plus1DateString } = getDate({ dateIncrement: 1 });
 
       const uidOfBooking = "n5Wv3eHgconAED2j4gcVhP";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
       const subscriberUrl = "http://my-webhook.example.com";
       const bookingStartTime = `${plus1DateString}T05:00:00.000Z`;
 

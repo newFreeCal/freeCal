@@ -1,15 +1,14 @@
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import type { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import { sendGenericWebhookPayload } from "@calcom/features/webhooks/lib/sendPayload";
 import { ErrorWithCode } from "@calcom/lib/errors";
 import logger from "@calcom/lib/logger";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import { Prisma } from "@calcom/prisma/client";
-import { WebhookTriggerEvents } from "@calcom/prisma/enums";
 import type { WrongAssignmentReportStatus } from "@calcom/prisma/enums";
-
-import { BookingRepository } from "../repositories/BookingRepository";
-import { WrongAssignmentReportRepository } from "../repositories/WrongAssignmentReportRepository";
+import { WebhookTriggerEvents } from "@calcom/prisma/enums";
+import type { BookingRepository } from "../repositories/BookingRepository";
+import type { WrongAssignmentReportRepository } from "../repositories/WrongAssignmentReportRepository";
 
 export interface IWrongAssignmentReportServiceDeps {
   bookingRepo: BookingRepository;
@@ -123,7 +122,9 @@ export class WrongAssignmentReportService {
 
   private async sendWebhooks(params: {
     booking: NonNullable<
-      Awaited<ReturnType<BookingRepository["findByUidIncludeUserAndEventTypeTeamAndAttendeesAndAssignmentReason"]>>
+      Awaited<
+        ReturnType<BookingRepository["findByUidIncludeUserAndEventTypeTeamAndAttendeesAndAssignmentReason"]>
+      >
     >;
     teamId: number | null;
     orgId: number | null;

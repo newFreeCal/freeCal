@@ -1,16 +1,16 @@
+import process from "node:process";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
+import { PrismaAgentRepository } from "@calcom/features/calAIPhone/repositories/PrismaAgentRepository";
+import { PrismaPhoneNumberRepository } from "@calcom/features/calAIPhone/repositories/PrismaPhoneNumberRepository";
+import logger from "@calcom/lib/logger";
+import { safeStringify } from "@calcom/lib/safeStringify";
+import { prisma } from "@calcom/prisma";
+import { CreditUsageType } from "@calcom/prisma/enums";
 import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Retell } from "retell-sdk";
 import { z } from "zod";
-
-import { PrismaAgentRepository } from "@calcom/features/calAIPhone/repositories/PrismaAgentRepository";
-import { PrismaPhoneNumberRepository } from "@calcom/features/calAIPhone/repositories/PrismaPhoneNumberRepository";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import logger from "@calcom/lib/logger";
-import { safeStringify } from "@calcom/lib/safeStringify";
-import { prisma } from "@calcom/prisma";
-import { CreditUsageType } from "@calcom/prisma/enums";
 
 const log = logger.getSubLogger({ prefix: ["retell-ai-webhook"] });
 
@@ -87,7 +87,7 @@ async function chargeCreditsForCall({
   // Convert to cents and round up to ensure we don't undercharge
   const creditsToDeduct = Math.ceil(calculatedCallCost * 100);
 
-  const creditService = new CreditService();
+  const creditService = new StubCreditService();
 
   try {
     await creditService.chargeCredits({

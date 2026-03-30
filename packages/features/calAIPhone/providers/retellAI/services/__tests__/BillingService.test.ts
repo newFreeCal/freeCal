@@ -1,17 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-
 import { CHECKOUT_SESSION_TYPES } from "@calcom/features/ee/billing/constants";
 import { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
-
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { BillingService } from "../BillingService";
-import { setupBasicMocks, createMockPhoneNumberRecord, TestError } from "./test-utils";
+import { createMockPhoneNumberRecord, setupBasicMocks, TestError } from "./test-utils";
 
 vi.mock("@calcom/lib/constants", () => ({
-  WEBAPP_URL: "https://app.cal.com",
+  WEBAPP_URL: "https://app.freeCal",
   IS_PRODUCTION: false,
 }));
 
-vi.mock("@calcom/features/ee/payments/server/stripe", () => ({
+vi.mock("@calcom/features/payments/lib/stubs/stripe", () => ({
   default: {
     checkout: {
       sessions: {
@@ -42,7 +40,7 @@ describe("BillingService", () => {
     vi.clearAllMocks();
     mocks = setupBasicMocks();
 
-    const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+    const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
     stripe.checkout.sessions.create.mockResolvedValue({
       url: "https://checkout.stripe.com/session-123",
     });
@@ -72,13 +70,13 @@ describe("BillingService", () => {
         message: "Payment required to purchase phone number",
       });
 
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       expect(stripe.checkout.sessions.create).toHaveBeenCalledWith(
         expect.objectContaining({
           mode: "subscription",
           success_url:
-            "https://app.cal.com/api/calAIPhone/subscription/success?session_id={CHECKOUT_SESSION_ID}",
-          cancel_url: "https://app.cal.com/workflows/workflow-123",
+            "https://app.freeCal/api/calAIPhone/subscription/success?session_id={CHECKOUT_SESSION_ID}",
+          cancel_url: "https://app.freeCal/workflows/workflow-123",
           metadata: expect.objectContaining({
             userId: "1",
             workflowId: "workflow-123",
@@ -95,7 +93,7 @@ describe("BillingService", () => {
         agentId: "agent-123",
       });
 
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       expect(stripe.checkout.sessions.create).toHaveBeenCalledWith(
         expect.objectContaining({
           metadata: expect.objectContaining({
@@ -109,7 +107,7 @@ describe("BillingService", () => {
     });
 
     it("should throw error if checkout session creation fails", async () => {
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       stripe.checkout.sessions.create.mockResolvedValue({ url: null });
 
       await expect(service.generatePhoneNumberCheckoutSession(validCheckoutData)).rejects.toThrow(
@@ -163,7 +161,7 @@ describe("BillingService", () => {
         message: "Phone number subscription cancelled successfully.",
       });
 
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       expect(stripe.subscriptions.cancel).toHaveBeenCalledWith("sub_123");
       expect(mocks.mockPhoneNumberRepository.updateSubscriptionStatus).toHaveBeenCalledTimes(2);
       expect(mocks.mockPhoneNumberRepository.updateSubscriptionStatus).toHaveBeenNthCalledWith(1, {
@@ -224,7 +222,7 @@ describe("BillingService", () => {
       });
 
       mocks.mockPhoneNumberRepository.findByIdAndUserId.mockResolvedValue(mockPhoneNumber);
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       stripe.subscriptions.cancel.mockRejectedValue(new TestError("Stripe API error"));
 
       await expect(service.cancelPhoneNumberSubscription(validCancelData)).rejects.toThrow(
@@ -244,7 +242,7 @@ describe("BillingService", () => {
       const result = await service.cancelPhoneNumberSubscription(validCancelData);
 
       expect(result.success).toBe(true);
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       expect(stripe.subscriptions.cancel).toHaveBeenCalled();
       expect(mocks.mockPhoneNumberRepository.updateSubscriptionStatus).toHaveBeenCalled();
     });
@@ -275,7 +273,7 @@ describe("BillingService", () => {
       mocks.mockPhoneNumberRepository.updateSubscriptionStatus.mockResolvedValue(undefined);
       mocks.mockRetellRepository.deletePhoneNumber.mockResolvedValue(undefined);
 
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       stripe.subscriptions.cancel.mockRejectedValue({
         type: "StripeInvalidRequestError",
         raw: {
@@ -320,7 +318,7 @@ describe("BillingService", () => {
 
       mocks.mockPhoneNumberRepository.findByIdAndUserId.mockResolvedValue(mockPhoneNumber);
 
-      const stripe = (await import("@calcom/features/ee/payments/server/stripe")).default;
+      const stripe = (await import("@calcom/features/payments/lib/stubs/stripe")).default;
       stripe.subscriptions.cancel.mockRejectedValue(new TestError("API Error"));
 
       await expect(service.cancelPhoneNumberSubscription(validCancelData)).rejects.toThrow(

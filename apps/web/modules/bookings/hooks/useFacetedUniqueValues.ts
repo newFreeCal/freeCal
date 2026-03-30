@@ -3,7 +3,6 @@ import { trpc } from "@calcom/trpc/react";
 import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 import type { RowData, Table } from "@tanstack/react-table";
 import { useCallback } from "react";
-
 import { useEventTypes } from "./useEventTypes";
 
 interface UseFacetedUniqueValuesOptions {
@@ -30,10 +29,12 @@ export function useFacetedUniqueValues({
           return convertFacetedValuesToMap(eventTypes || []);
         } else if (columnId === "teamId") {
           return convertFacetedValuesToMap(
-            (teams || []).map((team) => ({
-              label: team.name,
-              value: team.id,
-            }))
+            (teams || [])
+              .map((team) => ({
+                label: team.name,
+                value: team.id,
+              }))
+              .filter((option): option is { label: string; value: number } => Boolean(option.label))
           );
         } else if (columnId === "userId") {
           if (!canReadOthersBookings) {

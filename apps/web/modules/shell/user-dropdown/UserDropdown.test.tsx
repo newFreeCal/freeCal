@@ -1,6 +1,6 @@
 import { render, waitFor } from "@testing-library/react";
 import React from "react";
-import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next-auth/react", () => ({
   signOut: vi.fn(),
@@ -35,7 +35,7 @@ vi.mock("@calcom/web/components/settings/platform/hooks/useGetUserAttributes", (
   }),
 }));
 
-vi.mock("@calcom/web/modules/ee/support/lib/freshchat/FreshChatProvider", () => ({
+vi.mock("@calcom/web/modules/support/lib/freshchat/FreshChatProvider", () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 

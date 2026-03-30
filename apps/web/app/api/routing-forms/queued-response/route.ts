@@ -1,16 +1,14 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { z, ZodError } from "zod";
-
 import { onSubmissionOfFormResponse } from "@calcom/app-store/routing-forms/lib/formSubmissionUtils";
 import { getResponseToStore } from "@calcom/app-store/routing-forms/lib/getResponseToStore";
 import { getSerializableForm } from "@calcom/app-store/routing-forms/lib/getSerializableForm";
+import { RoutingFormResponseRepository } from "@calcom/features/routing-forms/repositories/RoutingFormResponseRepository";
 import { PrismaPendingRoutingTraceRepository } from "@calcom/features/routing-trace/repositories/PrismaPendingRoutingTraceRepository";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
-import { RoutingFormResponseRepository } from "@calcom/features/routing-forms/repositories/RoutingFormResponseRepository";
 import prisma from "@calcom/prisma";
-
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { ZodError, z } from "zod";
 import { defaultResponderForAppDir } from "../../defaultResponderForAppDir";
 
 const queuedResponseSchema = z.object({
@@ -72,12 +70,6 @@ export const queuedResponseHandler = async ({
   }
 
   const chosenRoute = serializableForm.routes?.find((r) => r.id === queuedFormResponse.chosenRouteId);
-  const fallbackAction = queuedFormResponse.fallbackAction as {
-    type: "customPageMessage" | "externalRedirectUrl" | "eventTypeRedirectUrl";
-    value: string;
-    eventTypeId?: number;
-  } | null;
-
   await onSubmissionOfFormResponse({
     form: {
       ...queuedFormResponse.form,
@@ -85,7 +77,6 @@ export const queuedResponseHandler = async ({
     },
     formResponseInDb: formResponse,
     chosenRouteAction: chosenRoute ? ("action" in chosenRoute ? chosenRoute.action : null) : null,
-    fallbackAction,
   });
 
   return {

@@ -1,6 +1,5 @@
-import { describe, it, expect } from "vitest";
-
-import type { FormResponse, Field } from "../types/types";
+import { describe, expect, it } from "vitest";
+import type { Field, FormResponse } from "../types/types";
 import { substituteVariables } from "./substituteVariables";
 
 describe("substituteVariables", () => {
@@ -201,10 +200,10 @@ describe("substituteVariables", () => {
   it("should handle text fields with special characters", () => {
     const fields = [createTextField("field1", "projectName", "Project Name")];
     const routeValue = "/project/{projectName}/board";
-    const response = createFormResponse("field1", "Cal.com Platform & API", "Project Name");
+    const response = createFormResponse("field1", "freeCal Platform & API", "Project Name");
 
     const result = substituteVariables(routeValue, response, fields);
-    expect(result).toBe("/project/Cal.com%20Platform%20%26%20API/board");
+    expect(result).toBe("/project/freeCal%20Platform%20%26%20API/board");
   });
 
   it("should handle empty text field values", () => {

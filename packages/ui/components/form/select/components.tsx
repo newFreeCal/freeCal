@@ -1,16 +1,14 @@
-import type { GroupBase, InputProps, OptionProps, ControlProps } from "react-select";
-import { components as reactSelectComponents } from "react-select";
-
 import classNames from "@calcom/ui/classNames";
-
+import { CheckIcon, ChevronDownIcon } from "@coss/ui/icons";
+import type { ControlProps, GroupBase, InputProps, OptionProps } from "react-select";
+import { components as reactSelectComponents } from "react-select";
 import { Badge, CreditsBadge, UpgradeTeamsBadge } from "../../badge";
-import { CheckIcon } from "@coss/ui/icons";
 import type { SelectProps } from "./types";
 
 export const InputComponent = <
   Option,
   IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 >({
   inputClassName,
   ...props
@@ -45,7 +43,7 @@ type ExtendedOption = {
 export const OptionComponent = <
   Option,
   IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 >({
   ...props
 }: OptionProps<Option, IsMulti, Group>) => {
@@ -85,7 +83,7 @@ export const OptionComponent = <
 export const ControlComponent = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 >(
   controlProps: ControlProps<Option, IsMulti, Group> & {
     selectProps: SelectProps<Option, IsMulti, Group>;
@@ -96,6 +94,16 @@ export const ControlComponent = <
     <span data-testid={dataTestId}>
       <reactSelectComponents.Control {...controlProps} />
     </span>
+  );
+};
+
+export const DropdownIndicatorComponent = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
+  props: React.ComponentProps<typeof reactSelectComponents.DropdownIndicator<Option, IsMulti, Group>>
+) => {
+  return (
+    <reactSelectComponents.DropdownIndicator {...props}>
+      <ChevronDownIcon className="h-4 w-4" />
+    </reactSelectComponents.DropdownIndicator>
   );
 };
 

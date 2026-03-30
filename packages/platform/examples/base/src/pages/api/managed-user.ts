@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
 
+import process from "node:process";
 import { X_CAL_CLIENT_ID, X_CAL_SECRET_KEY } from "@calcom/platform-constants";
-
+import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prismaClient";
 
 type Data = {
@@ -55,7 +55,7 @@ async function createUserWithDefaultSchedule(email: string, name: string, avatar
   return managedUserResponseBody.data;
 }
 
-// example endpoint to create a managed cal.com user
+// example endpoint to create a managed freeCal user
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { emails } = JSON.parse(req.body);
   const emailOne = emails[0];
@@ -163,7 +163,7 @@ async function createTeam(orgId: number, name: string) {
       },
       body: JSON.stringify({
         name,
-        bannerUrl: "https://i.cal.com/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
+        bannerUrl: "https://i.freeCal/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
       }),
     }
   );

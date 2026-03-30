@@ -4,7 +4,10 @@ import type { Timezones } from "@calcom/lib/timezone";
 import { addTimezonesToDropdown, filterBySearchText, handleOptionLabel } from "@calcom/lib/timezone";
 import classNames from "@calcom/ui/classNames";
 import { getReactSelectProps, inputStyles } from "@calcom/ui/components/form";
+import { ChevronDownIcon } from "@coss/ui/icons";
+import type React from "react";
 import { useCallback, useMemo, useState } from "react";
+import { components as reactSelectComponents } from "react-select";
 import type { ITimezone, ITimezoneOption, Props as SelectProps } from "react-timezone-select";
 import BaseSelect from "react-timezone-select";
 
@@ -60,6 +63,15 @@ export function TimezoneSelectComponent({
     [data, isWebTimezoneSelect, additionalTimezones]
   );
 
+  const DropdownIndicatorComponent = useCallback(
+    (props: React.ComponentProps<typeof reactSelectComponents.DropdownIndicator>) => (
+      <reactSelectComponents.DropdownIndicator {...props}>
+        <ChevronDownIcon className="h-4 w-4" />
+      </reactSelectComponents.DropdownIndicator>
+    ),
+    []
+  );
+
   const handleChange = useCallback(
     (selectedOption: ITimezoneOption | null) => {
       if (!props.onChange) return;
@@ -100,6 +112,10 @@ export function TimezoneSelectComponent({
       data-testid="timezone-select"
       isDisabled={isPending}
       {...reactSelectProps}
+      components={{
+        ...reactSelectProps.components,
+        DropdownIndicator: DropdownIndicatorComponent,
+      }}
       timezones={timezones}
       styles={{
         control: (base) =>

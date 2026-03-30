@@ -1,10 +1,8 @@
-import { useRouter } from "next/navigation";
-
 import type { PlatformOAuthClientDto } from "@calcom/platform-types";
 import { Button } from "@calcom/ui/components/button";
 import { EmptyScreen } from "@calcom/ui/components/empty-screen";
-
 import { OAuthClientCard } from "@components/settings/platform/oauth-clients/OAuthClientCard";
+import { useRouter } from "next/navigation";
 
 type OAuthClientsListProps = {
   oauthClients: PlatformOAuthClientDto[];
@@ -21,7 +19,7 @@ export const OAuthClientsList = ({ oauthClients, isDeleting, handleDelete }: OAu
             OAuth Clients
           </h1>
           <p className="text-default text-sm ltr:mr-4 rtl:ml-4">
-            Connect your platform to cal.com with OAuth
+            Connect your platform to freeCal with OAuth
           </p>
         </div>
         <div>
@@ -58,7 +56,7 @@ export const OAuthClientsList = ({ oauthClients, isDeleting, handleDelete }: OAu
       ) : (
         <EmptyScreen
           headline="Create your first OAuth client"
-          description="OAuth clients facilitate access to Cal.com on behalf of users"
+          description="OAuth clients facilitate access to freeCal on behalf of users"
           Icon="plus"
           className=""
           buttonRaw={<NewOAuthClientButton redirectLink="/settings/platform/oauth-clients/create" />}
@@ -79,7 +77,7 @@ const NewOAuthClientButton = ({ redirectLink, label }: { redirectLink: string; l
       }}
       color="secondary"
       StartIcon="plus">
-      {!!label ? label : "Add"}
+      {label ? label : "Add"}
     </Button>
   );
 };

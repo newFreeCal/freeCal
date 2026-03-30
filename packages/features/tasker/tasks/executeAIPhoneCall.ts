@@ -1,19 +1,20 @@
 import type { FORM_SUBMITTED_WEBHOOK_RESPONSES } from "@calcom/app-store/routing-forms/lib/formSubmissionUtils";
+import type { JsonValue } from "@calcom/types/Json";
 import dayjs from "@calcom/dayjs";
+import { handleInsufficientCredits } from "@calcom/features/billing/lib/stubs/helpers/handleInsufficientCredits";
 import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import { createDefaultAIPhoneServiceProvider } from "@calcom/features/calAIPhone";
-import { handleInsufficientCredits } from "@calcom/features/ee/billing/helpers/handleInsufficientCredits";
-import { getVariableFormats } from "@calcom/features/ee/workflows/lib/reminders/templates/customTemplate";
-import { WorkflowReminderRepository } from "@calcom/features/ee/workflows/lib/repository/workflowReminder";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import {
   getSubmitterEmail,
   getSubmitterName,
 } from "@calcom/features/tasker/tasks/triggerFormSubmittedNoEvent/formSubmissionValidation";
+import { getVariableFormats } from "@calcom/features/workflows/lib/stubs/customTemplate";
+import { WorkflowReminderRepository } from "@calcom/features/workflows/lib/stubs/WorkflowReminderRepository";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
-import { CreditUsageType } from "@calcom/prisma/enums";
+
 interface ExecuteAIPhoneCallPayload {
   workflowReminderId: number;
   agentId: string;
@@ -30,18 +31,19 @@ const log = logger.getSubLogger({ prefix: [`[[executeAIPhoneCall] `] });
 
 type BookingWithRelations = NonNullable<
   NonNullable<
-    Awaited<ReturnType<typeof WorkflowReminderRepository.findWorkflowReminderForAIPhoneCallExecution>>
+    Awaited<ReturnType<WorkflowReminderRepository["findWorkflowReminderForAIPhoneCallExecution"]>>
   >["booking"]
->;
+> & {
+  responses?: JsonValue;
+  eventTypeId?: number | null;
+};
 
 /**
  * Converts responses to variable format entries with both current and legacy formats
  * for backward compatibility.
  * Accepts both FORM_SUBMITTED_WEBHOOK_RESPONSES and CalEventResponses types.
  */
-export function convertResponsesToVariableFormats(
-  responses: Record<string, { value?: unknown }>
-) {
+export function convertResponsesToVariableFormats(responses: Record<string, { value?: unknown }>) {
   return Object.fromEntries(
     Object.entries(responses).flatMap(([key, value]) => {
       const formats = getVariableFormats(key);
@@ -82,6 +84,8 @@ function getVariablesFromBooking(booking: BookingWithRelations, numberToCall: st
     booking: {
       ...booking,
       customInputs: null,
+      responses: booking.responses ?? {},
+      location: booking.location ?? null,
     },
   });
 
@@ -112,7 +116,7 @@ function getVariablesFromBooking(booking: BookingWithRelations, numberToCall: st
       .tz(attendee?.timeZone || timeZone)
       .format("h:mm A"),
     // DO NOT REMOVE THIS FIELD. It is used for conditional tool routing in prompts
-    eventTypeId: booking.eventTypeId?.toString() || "",
+    eventTypeId: booking.eventType?.eventTypeId?.toString() || "",
     // Include custom form responses with both current and legacy variable formats for backward compatibility
     ...convertResponsesToVariableFormats(responses || {}),
   };
@@ -138,7 +142,8 @@ export async function executeAIPhoneCall(payload: string) {
   log.info(`Executing AI phone call for workflow reminder ${data.workflowReminderId}`, data);
 
   try {
-    const workflowReminder = await WorkflowReminderRepository.findWorkflowReminderForAIPhoneCallExecution(
+    const workflowReminderRepo = new WorkflowReminderRepository();
+    const workflowReminder = await workflowReminderRepo.findWorkflowReminderForAIPhoneCallExecution(
       data.workflowReminderId
     );
 
@@ -148,13 +153,10 @@ export async function executeAIPhoneCall(payload: string) {
     }
 
     if (data.userId || data.teamId) {
-      const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
-      const creditService = new CreditService();
+      const { StubCreditService } = await import("@calcom/features/billing/lib/stubs/service/StubCreditService");
+      const creditService = new StubCreditService();
 
-      const hasCredits = await creditService.hasAvailableCredits({
-        userId: data.userId || undefined,
-        teamId: data.teamId || undefined,
-      });
+      const hasCredits = await creditService.hasAvailableCredits();
 
       if (!hasCredits) {
         log.warn(`Insufficient credits for AI phone call for workflow reminder ${data.workflowReminderId}`, {
@@ -164,17 +166,8 @@ export async function executeAIPhoneCall(payload: string) {
           bookingUid: workflowReminder.booking?.uid,
         });
 
-        await handleInsufficientCredits({
-          userId: data.userId,
-          teamId: data.teamId,
-          creditFor: CreditUsageType.CAL_AI_PHONE_CALL,
-          prismaClient: prisma,
-          context: {
-            workflowReminderId: data.workflowReminderId,
-            bookingUid: workflowReminder.booking?.uid,
-          },
-        });
-
+        // In open-source version, credits are unlimited, so we continue
+        // This block is kept for type compatibility but will never execute
         return;
       }
     }
@@ -265,7 +258,7 @@ export async function executeAIPhoneCall(payload: string) {
 
     log.info("AI phone call created successfully:", call);
 
-    await WorkflowReminderRepository.updateWorkflowReminderReferenceAndScheduled(data.workflowReminderId, {
+    await workflowReminderRepo.updateWorkflowReminderReferenceAndScheduled(data.workflowReminderId, {
       referenceId: call.call_id,
       scheduled: true,
     });

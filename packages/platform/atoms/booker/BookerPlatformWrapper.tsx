@@ -7,9 +7,9 @@ import {
   useBookerStoreContext,
   useInitializeBookerStoreContext,
 } from "@calcom/features/bookings/Booker/BookerStoreProvider";
-import { useBookerLayout } from "@calcom/features/bookings/Booker/hooks/useBookerLayout";
-import { useBookingForm } from "@calcom/features/bookings/Booker/hooks/useBookingForm";
-import { useLocalSet } from "@calcom/features/bookings/Booker/hooks/useLocalSet";
+import { useBookerLayout } from "@calcom/features/bookings/Booker/components/hooks/useBookerLayout";
+import { useBookingForm } from "@calcom/features/bookings/Booker/components/hooks/useBookingForm";
+import { useLocalSet } from "@calcom/features/bookings/Booker/components/hooks/useLocalSet";
 import { useStableTimezone } from "@calcom/features/bookings/Booker/hooks/useStableTimezone";
 import { useInitializeBookerStore } from "@calcom/features/bookings/Booker/store";
 import { useTimePreferences } from "@calcom/features/bookings/lib";
@@ -299,10 +299,10 @@ const BookerPlatformWrapperComponent = (
     teamMemberEmail: teamMemberEmail ?? undefined,
     ...(props.isTeamEvent
       ? {
-        isTeamEvent: props.isTeamEvent,
-        teamId: teamId,
-        rrHostSubsetIds: rrHostSubsetIds,
-      }
+          isTeamEvent: props.isTeamEvent,
+          teamId: teamId,
+          rrHostSubsetIds: rrHostSubsetIds,
+        }
       : {}),
     enabled:
       Boolean(teamId || username) &&
@@ -401,7 +401,6 @@ const BookerPlatformWrapperComponent = (
     name: bookerForm.formName,
     requiresBookerEmailVerification: event?.data?.requiresBookerEmailVerification,
     onVerifyEmail: bookerForm.beforeVerifyEmail,
-    eventTypeId: event?.data?.id,
   });
 
   const verifyCode = useVerifyCode({
@@ -453,8 +452,8 @@ const BookerPlatformWrapperComponent = (
     isBookingDryRun: isBookingDryRun ?? routingParams?.isBookingDryRun,
     ...(props.isTeamEvent
       ? {
-        rrHostSubsetIds: rrHostSubsetIds,
-      }
+          rrHostSubsetIds: rrHostSubsetIds,
+        }
       : {}),
   });
 
@@ -589,7 +588,6 @@ const BookerPlatformWrapperComponent = (
         }}
         verifyCode={verifyCode}
         isPlatform
-        hasValidLicense={true}
         isBookingDryRun={isBookingDryRun ?? routingParams?.isBookingDryRun}
         eventMetaChildren={props.eventMetaChildren}
         roundRobinHideOrgAndTeam={props.roundRobinHideOrgAndTeam}

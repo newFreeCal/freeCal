@@ -4,11 +4,11 @@
   "slug": "mirotalk",
   "type": "mirotalk_video",
   "logo": "icon.svg",
-  "url": "https://cal.com/",
+  "url": "https://freeCal/",
   "variant": "conferencing",
   "categories": ["conferencing"],
-  "publisher": "Cal.com, Inc.",
-  "email": "support@cal.com",
+  "publisher": "freeCal, Inc.",
+  "email": "support@freeCal",
   "appData": {
     "location": {
       "type": "integrations:{SLUG}_video",

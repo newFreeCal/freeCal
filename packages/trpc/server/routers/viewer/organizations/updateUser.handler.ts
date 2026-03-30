@@ -1,5 +1,5 @@
-import { ensureOrganizationIsReviewed } from "@calcom/ee/organizations/lib/ensureOrganizationIsReviewed";
 import { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
+import { ensureOrganizationIsReviewed } from "@calcom/features/organizations/lib/stubs/ensureOrganizationIsReviewed";
 import { RoleManagementError } from "@calcom/features/pbac/domain/errors/role-management.error";
 import { RoleManagementFactory } from "@calcom/features/pbac/services/role-management.factory";
 import { checkRegularUsername } from "@calcom/features/profile/lib/checkRegularUsername";
@@ -9,9 +9,7 @@ import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 import type { MembershipRole } from "@calcom/prisma/enums";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 import { TRPCError } from "@trpc/server";
-
 import assignUserToAttributeHandler from "../attributes/assignUserToAttribute.handler";
 import type { TUpdateUserInputSchema } from "./updateUser.schema";
 

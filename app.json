@@ -1,8 +1,8 @@
 {
-  "name": "Cal.com",
+  "name": "freeCal",
   "description": "Open Source Scheduling",
-  "repository": "https://github.com/calcom/cal.com",
-  "logo": "https://cal.com/android-chrome-512x512.png",
+  "repository": "https://github.com/calcom/freeCal",
+  "logo": "https://freeCal/android-chrome-512x512.png",
   "keywords": ["react", "typescript", "node", "nextjs", "prisma", "postgres", "trpc"],
   "addons": [
     {

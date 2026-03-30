@@ -1,16 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
-import { useCreateEventType } from "~/event-types/hooks/useCreateEventType";
+import process from "node:process";
+import { useOrgBranding } from "@calcom/features/organizations/lib/stubs/context/provider";
+import { TeamEventTypeForm } from "@calcom/features/teams/lib/stubs/TeamEventTypeForm";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { trpc } from "@calcom/trpc/react";
+import type { TCreateEventTypeInput } from "@calcom/features/eventtypes/lib/schemas";
 import { Button } from "@calcom/ui/components/button";
 import { WizardLayout } from "@calcom/ui/components/layout";
 import { showToast } from "@calcom/ui/components/toast";
-import { TeamEventTypeForm } from "@calcom/features/ee/teams/components/TeamEventTypeForm";
+import { useRouter } from "next/navigation";
+import { useCreateEventType } from "~/event-types/hooks/useCreateEventType";
 
 type CreateTeamEventTypeProps = {
   permissions: { canCreateEventType: boolean };
@@ -62,7 +63,7 @@ export const CreateTeamEventType = ({ permissions }: CreateTeamEventTypeProps) =
       isPending={createMutation.isPending}
       form={form}
       isManagedEventType={isManagedEventType}
-      handleSubmit={(values) => {
+      handleSubmit={(values: TCreateEventTypeInput) => {
         createMutation.mutate(values);
       }}
       SubmitButton={SubmitButton}

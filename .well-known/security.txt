@@ -1,4 +1,4 @@
-Contact: security@cal.com
+Contact: security@freeCal
 Preferred-Languages: en
-Canonical: https://cal.com/.well-known/security.txt
-Policy: https://github.com/calcom/cal.com/security/policy
+Canonical: https://freeCal/.well-known/security.txt
+Policy: https://github.com/calcom/freeCal/security/policy

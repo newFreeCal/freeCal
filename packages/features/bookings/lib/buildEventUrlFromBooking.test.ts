@@ -1,12 +1,9 @@
 import { constantsScenarios } from "@calcom/lib/__mocks__/constants";
-
-import { describe, it, vi, expect, beforeEach } from "vitest";
-
-import { getBrand } from "@calcom/features/ee/organizations/lib/getBrand";
-
+import { getBrand } from "@calcom/features/organizations/lib/stubs/lib/getBrand";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { buildEventUrlFromBooking } from "./buildEventUrlFromBooking";
 
-vi.mock("@calcom/features/ee/organizations/lib/getBrand", () => ({
+vi.mock("@calcom/features/organizations/lib/stubs/lib/getBrand", () => ({
   getBrand: vi.fn(),
 }));
 

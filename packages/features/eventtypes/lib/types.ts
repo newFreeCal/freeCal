@@ -6,7 +6,7 @@ import type { ChildrenEventType } from "@calcom/features/eventtypes/lib/children
 import type { IntervalLimit } from "@calcom/lib/intervalLimits/intervalLimitSchema";
 import type { AttributesQueryValue } from "@calcom/lib/raqb/types";
 import type { EventTypeTranslation } from "@calcom/prisma/client";
-import type { CancellationReasonRequirement, MembershipRole, PeriodType, SchedulingType } from "@calcom/prisma/enums";
+import type { MembershipRole, PeriodType, SchedulingType } from "@calcom/prisma/enums";
 import type {
   BookerLayoutSettings,
   CustomInputSchema,
@@ -20,7 +20,6 @@ import type { RecurringEvent } from "@calcom/types/Calendar";
 import type { UserProfile } from "@calcom/types/UserProfile";
 import type { z } from "zod";
 import type { EventType } from "./getEventTypeById";
-
 export type CustomInputParsed = typeof customInputSchema._output;
 
 export type AvailabilityOption = {
@@ -52,7 +51,6 @@ export type Host = {
   groupId: string | null;
   location?: HostLocation | null;
 };
-
 export type TeamMember = {
   value: string;
   label: string;
@@ -390,7 +388,6 @@ export type EventTypeUpdateInput = {
   showOptimizedSlots?: boolean | null;
   disableCancelling?: boolean | null;
   disableRescheduling?: boolean | null;
-  requiresCancellationReason?: CancellationReasonRequirement | null;
   minimumRescheduleNotice?: number | null;
   seatsShowAttendees?: boolean | null;
   seatsShowAvailabilityCount?: boolean | null;
@@ -497,7 +494,7 @@ export type SelectClassNames = {
 };
 
 // Re-export schemas from server-safe location
-export { EventTypeDuplicateInput, createEventTypeInput } from "./schemas";
+export { createEventTypeInput, EventTypeDuplicateInput } from "./schemas";
 
 export type FormValidationResult = {
   isValid: boolean;

@@ -1,5 +1,5 @@
-import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
+import { LicenseKeySingleton } from "@calcom/features/common/lib/stubs/LicenseKeyService";
+import { DeploymentRepository } from "@calcom/features/deployment/lib/stubs/repositories/DeploymentRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import logger from "@calcom/lib/logger";
@@ -140,8 +140,4 @@ export async function getServerSession(options: {
 
   log.debug("Returned session", safeStringify(session));
   return session;
-}
-
-export function clearSessionCache() {
-  CACHE.clear();
 }

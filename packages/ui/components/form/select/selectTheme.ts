@@ -1,11 +1,10 @@
-import type { GroupBase, SelectComponentsConfig, MenuPlacement } from "react-select";
-
-import { InputComponent, OptionComponent, ControlComponent } from "./components";
+import type { GroupBase, MenuPlacement, SelectComponentsConfig } from "react-select";
+import { ControlComponent, DropdownIndicatorComponent, InputComponent, OptionComponent } from "./components";
 
 export const getReactSelectProps = <
   Option,
   IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 >({
   components,
   menuPlacement = "auto",
@@ -19,6 +18,7 @@ export const getReactSelectProps = <
       Input: InputComponent,
       Option: OptionComponent,
       Control: ControlComponent,
+      DropdownIndicator: DropdownIndicatorComponent,
       ...components,
     },
     unstyled: true,

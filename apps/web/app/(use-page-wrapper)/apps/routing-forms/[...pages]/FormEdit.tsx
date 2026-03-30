@@ -2,7 +2,6 @@
 
 import { FieldTypes } from "@calcom/app-store/routing-forms/lib/FieldTypes";
 import type { RoutingFormWithResponseCount } from "@calcom/app-store/routing-forms/types/types";
-import { LearnMoreLink } from "@calcom/features/eventtypes/components/LearnMoreLink";
 import { getFieldIdentifier } from "@calcom/features/form-builder/utils/getFieldIdentifier";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import classNames from "@calcom/ui/classNames";
@@ -133,13 +132,7 @@ function Field({
             <TextField
               disabled={!!router}
               label={t("identifier_url_parameter")}
-              hint={
-                <LearnMoreLink
-                  t={t}
-                  i18nKey="identifier_url_parameter_hint"
-                  href="https://cal.com/help/routing/connect-routing-form-to-booking-questions"
-                />
-              }
+              hint={t("identifier_url_parameter_hint")}
               name={`${hookFieldNamespace}.identifier`}
               required
               placeholder={t("identifies_name_field")}
@@ -171,7 +164,9 @@ function Field({
                             "h-8 w-full justify-between text-left text-sm",
                             !!router && "bg-subtle cursor-not-allowed"
                           )}>
-                          <span className="text-default">{defaultValue?.label || t("select_field_type")}</span>
+                          <span className="text-default">
+                            {defaultValue?.label || t("select_field_type")}
+                          </span>
                           <ChevronDownIcon className="text-default h-4 w-4" />
                         </Button>
                       </Tooltip>

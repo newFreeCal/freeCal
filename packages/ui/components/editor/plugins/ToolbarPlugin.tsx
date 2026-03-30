@@ -29,7 +29,7 @@ import { createPortal } from "react-dom";
 
 import { Button } from "../../button";
 import { Dropdown, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../dropdown";
-import { ChevronDownIcon, ChevronUpIcon } from "@coss/ui/icons";
+import { ChevronDownIcon } from "@coss/ui/icons";
 import type { TextEditorProps } from "../types";
 import { AddVariablesDropdown } from "./AddVariablesDropdown";
 
@@ -247,7 +247,7 @@ export default function ToolbarPlugin(props: TextEditorProps) {
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+
   const formatParagraph = () => {
     if (blockType !== "paragraph") {
       editor.update(() => {
@@ -459,16 +459,14 @@ export default function ToolbarPlugin(props: TextEditorProps) {
       <>
         {!props.excludedToolbarItems?.includes("blockType") && (
           <>
-            <Dropdown onOpenChange={setIsOpen} open={isOpen}>
+            <Dropdown>
               <DropdownMenuTrigger className="text-subtle">
                 <>
                   <span className={`icon${blockType}`} />
                   <span className="text text-default hidden sm:flex">
                     {blockTypeToBlockName[blockType as keyof BlockType]}
                   </span>
-                  {
-                    isOpen ? (<ChevronUpIcon className="text-default ml-2 h-4 w-4" />) : (<ChevronDownIcon className="text-default ml-2 h-4 w-4" />)
-                  }
+                  <ChevronDownIcon className="text-default ml-2 h-4 w-4" />
                 </>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="flex flex-col gap-1">

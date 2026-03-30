@@ -18,7 +18,7 @@ export type TranslationWithParams = {
   components?: TranslationComponent[];
 };
 
-import type { EnrichmentDataStore, DataRequirements } from "../service/EnrichmentDataStore";
+import type { DataRequirements, EnrichmentDataStore } from "../service/EnrichmentDataStore";
 
 /**
  * This is agnostic of the action and is common for all actions
@@ -42,21 +42,6 @@ export type GetDisplayTitleParams = {
 export type GetDisplayFieldsParams = {
   storedData: BaseStoredAuditData;
   dbStore: EnrichmentDataStore;
-};
-
-/**
- * Discriminated union for display field values
- * Each variant represents a different way to render the field value
- */
-export type DisplayFieldValue =
-  | { type: "translationKey"; valueKey: string }
-  | { type: "rawValue"; value: string }
-  | { type: "rawValues"; values: string[] }
-  | { type: "translationsWithParams"; valuesWithParams: TranslationWithParams[] };
-
-export type DisplayField = {
-  labelKey: string;
-  fieldValue: DisplayFieldValue;
 };
 
 /**
@@ -131,9 +116,16 @@ export interface IAuditActionService {
    * Optional - implement only if custom display fields are needed
    * @param params - Object containing storedData
    * @param params.storedData - Parsed stored data { version, fields }
-   * @returns Promise of array of DisplayField objects with label and discriminated value type
+   * @returns Promise of array of field objects with label and value (either translation key or raw value)
    */
-  getDisplayFields?(params: GetDisplayFieldsParams): Promise<DisplayField[]>;
+  getDisplayFields?(params: GetDisplayFieldsParams): Promise<
+    Array<{
+      labelKey: string; // Translation key for field label
+      valueKey?: string; // Translation key for field value (will be translated)
+      value?: string; // Raw value for field value (will NOT be translated)
+      values?: string[]; // Array of raw values (will NOT be translated, rendered as separate lines)
+    }>
+  >;
 
   /**
    * Migrate old version data to latest version

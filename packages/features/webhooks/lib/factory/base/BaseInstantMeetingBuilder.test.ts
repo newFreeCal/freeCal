@@ -1,6 +1,5 @@
-import { describe, it, expect } from "vitest";
 import { WebhookTriggerEvents } from "@calcom/prisma/enums";
-
+import { describe, expect, it } from "vitest";
 import type { InstantMeetingDTO } from "../../dto/types";
 import { InstantMeetingBuilder } from "../versioned/v2021-10-20/InstantMeetingBuilder";
 
@@ -14,8 +13,8 @@ describe("InstantMeetingBuilder (v2021-10-20)", () => {
         createdAt: "2024-01-15T10:00:00Z",
         title: "Instant Meeting Request",
         body: "Someone is requesting an instant meeting",
-        icon: "https://cal.com/icon.png",
-        url: "https://cal.com/meeting/instant-123",
+        icon: "https://freeCal/icon.png",
+        url: "https://freeCal/meeting/instant-123",
         actions: [
           { action: "accept", title: "Accept" },
           { action: "decline", title: "Decline" },
@@ -30,8 +29,8 @@ describe("InstantMeetingBuilder (v2021-10-20)", () => {
       expect(payload.createdAt).toBe("2024-01-15T10:00:00Z");
       expect(payload.payload.title).toBe("Instant Meeting Request");
       expect(payload.payload.body).toBe("Someone is requesting an instant meeting");
-      expect(payload.payload.icon).toBe("https://cal.com/icon.png");
-      expect(payload.payload.url).toBe("https://cal.com/meeting/instant-123");
+      expect(payload.payload.icon).toBe("https://freeCal/icon.png");
+      expect(payload.payload.url).toBe("https://freeCal/meeting/instant-123");
       expect(payload.payload.actions).toHaveLength(2);
       expect(payload.payload.requireInteraction).toBe(true);
       expect(payload.payload.type).toBe("instant");

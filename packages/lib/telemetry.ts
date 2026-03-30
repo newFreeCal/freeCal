@@ -1,7 +1,7 @@
+import process from "node:process";
 import type { NextApiRequest, NextApiResponse } from "next";
 // Importing types so we're not directly importing next/server
 import type { NextRequest, NextResponse } from "next/server";
-
 import { CONSOLE_URL } from "./constants";
 
 export const telemetryEventTypes = {
@@ -37,36 +37,16 @@ export function collectPageParameters(
   };
 }
 
-const reportUsage: EventHandler = async (event, { fetch }) => {
-  const ets = telemetryEventTypes;
-  if ([ets.bookingConfirmed, ets.embedBookingConfirmed].includes(event.eventType)) {
-    const key = process.env.CALCOM_LICENSE_KEY;
-    const url = `${CONSOLE_URL}/api/deployments/usage?key=${key}&quantity=1`;
-    try {
-      return fetch(url, { method: "POST", mode: "cors" });
-    } catch (e) {
-      console.error(`Error reporting booking for key: '${key}'`, e);
-      return Promise.resolve();
-    }
-  } else {
-    return Promise.resolve();
-  }
+const reportUsage: EventHandler = async (_event, { fetch }) => {
+  // Self-hosted mode - no usage reporting
+  return Promise.resolve();
 };
 
 export const nextCollectBasicSettings: CollectOpts = {
   drivers: [
-    process.env.CALCOM_LICENSE_KEY && process.env.NEXT_PUBLIC_IS_E2E !== "1" ? reportUsage : undefined,
-    process.env.CALCOM_TELEMETRY_DISABLED === "1" || process.env.NEXT_PUBLIC_IS_E2E === "1"
-      ? undefined
-      : {
-          type: "jitsu",
-          opts: {
-            key: "s2s.2pvs2bbpqq1zxna97wcml.esb6cikfrf7yn0qoh1nj1",
-            server: "https://t.calendso.com",
-          },
-        },
-    process.env.TELEMETRY_DEBUG && { type: "echo", opts: { disableColor: true } },
-  ],
+    // All telemetry disabled for self-hosted instances
+    undefined,
+  ].filter(Boolean),
   eventTypes: [
     { "*.ttf": null },
     { "*.webmanifest": null },

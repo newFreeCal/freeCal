@@ -1,13 +1,11 @@
 import { enrichUserWithDelegationCredentialsIncludeServiceAccountKey } from "@calcom/app-store/delegationCredential";
-import { getUserAvailabilityService } from "@calcom/features/di/containers/GetUserAvailability";
-import { isTeamMember } from "@calcom/features/ee/teams/lib/queries";
-import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
-import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
-import { TRPCError } from "@trpc/server";
-
-import type { TGetMemberAvailabilityInputSchema } from "./getMemberAvailability.schema";
 import dayjs from "@calcom/dayjs";
+import { getUserAvailabilityService } from "@calcom/features/di/containers/GetUserAvailability";
+import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
+import { isTeamMember } from "@calcom/features/teams/lib/stubs/queries";
+import type { TrpcSessionUser } from "@calcom/trpc/server/types";
+import { TRPCError } from "@trpc/server";
+import type { TGetMemberAvailabilityInputSchema } from "./getMemberAvailability.schema";
 
 type GetMemberAvailabilityOptions = {
   ctx: {

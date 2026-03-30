@@ -12,8 +12,6 @@ export type IntegrationOAuthCallbackState = {
   installGoogleVideo?: boolean;
   teamId?: number;
   defaultInstall?: boolean;
-  nonce?: string;
-  nonceHash?: string;
 };
 
 export type CredentialOwner = {

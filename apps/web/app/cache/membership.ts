@@ -5,12 +5,12 @@ import { NEXTJS_CACHE_TTL } from "@calcom/lib/constants";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 const CACHE_TAGS = {
-  HAS_TEAM_PLAN: "MembershipRepository.hasAnyAcceptedMembershipByUserId",
+  HAS_TEAM_PLAN: "MembershipRepository.findFirstAcceptedMembershipByUserId",
 } as const;
 
 export const getCachedHasTeamPlan = unstable_cache(
   async (userId: number) => {
-    const hasTeamPlan = await MembershipRepository.hasAnyAcceptedMembershipByUserId(userId);
+    const hasTeamPlan = await MembershipRepository.findFirstAcceptedMembershipByUserId(userId);
 
     return { hasTeamPlan: !!hasTeamPlan };
   },

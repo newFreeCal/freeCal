@@ -34,14 +34,10 @@ const ServerPage = async ({ searchParams: _searchParams }: ServerPageProps) => {
   }
 
   const t = await getTranslate();
-  const { Main, CTA, showHeader } = await ServerTeamsListing({ searchParams, session });
+  const { Main, CTA } = await ServerTeamsListing({ searchParams, session });
 
   return (
-    <ShellMainAppDir
-      CTA={showHeader ? CTA : null}
-      heading={showHeader ? t("teams") : undefined}
-      subtitle={showHeader ? t("create_manage_teams_collaborative") : undefined}
-      flexChildrenContainer={!showHeader}>
+    <ShellMainAppDir CTA={CTA} heading={t("teams")} subtitle={t("create_manage_teams_collaborative")}>
       {Main}
     </ShellMainAppDir>
   );

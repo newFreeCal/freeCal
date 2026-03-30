@@ -1,11 +1,12 @@
-import { isValidPhoneNumber } from "libphonenumber-js/max";
-import { useRouter } from "next/navigation";
+import process from "node:process";
+import { Dialog } from "@calcom/features/components/controlled-dialog";
+import CreateEventTypeForm from "@calcom/features/eventtypes/components/CreateEventTypeForm";
+import type { createEventTypeInput } from "@calcom/features/eventtypes/lib/types";
 import { z } from "zod";
 
-import { Dialog } from "@calcom/features/components/controlled-dialog";
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
-import CreateEventTypeForm from "@calcom/features/eventtypes/components/CreateEventTypeForm";
-import { useCreateEventType } from "~/event-types/hooks/useCreateEventType";
+type CreateEventTypeFormValues = z.infer<typeof createEventTypeInput>;
+import { useOrgBranding } from "@calcom/features/organizations/lib/stubs/context/provider";
+import { TeamEventTypeForm } from "@calcom/features/teams/lib/stubs/TeamEventTypeForm";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { useTypedQuery } from "@calcom/lib/hooks/useTypedQuery";
 import type { EventType } from "@calcom/prisma/client";
@@ -13,9 +14,11 @@ import type { MembershipRole } from "@calcom/prisma/enums";
 import { SchedulingType } from "@calcom/prisma/enums";
 import { trpc } from "@calcom/trpc/react";
 import { Button } from "@calcom/ui/components/button";
-import { DialogContent, DialogFooter, DialogClose } from "@calcom/ui/components/dialog";
+import { DialogClose, DialogContent, DialogFooter } from "@calcom/ui/components/dialog";
 import { showToast } from "@calcom/ui/components/toast";
-import { TeamEventTypeForm } from "@calcom/features/ee/teams/components/TeamEventTypeForm";
+import { isValidPhoneNumber } from "libphonenumber-js/max";
+import { useRouter } from "next/navigation";
+import { useCreateEventType } from "~/event-types/hooks/useCreateEventType";
 
 // this describes the uniform data needed to create a new event type on Profile or Team
 export interface EventTypeParent {
@@ -129,7 +132,7 @@ export function CreateEventTypeDialog({ profileOptions }: { profileOptions: Prof
             isPending={createMutation.isPending}
             form={form}
             isManagedEventType={isManagedEventType}
-            handleSubmit={(values) => {
+            handleSubmit={(values: CreateEventTypeFormValues) => {
               createMutation.mutate(values);
             }}
             SubmitButton={SubmitButton}
@@ -140,7 +143,7 @@ export function CreateEventTypeDialog({ profileOptions }: { profileOptions: Prof
             isPending={createMutation.isPending}
             form={form}
             isManagedEventType={isManagedEventType}
-            handleSubmit={(values) => {
+            handleSubmit={(values: CreateEventTypeFormValues) => {
               createMutation.mutate(values);
             }}
             SubmitButton={SubmitButton}

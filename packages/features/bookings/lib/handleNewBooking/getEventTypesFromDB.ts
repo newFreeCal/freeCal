@@ -1,8 +1,8 @@
 import type { LocationObject } from "@calcom/app-store/locations";
-import { workflowSelect } from "@calcom/ee/workflows/lib/getAllWorkflows";
 import { getBookingFieldsWithSystemFields } from "@calcom/features/bookings/lib/getBookingFields";
 import type { DefaultEvent } from "@calcom/features/eventtypes/lib/defaultEvents";
 import { withSelectedCalendars } from "@calcom/features/users/repositories/UserRepository";
+import { workflowSelect } from "@calcom/features/workflows/lib/stubs/getAllWorkflows";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
 import { prisma } from "@calcom/prisma";
@@ -10,8 +10,8 @@ import type { Prisma } from "@calcom/prisma/client";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import { userSelect } from "@calcom/prisma/selects/user";
 import {
-  EventTypeMetaDataSchema,
   customInputSchema,
+  EventTypeMetaDataSchema,
   rrSegmentQueryValueSchema,
 } from "@calcom/prisma/zod-utils";
 
@@ -48,8 +48,6 @@ const getEventTypesFromDBSelect = {
       includeManagedEventsInLimits: true,
       rrResetInterval: true,
       rrTimestampBasis: true,
-      hideBranding: true,
-      parent: { select: { hideBranding: true } },
     },
   },
   bookingFields: true,
@@ -110,13 +108,7 @@ const getEventTypesFromDBSelect = {
   useEventTypeDestinationCalendarEmail: true,
   owner: {
     select: {
-      id: true,
       hideBranding: true,
-      profiles: {
-        select: {
-          organization: { select: { hideBranding: true } },
-        },
-      },
     },
   },
   workflows: {

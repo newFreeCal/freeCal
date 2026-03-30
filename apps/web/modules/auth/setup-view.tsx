@@ -1,19 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
-
-import AdminAppsList from "~/apps/components/AdminAppsList";
 import { APP_NAME } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { inferSSRProps } from "@calcom/types/inferSSRProps";
 import { WizardForm } from "@calcom/ui/components/form";
 import type { WizardStep } from "@calcom/ui/components/form/wizard/WizardForm";
-
 import { AdminUserContainer as AdminUser } from "@components/setup/AdminUser";
 import LicenseSelection from "@components/setup/LicenseSelection";
-
 import type { getServerSideProps } from "@server/lib/setup/getServerSideProps";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import AdminAppsList from "~/apps/components/AdminAppsList";
 
 const SETUP_VIEW_SETPS = {
   ADMIN_USER: 1,
@@ -30,19 +27,16 @@ export function Setup(props: PageProps) {
     props.hasValidLicense ? "EXISTING" : "FREE"
   );
 
-  const hasLicenseStep = !props.hasValidLicense && !hasPickedAGPLv3;
-
   const defaultStep = useMemo(() => {
     if (props.userCount > 0) {
-      if (hasLicenseStep) {
+      if (!props.hasValidLicense && !hasPickedAGPLv3) {
         return SETUP_VIEW_SETPS.LICENSE;
       } else {
-        // License step is not shown, so apps step is at position 2 instead of 3
-        return SETUP_VIEW_SETPS.APPS - 1;
+        return SETUP_VIEW_SETPS.APPS;
       }
     }
     return SETUP_VIEW_SETPS.ADMIN_USER;
-  }, [props.userCount, hasLicenseStep]);
+  }, [props.userCount, props.hasValidLicense, hasPickedAGPLv3]);
 
   const steps: WizardStep[] = [
     {
@@ -55,7 +49,13 @@ export function Setup(props: PageProps) {
             setIsPending(true);
           }}
           onSuccess={() => {
-            nav.onNext();
+            // If there's already a valid license or user picked AGPLv3, skip to apps step
+            if (props.hasValidLicense || hasPickedAGPLv3) {
+              nav.onNext();
+              nav.onNext(); // Skip license step
+            } else {
+              nav.onNext();
+            }
           }}
           onError={() => {
             setIsPending(false);
@@ -68,7 +68,7 @@ export function Setup(props: PageProps) {
   ];
 
   // Only show license selection step if there's no valid license already and AGPLv3 wasn't picked
-  if (hasLicenseStep) {
+  if (!props.hasValidLicense && !hasPickedAGPLv3) {
     steps.push({
       title: t("choose_a_license"),
       description: t("choose_license_description"),

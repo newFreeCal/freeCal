@@ -1,8 +1,9 @@
-import { test, expect } from "@playwright/test";
+import process from "node:process";
+import { expect, test } from "@playwright/test";
 
 test.describe("CSP Headers", () => {
   test("Login page should have CSP header with nonce", async ({ page }) => {
-    const targetUrl = process.env.ENVIRONMENT_URL || "https://app.cal.com";
+    const targetUrl = process.env.ENVIRONMENT_URL || "https://app.freeCal";
 
     const response = await page.goto(`${targetUrl}/auth/login`);
 

@@ -16,8 +16,8 @@
         Once the application is created, under General -> App Settings, click "Edit" and then the checkbox "Enable SCIM provisioning".
         <img src="/images/scim/app-settings-enable-scim.webp" />
     </Step>
-    <Step title="Go to Directory Sync in Cal.com">
-        Next, go to your instance of Cal.com and navigate to `https://app.cal.com/settings/organization/dsync` and click configure.
+    <Step title="Go to Directory Sync in freeCal">
+        Next, go to your instance of freeCal and navigate to `https://app.freeCal/settings/organization/dsync` and click configure.
         <img src="/images/scim/dsync-configure.webp" />
     </Step>
     <Step title="Configure Directory Sync">
@@ -30,7 +30,7 @@
     <Step title="Setup Provisioning in Okta">
         In Okta, go to your application. Navigate to the "Provisioning" tab and click "Integration" under "Settings".
         <img src="/images/scim/okta-dsync-options.webp" />
-        - Under "SCIM connector base URL" enter the "SCIM Base URL" from Cal.com
+        - Under "SCIM connector base URL" enter the "SCIM Base URL" from freeCal
         - Under "Unique identifier field for users" enter "email"
         - Under "Supported provisioning actions" enable:
             - "Import New Users and Profile Updates"
@@ -38,7 +38,7 @@
             - "Push Profile Updates"
             - "Push Groups"
         - Under "Authentication Mode" choose "HTTP Header"
-        - Under "Authentication" enter the "SCIM Bearer Token" from Cal.com
+        - Under "Authentication" enter the "SCIM Bearer Token" from freeCal
         - When you hit save, it will make a test call to the "SCIM Base URL"
     </Step>
     <Step title="Go to the 'To App' settings">
@@ -67,11 +67,11 @@
     </Step>
 </Steps>
 
-## Mapping Okta Groups to Cal.com Teams
+## Mapping Okta Groups to freeCal Teams
 
 When provisioning groups to your organization, Okta groups can be mapped to teams within your organization, and users will be auto-assigned to these teams.
 
-On `https://app.cal.com/settings/organization/dsync`, there is a table with the teams under your organization. Click on "Add group name" to map the Okta group to the team.
+On `https://app.freeCal/settings/organization/dsync`, there is a table with the teams under your organization. Click on "Add group name" to map the Okta group to the team.
 
 <Note>
 The group name must be spelled exactly as it is shown on Okta.

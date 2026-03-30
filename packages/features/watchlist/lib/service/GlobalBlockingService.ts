@@ -1,4 +1,4 @@
-import type { BulkBlockingResult, BlockingResult, IBlockingService } from "../interface/IBlockingService";
+import type { BlockingResult, BulkBlockingResult, IBlockingService } from "../interface/IBlockingService";
 import type { IGlobalWatchlistRepository } from "../interface/IWatchlistRepositories";
 import { WatchlistType } from "../types";
 import {
@@ -61,8 +61,8 @@ export class GlobalBlockingService implements IBlockingService {
    * Bulk check multiple emails in a single query.
    * Returns Map<email (lowercase), BlockingResult> for efficient lookup.
    * Supports configurable wildcard domain matching:
-   * - `*.cal.com` blocks all subdomains (app.cal.com, sub.app.cal.com, etc.)
-   * - `cal.com` only blocks exact matches
+   * - `*.freeCal` blocks all subdomains (app.freeCal, sub.app.freeCal, etc.)
+   * - `freeCal` only blocks exact matches
    */
   async areBlocked(emails: string[]): Promise<BulkBlockingResult> {
     const result: BulkBlockingResult = new Map();

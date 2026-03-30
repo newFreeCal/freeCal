@@ -34,7 +34,7 @@ vi.mock("@calcom/features/bookings/services/BookingAccessService", () => {
     },
   };
 });
-vi.mock("@calcom/features/ee/teams/repositories/TeamRepository", () => {
+vi.mock("@calcom/features/teams/lib/stubs/TeamRepository", () => {
   return {
     TeamRepository: class MockTeamRepository {},
   };
@@ -44,7 +44,7 @@ vi.mock("@calcom/features/webhooks/lib/sendPayload");
 vi.mock("@calcom/prisma", () => ({
   default: {},
 }));
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn().mockResolvedValue((key: string) => {
     const translations: Record<string, string> = {
       wrong_assignment_already_reported:

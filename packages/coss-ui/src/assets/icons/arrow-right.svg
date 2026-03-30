@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 64">
+  <g transform="rotate(90,41.010333,41.110167)">
+    <path fill="#56ccf2" d="m 42,23.241 a 2,2 0 1 0 -4,0 z m -4,14.738 a 2,2 0 1 0 4,0 z M 42,38 a 2,2 0 1 0 -4,0 z m -4,23 a 2,2 0 0 0 4,0 z m 0,-37.759 v 14.738 h 4 V 23.24 Z m 0,14.76 v 23 h 4 V 38 Z"/>
+    <path stroke="#2f80ed" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M 56,38 42.121,24.121 a 3,3 0 0 0 -4.242,0 L 24,38"/>
+  </g>
+</svg>

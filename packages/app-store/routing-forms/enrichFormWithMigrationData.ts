@@ -1,4 +1,4 @@
-import { getOrgFullOrigin } from "@calcom/features/ee/organizations/lib/orgDomains";
+import { getOrgFullOrigin } from "@calcom/features/organizations/lib/stubs/orgDomains";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { teamMetadataSchema, userMetadata } from "@calcom/prisma/zod-utils";
 
@@ -21,7 +21,7 @@ export const enrichFormWithMigrationData = <
       } | null;
       metadata?: unknown;
     } | null;
-  }
+  },
 >(
   form: T
 ) => {

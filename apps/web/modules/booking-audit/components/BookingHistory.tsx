@@ -29,17 +29,6 @@ type TranslationWithParams = {
   components?: TranslationComponent[];
 };
 
-type DisplayFieldValue =
-    | { type: "translationKey"; valueKey: string }
-    | { type: "rawValue"; value: string }
-    | { type: "rawValues"; values: string[] }
-    | { type: "translationsWithParams"; valuesWithParams: TranslationWithParams[] };
-
-type DisplayField = {
-    labelKey: string;
-    fieldValue: DisplayFieldValue;
-};
-
 type AuditLog = {
   id: string;
   action: string;
@@ -48,7 +37,7 @@ type AuditLog = {
   source: string;
   displayJson?: Record<string, unknown> | null;
   actionDisplayTitle: TranslationWithParams;
-  displayFields?: DisplayField[] | null;
+  displayFields?: Array<{ labelKey: string; valueKey?: string; value?: string; values?: string[] }> | null;
   actor: {
     type: AuditActorType;
     displayName: string | null;
@@ -199,39 +188,30 @@ function JsonViewer({ data }: JsonViewerProps) {
   );
 }
 
-interface DisplayFieldValueComponentProps {
-  fieldValue: DisplayFieldValue;
+interface DisplayFieldValueProps {
+  field: {
+    valueKey?: string;
+    value?: string;
+    values?: string[];
+  };
 }
 
-function DisplayFieldValueComponent({ fieldValue }: DisplayFieldValueComponentProps) {
+function DisplayFieldValue({ field }: DisplayFieldValueProps) {
   const { t } = useLocale();
 
-  switch (fieldValue.type) {
-    case "translationsWithParams":
-      return (
-        <span className="flex flex-col">
-          {fieldValue.valuesWithParams.map((v, i) => (
-            <span className="p-0.5" key={i}>
-              {t(v.key, v.params)}
-            </span>
-          ))}
-        </span>
-      );
-    case "rawValues":
-      return (
-        <span className="flex flex-col">
-          {fieldValue.values.map((v, i) => (
-            <span className="p-0.5" key={i}>
-              {v}
-            </span>
-          ))}
-        </span>
-      );
-    case "rawValue":
-      return <>{fieldValue.value}</>;
-    case "translationKey":
-      return <>{t(fieldValue.valueKey)}</>;
+  if (field.values) {
+    return (
+      <span className="flex flex-col">
+        {field.values.map((v, i) => (
+          <span className="p-0.5" key={i}>
+            {v}
+          </span>
+        ))}
+      </span>
+    );
   }
+
+  return <>{field.value ?? (field.valueKey ? t(field.valueKey) : "")}</>;
 }
 
 function BookingLogsTimeline({ logs }: BookingLogsTimelineProps) {
@@ -333,15 +313,15 @@ function BookingLogsTimeline({ logs }: BookingLogsTimelineProps) {
                       {/* Render displayFields if available, otherwise show type */}
                       {log.displayFields && log.displayFields.length > 0
                         ? log.displayFields.map((field, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-start gap-2 py-2 border-b px-3 border-subtle">
-                            <span className="font-medium text-emphasis w-[140px]">{t(field.labelKey)}</span>
-                            <span className="font-medium">
-                              <DisplayFieldValueComponent fieldValue={field.fieldValue} />
-                            </span>
-                          </div>
-                        ))
+                            <div
+                              key={idx}
+                              className="flex items-start gap-2 py-2 border-b px-3 border-subtle">
+                              <span className="font-medium text-emphasis w-[140px]">{t(field.labelKey)}</span>
+                              <span className="font-medium">
+                                <DisplayFieldValue field={field} />
+                              </span>
+                            </div>
+                          ))
                         : null}
                       <div className="flex items-start gap-2 py-2 border-b px-3 border-subtle">
                         <span className="font-medium text-emphasis w-[140px]">{t("actor")}</span>
@@ -404,27 +384,18 @@ function useBookingLogsFilters(auditLogs: AuditLog[], searchTerm: string, actorF
       return (
         log.displayFields?.some((field) => {
           const searchLower = searchTerm.toLowerCase();
+
           const translatedLabel = field.labelKey ? t(field.labelKey) : "";
-          if (translatedLabel.toLowerCase().includes(searchLower)) {
-            return true;
-          }
-          const { fieldValue } = field;
-          switch (fieldValue.type) {
-            case "translationKey":
-              return t(fieldValue.valueKey).toLowerCase().includes(searchLower);
-            case "rawValue":
-              return fieldValue.value.toLowerCase().includes(searchLower);
-            case "rawValues":
-              return fieldValue.values.some((v) => v.toLowerCase().includes(searchLower));
-            case "translationsWithParams":
-              return fieldValue.valuesWithParams.some(
-                (v) =>
-                  t(v.key, v.params).toLowerCase().includes(searchLower) ||
-                  Object.values(v.params ?? {}).some((param) =>
-                    param?.toString().toLowerCase().includes(searchLower)
-                  )
-              );
-          }
+          const translatedValue = field.valueKey ? t(field.valueKey) : "";
+          const displayValue = field.value ?? "";
+          const displayValues = field.values ?? [];
+
+          return (
+            translatedLabel.toLowerCase().includes(searchLower) ||
+            translatedValue.toLowerCase().includes(searchLower) ||
+            displayValue.toLowerCase().includes(searchLower) ||
+            displayValues.some((v) => v.toLowerCase().includes(searchLower))
+          );
         }) ?? false
       );
     };

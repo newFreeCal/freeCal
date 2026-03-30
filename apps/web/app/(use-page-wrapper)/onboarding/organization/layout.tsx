@@ -1,5 +1,6 @@
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
+import { isCompanyEmail } from "@calcom/features/organizations/lib/stubs/utils";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { prisma } from "@calcom/prisma";
 import { buildLegacyRequest } from "@lib/buildLegacyCtx";
@@ -13,9 +14,14 @@ export default async function OrganizationOnboardingLayout({ children }: { child
     return redirect("/auth/login");
   }
 
+  const userEmail = session.user.email || "";
   const userId = session.user.id;
 
   const gettingStartedPath = await OnboardingPathService.getGettingStartedPath();
+
+  if (!isCompanyEmail(userEmail)) {
+    return redirect(gettingStartedPath);
+  }
 
   const userRepository = new UserRepository(prisma);
   const { organizations } = await userRepository.findOrganizations({ userId });

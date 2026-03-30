@@ -1,11 +1,10 @@
-import type { NextResponse } from "next/server";
-
+import process from "node:process";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { ErrorWithCode } from "@calcom/lib/errors";
 import slugify from "@calcom/lib/slugify";
 import prisma from "@calcom/prisma";
 import { RedirectType } from "@calcom/prisma/enums";
-
+import type { NextResponse } from "next/server";
 import { IS_PREMIUM_USERNAME_ENABLED } from "../constants";
 import logger from "../logger";
 import notEmpty from "../notEmpty";
@@ -52,7 +51,7 @@ export const isPremiumUserName = IS_PREMIUM_USERNAME_ENABLED
   ? async (username: string) => {
       return username.length <= 4 || isBlacklisted(username);
     }
-  : // outside of cal.com the concept of premium username needs not exist.
+  : // outside of freeCal the concept of premium username needs not exist.
     () => Promise.resolve(false);
 
 export const generateUsernameSuggestion = async (users: string[], username: string) => {

@@ -1,6 +1,5 @@
 import { DI_TOKENS } from "@calcom/features/di/tokens";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
-
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import { createModule } from "../di";
 
 export const teamRepositoryModule = createModule();

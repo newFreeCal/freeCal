@@ -37,7 +37,7 @@ export const platformPlans: IndividualPlatformPlan[] = [
   {
     plan: "Essentials",
     description:
-      "Your essential package with sophisticated support, hosted platform APIs, Cal.com Atoms (React components) and more.",
+      "Your essential package with sophisticated support, hosted platform APIs, freeCal Atoms (React components) and more.",
     pricing: 299,
     includes: [
       "Up to 500 bookings a month. $0,60 overage beyond",
@@ -78,7 +78,7 @@ export const helpCards: HelpCardInfo[] = [
       "If you are building a marketplace or platform from scratch, our Platform Starter Kit has everything you need.",
     variant: "basic",
     actionButton: {
-      href: "https://experts.cal.com",
+      href: "https://experts.freeCal",
       child: "Try the Demo",
     },
   },
@@ -86,7 +86,7 @@ export const helpCards: HelpCardInfo[] = [
     icon: "github",
     title: "Get the Source code",
     description:
-      "Our Platform Starter Kit is being used in production by Cal.com itself. You can find the ready-to-rock source code on GitHub.",
+      "Our Platform Starter Kit is being used in production by freeCal itself. You can find the ready-to-rock source code on GitHub.",
     variant: "basic",
     actionButton: {
       href: "https://github.com/calcom/examples",
@@ -100,7 +100,7 @@ export const helpCards: HelpCardInfo[] = [
       "Book our engineering team for a 15 minute onboarding call and debug a problem. Please come prepared with questions.",
     variant: "basic",
     actionButton: {
-      href: "https://i.cal.com/platform",
+      href: "https://i.freeCal/platform",
       child: "Schedule a call",
     },
   },
@@ -111,7 +111,7 @@ export const helpCards: HelpCardInfo[] = [
       "You can submit a ticket on GitHub or upgrade your plan to receive real-time support with developer conferences",
     variant: "basic",
     actionButton: {
-      href: "https://github.com/calcom/cal.com/issues/new?template=platform.md",
+      href: "https://github.com/calcom/freeCal/issues/new?template=platform.md",
       child: "Open Issue",
     },
   },

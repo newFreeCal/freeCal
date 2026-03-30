@@ -1,11 +1,13 @@
 /**
  * How to verify that rate limit is different for different impersonated users?
  * Open two terminals
- * Terminal 1: Run `node rate-limit-test-google-service-account-impersonation.js email1@cal.com 1000` - This makes email1 hit the limit. 1000 is much more than 600, so it gives more reliability in reaching the limit.
- * Terminal 1: Run `node rate-limit-test-google-service-account-impersonation.js email1@cal.com 100` - Verify that email1 is still hitting the limit
+ * Terminal 1: Run `node rate-limit-test-google-service-account-impersonation.js email1@freeCal 1000` - This makes email1 hit the limit. 1000 is much more than 600, so it gives more reliability in reaching the limit.
+ * Terminal 1: Run `node rate-limit-test-google-service-account-impersonation.js email1@freeCal 100` - Verify that email1 is still hitting the limit
  * // Run this immediately after the above commands
- * Terminal 2: Run `node rate-limit-test-google-service-account-impersonation.js email2@cal.com 100` - Check for email2's limit, it should not hit the limit
+ * Terminal 2: Run `node rate-limit-test-google-service-account-impersonation.js email2@freeCal 100` - Check for email2's limit, it should not hit the limit
  */
+import process from "node:process";
+
 const { calendar_v3 } = require("@googleapis/calendar");
 const { JWT } = require("googleapis-common");
 
@@ -27,7 +29,7 @@ async function sendRequest(calendar) {
 const args = process.argv.slice(2);
 const emailToImpersonate = args[0];
 const totalRequestsArg = args[1];
-(async function () {
+(async () => {
   console.log({ emailToImpersonate, totalRequestsArg });
   const authClient = new JWT({
     email: serviceAccountClientEmail,

@@ -1,7 +1,5 @@
-import { describe, it, expect } from "vitest";
-
 import { WEBAPP_URL } from "@calcom/lib/constants";
-
+import { describe, expect, it } from "vitest";
 import { getAbsoluteEventTypeRedirectUrl } from "../getEventTypeRedirectUrl";
 
 describe("getAbsoluteEventTypeRedirectUrl", () => {
@@ -9,8 +7,8 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
     team: null,
     nonOrgUsername: null,
     nonOrgTeamslug: null,
-    userOrigin: "https://user.cal.com",
-    teamOrigin: "https://team.cal.com",
+    userOrigin: "https://user.freeCal",
+    teamOrigin: "https://team.freeCal",
     user: {
       username: null,
     },
@@ -46,7 +44,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
         user: { username: "user" },
       },
     });
-    expect(result).toBe("https://user.cal.com/user/event?");
+    expect(result).toBe("https://user.freeCal/user/event?");
   });
 
   it("should return WEBAPP_URL for non-migrated team", () => {
@@ -63,7 +61,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       ...defaultParams,
       eventTypeRedirectUrl: "team/team1/event",
     });
-    expect(result).toBe("https://team.cal.com/team/team1/event?");
+    expect(result).toBe("https://team.freeCal/team/team1/event?");
   });
 
   it("should append URL search params", () => {
@@ -71,7 +69,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       ...defaultParams,
       allURLSearchParams: new URLSearchParams("foo=bar&baz=qux"),
     });
-    expect(result).toBe("https://user.cal.com/user/event?foo=bar&baz=qux");
+    expect(result).toBe("https://user.freeCal/user/event?foo=bar&baz=qux");
   });
 
   it("should append /embed for embedded views", () => {
@@ -80,7 +78,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       allURLSearchParams: new URLSearchParams("foo=bar&baz=qux"),
       isEmbed: true,
     });
-    expect(result).toBe("https://user.cal.com/user/event/embed?foo=bar&baz=qux");
+    expect(result).toBe("https://user.freeCal/user/event/embed?foo=bar&baz=qux");
   });
 
   it("should throw an error if invalid team event redirect URL is provided", () => {
@@ -98,7 +96,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       eventTypeRedirectUrl: "user/event?existing=param",
       allURLSearchParams: new URLSearchParams("foo=bar"),
     });
-    expect(result).toBe("https://user.cal.com/user/event?existing=param&foo=bar");
+    expect(result).toBe("https://user.freeCal/user/event?existing=param&foo=bar");
   });
 
   it("should merge with '&' when redirect URL already contains multiple query parameters", () => {
@@ -107,7 +105,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       eventTypeRedirectUrl: "user/event?existing1=param1&existing2=param2",
       allURLSearchParams: new URLSearchParams("foo=bar"),
     });
-    expect(result).toBe("https://user.cal.com/user/event?existing1=param1&existing2=param2&foo=bar");
+    expect(result).toBe("https://user.freeCal/user/event?existing1=param1&existing2=param2&foo=bar");
   });
 
   it("should merge with '&' when no URL search params are present", () => {
@@ -116,7 +114,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       eventTypeRedirectUrl: "user/event?existing=param",
       allURLSearchParams: new URLSearchParams(),
     });
-    expect(result).toBe("https://user.cal.com/user/event?existing=param&");
+    expect(result).toBe("https://user.freeCal/user/event?existing=param&");
   });
 
   it("should merge when redirect URL ends with '/'", () => {
@@ -125,7 +123,7 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       eventTypeRedirectUrl: "user/event/",
       allURLSearchParams: new URLSearchParams("foo=bar"),
     });
-    expect(result).toBe("https://user.cal.com/user/event/?foo=bar");
+    expect(result).toBe("https://user.freeCal/user/event/?foo=bar");
   });
 
   it("should be able to merge when redirect URL ends with '?'", () => {
@@ -134,6 +132,6 @@ describe("getAbsoluteEventTypeRedirectUrl", () => {
       eventTypeRedirectUrl: "user/event?",
       allURLSearchParams: new URLSearchParams("foo=bar"),
     });
-    expect(result).toBe("https://user.cal.com/user/event?&foo=bar");
+    expect(result).toBe("https://user.freeCal/user/event?&foo=bar");
   });
 });

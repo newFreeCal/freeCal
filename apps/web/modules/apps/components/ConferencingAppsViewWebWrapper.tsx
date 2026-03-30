@@ -1,6 +1,5 @@
 "use client";
 
-import { AppList } from "@calcom/features/apps/components/AppList";
 import DisconnectIntegrationModal from "@calcom/features/apps/components/DisconnectIntegrationModal";
 import SettingsHeader from "@calcom/features/settings/appDir/SettingsHeader";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
@@ -10,8 +9,9 @@ import { Button } from "@calcom/ui/components/button";
 import { EmptyScreen } from "@calcom/ui/components/empty-screen";
 import { SkeletonContainer, SkeletonText } from "@calcom/ui/components/skeleton";
 import { showToast } from "@calcom/ui/components/toast";
-import AppListCardWebWrapper from "@calcom/web/modules/apps/components/AppListCardWebWrapper";
+import { Icon } from "@iconify/react";
 import { useReducer } from "react";
+import { AppList } from "./AppList";
 
 export type UpdateUsersDefaultConferencingAppParams = {
   appSlug: string;
@@ -141,7 +141,6 @@ export const InstalledConferencingApps = ({
       isEventTypesFetching={false}
       handleConnectDisconnectIntegrationMenuToggle={handleConnectDisconnectIntegrationMenuToggle}
       handleBulkEditDialogToggle={handleBulkEditDialogToggle}
-      AppListCardComponent={AppListCardWebWrapper}
     />
   );
 };
@@ -182,7 +181,10 @@ const AddConferencingButton = () => {
   const { t } = useLocale();
 
   return (
-    <Button color="secondary" StartIcon="plus" href="/apps/categories/conferencing">
+    <Button
+      color="secondary"
+      CustomStartIcon={<Icon icon="glyphs-poly:plus" className="h-4 w-4 stroke-[1.5px]" />}
+      href="/apps/categories/conferencing">
       {t("add")}
     </Button>
   );

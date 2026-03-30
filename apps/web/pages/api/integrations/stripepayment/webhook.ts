@@ -1,4 +1,4 @@
-export { default } from "@calcom/features/ee/payments/api/webhook";
+export { default } from "@calcom/features/payments/lib/stubs/webhook";
 
 export const config = {
   api: {

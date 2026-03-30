@@ -1,11 +1,9 @@
-import type { Session } from "next-auth";
-import { redirect } from "next/navigation";
-import { describe, it, vi, expect, beforeEach, type MockedFunction } from "vitest";
-
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import { MembershipRole } from "@calcom/prisma/enums";
-
-import { validateUserHasOrg, type ValidatedOrgSession } from "./validateUserHasOrg";
+import { redirect } from "next/navigation";
+import type { Session } from "next-auth";
+import { beforeEach, describe, expect, it, type MockedFunction, vi } from "vitest";
+import { type ValidatedOrgSession, validateUserHasOrg } from "./validateUserHasOrg";
 
 // Mock the dependencies
 vi.mock("next/navigation", () => ({
@@ -46,8 +44,8 @@ describe("validateUserHasOrg", () => {
         name: "Test Org",
         slug: "test-org",
         logoUrl: null,
-        fullDomain: "test-org.cal.com",
-        domainSuffix: "cal.com",
+        fullDomain: "test-org.freeCal",
+        domainSuffix: "freeCal",
         role: MembershipRole.ADMIN,
       },
       profile: {
@@ -170,8 +168,8 @@ describe("validateUserHasOrg", () => {
             name: "Test Org",
             slug: "test-org",
             logoUrl: null,
-            fullDomain: "test-org.cal.com",
-            domainSuffix: "cal.com",
+            fullDomain: "test-org.freeCal",
+            domainSuffix: "freeCal",
             role: MembershipRole.ADMIN,
           },
           profile: {

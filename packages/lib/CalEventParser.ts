@@ -1,18 +1,18 @@
-import type { TFunction } from "i18next";
-import short from "short-uuid";
-
 import getLabelValueMapFromResponses from "@calcom/lib/bookings/getLabelValueMapFromResponses";
-import { Prisma } from "@calcom/prisma/client";
+import type { Prisma } from "@calcom/prisma/client";
 import type {
   AdditionalInformation,
   AppsStatus,
   CalEventResponses,
+  CalendarEvent,
   Person,
   RecurringEvent,
   TeamMember,
   VideoCallData,
 } from "@calcom/types/Calendar";
-
+import type { TFunction } from "i18next";
+import short from "short-uuid";
+import { v5 as uuidv5 } from "uuid";
 import { WEBAPP_URL } from "./constants";
 import isSmsCalEmail from "./isSmsCalEmail";
 
@@ -192,6 +192,7 @@ export const getLocation = (calEvent: {
 };
 
 export const getProviderName = (location?: string | null): string => {
+  // TODO: use getAppName from @calcom/app-store
   if (location && location.includes("integrations:")) {
     let locationName = location.split(":")[1];
     if (locationName === "daily") {

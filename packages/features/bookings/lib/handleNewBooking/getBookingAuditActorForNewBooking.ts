@@ -1,9 +1,9 @@
 import {
   makeAttendeeActor,
-  makeUserActor,
   makeGuestActor,
+  makeUserActor,
 } from "@calcom/features/booking-audit/lib/makeActor";
-import { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
+import type { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
 import { safeStringify } from "@calcom/lib/safeStringify";
 /**
  * Used to create actor for new booking/reschedule booking scenarios
@@ -44,7 +44,7 @@ export function getBookingAuditActorForNewBooking({
 
     if ("userUuid" in rescheduledBy && rescheduledBy.userUuid) {
       // We consider that a user actor did it without verifying the authorization, so whn taking the action we could record in the context that this action was taken through rescheduledBy contex, similar to how we would do impersonatedBy in context
-      // as introduced in PR: https://github.com/calcom/cal.com/pull/26014
+      // as introduced in PR: https://github.com/calcom/freeCal/pull/26014
       return makeUserActor(rescheduledBy.userUuid);
     }
 

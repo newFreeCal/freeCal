@@ -3,6 +3,7 @@
 import type { OptInFeatureConfig } from "@calcom/features/feature-opt-in/config";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Button } from "@calcom/ui/components/button";
+import { Icon } from "@iconify/react";
 import Image from "next/image";
 import type { ReactElement } from "react";
 
@@ -33,7 +34,7 @@ export function FeatureOptInBanner({
           type="button"
           onClick={onDismiss}
           variant="icon"
-          StartIcon="x"
+          CustomStartIcon={<Icon icon="glyphs-poly:x" className="h-4 w-4" />}
           color="minimal"
           className="absolute top-1.5 right-1.5 opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto"
           aria-label={t("close")}></Button>

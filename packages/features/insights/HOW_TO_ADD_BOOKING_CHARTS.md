@@ -1,4 +1,4 @@
-# How to Add a New Booking Chart to Cal.com Insights Page
+# How to Add a New Booking Chart to freeCal Insights Page
 
 This guide walks you through creating a new booking chart component for the insights page, covering the entire stack from UI component to backend service.
 

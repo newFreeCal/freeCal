@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(timeout *)",
+      "Bash(tee *)",
+      "Bash(find *)",
+      "Bash(git show *)",
+      "Bash(grep *)",
+      "Bash(curl *)",
+      "Bash(yarn *)"
+    ]
+  }
+}

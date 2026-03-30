@@ -1,4 +1,4 @@
-import type { TGetVerifiedNumbersInputSchema } from "@calcom/features/ee/workflows/repositories/WorkflowRepository";
+import type { TGetVerifiedNumbersInputSchema } from "@calcom/features/workflows/lib/stubs/WorkflowRepository";
 import { z } from "zod";
 
 export const ZGetVerifiedNumbersInputSchema: z.ZodType<TGetVerifiedNumbersInputSchema> = z.object({

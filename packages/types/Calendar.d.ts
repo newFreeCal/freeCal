@@ -62,7 +62,7 @@ export type EventBusyDate = {
 
 export type EventBusyDetails = EventBusyDate & {
   title?: string;
-  source: string;
+  source?: string | null;
   userId?: number | null;
 };
 
@@ -219,7 +219,6 @@ export interface CalendarEvent {
   platformRescheduleUrl?: string | null;
   platformCancelUrl?: string | null;
   platformBookingUrl?: string | null;
-  hideBranding?: boolean;
   oneTimePassword?: string | null;
   delegationCredentialId?: string | null;
   domainWideDelegationCredentialId?: string | null;

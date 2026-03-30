@@ -1,12 +1,6 @@
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
-import { getActionIcon } from "@calcom/features/ee/workflows/lib/getActionIcon";
 import type { FormValues } from "@calcom/features/eventtypes/lib/types";
+import useLockedFieldsManager from "@calcom/features/managed-event-types/lib/stubs/useLockedFieldsManager";
+import { getActionIcon } from "@calcom/features/workflows/lib/stubs";
 import ServerTrans from "@calcom/lib/components/ServerTrans";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { HttpError } from "@calcom/lib/http-error";
@@ -18,17 +12,21 @@ import { Alert } from "@calcom/ui/components/alert";
 import { Button } from "@calcom/ui/components/button";
 import { EmptyScreen } from "@calcom/ui/components/empty-screen";
 import { Switch } from "@calcom/ui/components/form";
-import { LockIcon } from "@coss/ui/icons";
 import { showToast } from "@calcom/ui/components/toast";
 import { Tooltip } from "@calcom/ui/components/tooltip";
 import { revalidateEventTypeEditPage } from "@calcom/web/app/(use-page-wrapper)/event-types/[type]/actions";
-
-import SkeletonLoader from "~/ee/workflows/components/SkeletonLoaderEventWorkflowsTab";
-import type { WorkflowType } from "~/ee/workflows/components/WorkflowListPage";
+import { LockIcon } from "@coss/ui/icons";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import LicenseRequired from "~/common/components/LicenseRequired";
+import SkeletonLoader from "~/workflows/components/SkeletonLoaderEventWorkflowsTab";
+import type { WorkflowType } from "~/workflows/components/WorkflowListPage";
 
 type PartialWorkflowType = Pick<
   WorkflowType,
-  "name" | "activeOn" | "isOrg" | "steps" | "id" | "readOnly" | "permissions"
+  "name" | "activeOn" | "isOrg" | "steps" | "id" | "readOnly" | "permissions" | "eventType" | "enabled" | "teamId"
 >;
 
 type ItemProps = {
@@ -199,7 +197,7 @@ function EventWorkflowsTab(props: Props) {
 
   useEffect(() => {
     if (data?.workflows) {
-      const allActiveWorkflows = workflows.map((workflowOnEventType) => {
+      const allActiveWorkflows = workflows.map((workflowOnEventType: PartialWorkflowType) => {
         const dataWf = data.workflows.find((wf) => wf.id === workflowOnEventType.id);
         return {
           ...workflowOnEventType,
@@ -207,15 +205,26 @@ function EventWorkflowsTab(props: Props) {
         } as WorkflowType;
       });
 
-      const disabledWorkflows = data.workflows.filter(
-        (workflow) =>
-          (!workflow.teamId || eventType.teamId === workflow.teamId) &&
-          !workflows
-            .map((workflow) => {
-              return workflow.id;
-            })
-            .includes(workflow.id)
-      );
+      const disabledWorkflows = data.workflows
+        .filter(
+          (workflow) =>
+            (!workflow.teamId || eventType.teamId === workflow.teamId) &&
+            !workflows
+              .map((workflow) => {
+                return workflow.id;
+              })
+              .includes(workflow.id)
+        )
+        .map((workflow) => {
+          return {
+            id: workflow.id,
+            name: workflow.name,
+            eventType: "",
+            enabled: workflow.isActiveOnAll ?? true,
+            steps: workflow.steps,
+            teamId: workflow.teamId ?? null,
+          } as WorkflowType;
+        });
       const allSortedWorkflows =
         workflowsDisableProps.isLocked && !isManagedEventType
           ? allActiveWorkflows
@@ -226,8 +235,8 @@ function EventWorkflowsTab(props: Props) {
   }, [isPending]);
 
   const createMutation = trpc.viewer.workflows.create.useMutation({
-    onSuccess: async ({ workflow }) => {
-      router.replace(`/workflows/${workflow.id}?eventTypeId=${eventType.id}`);
+    onSuccess: async () => {
+      // Stub returns null, so skip navigation
     },
     onError: (err) => {
       if (err instanceof HttpError) {

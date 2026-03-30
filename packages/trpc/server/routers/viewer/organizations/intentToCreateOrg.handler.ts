@@ -1,19 +1,13 @@
-import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
-import { OrganizationOnboardingFactory } from "@calcom/ee/organizations/lib/service/onboarding/OrganizationOnboardingFactory";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
 import {
   assertCanCreateOrg,
   findUserToBeOrgOwner,
-} from "@calcom/features/ee/organizations/lib/server/orgCreationUtils";
-import { OrganizationOnboardingRepository } from "@calcom/features/organizations/repositories/OrganizationOnboardingRepository";
-import { IS_SELF_HOSTED } from "@calcom/lib/constants";
+} from "@calcom/features/organizations/lib/stubs/lib/server/orgCreationUtils";
+import { OrganizationOnboardingFactory } from "@calcom/features/organizations/lib/stubs/service/onboarding/OrganizationOnboardingFactory.stub";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import { prisma } from "@calcom/prisma";
 import { UserPermissionRole } from "@calcom/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TIntentToCreateOrgInputSchema } from "./intentToCreateOrg.schema";
 
@@ -29,22 +23,9 @@ type CreateOptions = {
 export const intentToCreateOrgHandler = async ({ input, ctx }: CreateOptions) => {
   const { slug, name, orgOwnerEmail, isPlatform } = input;
   log.debug(
-    "Starting organization creation intent",
+    "Starting organization creation intent (open-source version)",
     safeStringify({ slug, name, orgOwnerEmail, isPlatform })
   );
-
-  if (IS_SELF_HOSTED) {
-    const deploymentRepo = new DeploymentRepository(prisma);
-    const licenseKeyService = await LicenseKeySingleton.getInstance(deploymentRepo);
-    const hasValidLicense = await licenseKeyService.checkLicense();
-
-    if (!hasValidLicense) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "License is not valid",
-      });
-    }
-  }
 
   const loggedInUser = ctx.user;
   if (!loggedInUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "You are not authorized." });
@@ -63,10 +44,11 @@ export const intentToCreateOrgHandler = async ({ input, ctx }: CreateOptions) =>
     });
   }
 
-  const orgOwner = await findUserToBeOrgOwner(orgOwnerEmail);
+  const orgOwner = await findUserToBeOrgOwner({
+    userId: ctx.user.id,
+    email: orgOwnerEmail,
+  });
   if (!orgOwner) {
-    // The flow exists to create the user through the stripe webhook invoice.paid but there could be a possible security issue with the approach. So, we avoid it currently.
-    // Issue: As the onboarding link(which has onboardingId) could be used by unwanted person to pay and then invite some unwanted members to the organization.
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: `No user found with email ${orgOwnerEmail}`,
@@ -74,39 +56,39 @@ export const intentToCreateOrgHandler = async ({ input, ctx }: CreateOptions) =>
   }
   log.debug("Found organization owner", safeStringify({ orgOwnerId: orgOwner.id, email: orgOwner.email }));
 
-  const organizationOnboarding = await OrganizationOnboardingRepository.findByOrgOwnerEmail(orgOwner.email);
+  // Check for existing incomplete onboarding (resume flow)
+  const organizationOnboarding = await prisma.organizationOnboarding.findUnique({
+    where: { orgOwnerEmail: orgOwnerEmail.toLowerCase() },
+    select: { id: true, isComplete: true },
+  });
 
-  // If onboarding exists and is incomplete, this is a resume flow (e.g., admin handover)
-  // Allow proceeding with the existing onboarding record
   if (organizationOnboarding) {
     if (organizationOnboarding.isComplete) {
-      // Organization already created - shouldn't create another one
-      throw new Error("organization_onboarding_already_exists");
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "organization_onboarding_already_exists",
+      });
     }
 
-    // Incomplete onboarding exists - this is expected for resume/handover flows
     log.debug(
       "Found incomplete onboarding record - proceeding with resume flow",
       safeStringify({ onboardingId: organizationOnboarding.id, slug })
     );
 
-    // Use existing onboarding ID for the resume flow
     input.onboardingId = organizationOnboarding.id;
   }
 
   await assertCanCreateOrg({
-    slug,
-    isPlatform,
-    orgOwner,
-    restrictBasedOnMinimumPublishedTeams: !IS_USER_ADMIN,
+    userId: ctx.user.id,
+    email: ctx.user.email,
   });
 
-  const onboardingService = OrganizationOnboardingFactory.create({
-    id: ctx.user.id,
-    email: ctx.user.email,
-    role: ctx.user.role,
-  });
-  const result = await onboardingService.createOnboardingIntent(input);
+  // In open-source version, skip onboarding service - just return success
+  // Return checkoutUrl as null for self-hosted flow (billing disabled)
+  const result = {
+    onboardingId: organizationOnboarding?.id ?? "stub-onboarding-id",
+    checkoutUrl: null,
+  };
 
   log.debug("Organization creation intent successful", safeStringify({ slug, orgOwnerId: orgOwner.id }));
 

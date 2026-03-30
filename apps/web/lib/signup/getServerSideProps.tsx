@@ -1,18 +1,16 @@
-import type { GetServerSidePropsContext } from "next";
-import { z } from "zod";
-
+import process from "node:process";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { IS_OUTLOOK_LOGIN_ENABLED } from "@calcom/features/auth/lib/outlook";
 import { getOrgUsernameFromEmail } from "@calcom/features/auth/signup/utils/getOrgUsernameFromEmail";
-import { checkPremiumUsername } from "@calcom/features/ee/common/lib/checkPremiumUsername";
-import { isSAMLLoginEnabled } from "@calcom/features/ee/sso/lib/saml";
+import { checkPremiumUsername } from "@calcom/features/common/lib/stubs/lib/checkPremiumUsername";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
+import { isSAMLLoginEnabled } from "@calcom/features/sso/lib/stubs/lib/saml";
 import { IS_SELF_HOSTED, WEBAPP_URL } from "@calcom/lib/constants";
 import { emailSchema } from "@calcom/lib/emailSchema";
 import slugify from "@calcom/lib/slugify";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
-
 import { IS_GOOGLE_LOGIN_ENABLED } from "@server/lib/constants";
+import type { GetServerSidePropsContext } from "next";
+import { z } from "zod";
 
 const checkValidEmail = (email: string) => emailSchema.safeParse(email).success;
 
@@ -37,7 +35,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .string()
     .refine((value) => value.startsWith(WEBAPP_URL), {
       params: (value: string) => ({ value }),
-      message: "Redirect URL must start with 'cal.com'",
+      message: "Redirect URL must start with 'freeCal'",
     })
     .optional()
     .safeParse(ctx.query.redirect);
@@ -60,7 +58,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const props = {
     redirectUrl,
     isGoogleLoginEnabled: IS_GOOGLE_LOGIN_ENABLED,
-    isOutlookLoginEnabled: IS_OUTLOOK_LOGIN_ENABLED,
     isSAMLLoginEnabled,
     prepopulateFormValues: undefined,
     emailVerificationEnabled,

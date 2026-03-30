@@ -1,30 +1,18 @@
-import { getIntegrationAttributeSyncService } from "@calcom/features/ee/integration-attribute-sync/di/IntegrationAttributeSyncService.container";
-
-import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../types";
-import type { ZGetAllAttributeSyncsSchema } from "./getAllAttributeSyncs.schema";
+import type { IntegrationAttributeSync } from "@calcom/features/integration-attribute-sync/lib/stubs/repositories/IIntegrationAttributeSyncRepository";
 
 type GetAllAttributeSyncsOptions = {
   ctx: {
-    user: NonNullable<TrpcSessionUser>;
+    user: {
+      id: number;
+    };
   };
-  input: ZGetAllAttributeSyncsSchema;
+  input: any;
 };
 
-const getAllAttributeSyncsHandler = async ({ ctx }: GetAllAttributeSyncsOptions) => {
-  const org = ctx.user.organization;
-
-  if (!org?.id) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "You need to be part of an organization to use this feature",
-    });
-  }
-
-  const service = getIntegrationAttributeSyncService();
-
-  return await service.getAllIntegrationAttributeSyncs(org.id);
+const getAllAttributeSyncsHandler = async ({}: GetAllAttributeSyncsOptions): Promise<
+  IntegrationAttributeSync[]
+> => {
+  return [];
 };
 
 export default getAllAttributeSyncsHandler;

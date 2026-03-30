@@ -2,19 +2,17 @@ import {
   createBookingScenario,
   getOrganizer,
   getScenarioData,
-  TestData,
   mockSuccessfulVideoMeetingCreation,
+  TestData,
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
-
-import { describe, it, beforeEach, vi, expect } from "vitest";
-
+import { makeUserActor } from "@calcom/features/booking-audit/lib/makeActor";
+import { getBookingEventHandlerService } from "@calcom/features/bookings/di/BookingEventHandlerService.container";
 import * as handleConfirmationModule from "@calcom/features/bookings/lib/handleConfirmation";
 import { distributedTracing } from "@calcom/lib/tracing/factory";
 import { BookingStatus } from "@calcom/prisma/enums";
 import { confirmHandler } from "@calcom/trpc/server/routers/viewer/bookings/confirm.handler";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-import { makeUserActor } from "@calcom/features/booking-audit/lib/makeActor";
-import { getBookingEventHandlerService } from "@calcom/features/bookings/di/BookingEventHandlerService.container";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@calcom/features/bookings/di/BookingEventHandlerService.container", () => {
   const onBookingAccepted = vi.fn().mockResolvedValue(undefined);
@@ -61,7 +59,7 @@ describe("confirmHandler", () => {
       });
 
       const uidOfBooking = "hideNotes123";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
 
       const plus1DateString = "2050-01-08";
 
@@ -131,7 +129,6 @@ describe("confirmHandler", () => {
           emailsEnabled: true,
           actor: makeUserActor(ctx.user.uuid),
           actionSource: "WEBAPP",
-          impersonatedByUserUuid: null,
         },
       });
 
@@ -163,7 +160,7 @@ describe("confirmHandler", () => {
       });
 
       const uidOfBooking = "testBooking123";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
 
       const plus1DateString = "2050-01-08";
 
@@ -231,7 +228,6 @@ describe("confirmHandler", () => {
           emailsEnabled: true,
           actor,
           actionSource: "WEBAPP",
-          impersonatedByUserUuid: null,
         },
       });
 
@@ -271,8 +267,8 @@ describe("confirmHandler", () => {
       const recurringEventId = "recurring123";
       const uidOfBooking1 = "testBooking1";
       const uidOfBooking2 = "testBooking2";
-      const iCalUID1 = `${uidOfBooking1}@Cal.com`;
-      const iCalUID2 = `${uidOfBooking2}@Cal.com`;
+      const iCalUID1 = `${uidOfBooking1}@freeCal`;
+      const iCalUID2 = `${uidOfBooking2}@freeCal`;
 
       const plus1DateString = "2050-01-08";
       const plus2DateString = "2050-01-09";
@@ -359,7 +355,6 @@ describe("confirmHandler", () => {
           emailsEnabled: true,
           actor,
           actionSource: "WEBAPP",
-          impersonatedByUserUuid: null,
         },
       });
 
@@ -405,7 +400,7 @@ describe("confirmHandler", () => {
       });
 
       const uidOfBooking = "testBooking456";
-      const iCalUID = `${uidOfBooking}@Cal.com`;
+      const iCalUID = `${uidOfBooking}@freeCal`;
 
       const plus1DateString = "2050-01-08";
 
@@ -470,7 +465,6 @@ describe("confirmHandler", () => {
           emailsEnabled: false,
           actor,
           actionSource: "WEBAPP",
-          impersonatedByUserUuid: null,
         },
       });
 
@@ -511,8 +505,8 @@ describe("confirmHandler", () => {
       const recurringEventId = "recurring456";
       const uidOfBooking1 = "testBooking3";
       const uidOfBooking2 = "testBooking4";
-      const iCalUID1 = `${uidOfBooking1}@Cal.com`;
-      const iCalUID2 = `${uidOfBooking2}@Cal.com`;
+      const iCalUID1 = `${uidOfBooking1}@freeCal`;
+      const iCalUID2 = `${uidOfBooking2}@freeCal`;
 
       const plus1DateString = "2050-01-08";
       const plus2DateString = "2050-01-09";
@@ -596,7 +590,6 @@ describe("confirmHandler", () => {
           emailsEnabled: false,
           actor,
           actionSource: "WEBAPP",
-          impersonatedByUserUuid: null,
         },
       });
 

@@ -1,17 +1,10 @@
-export { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
-export { OrganizationRepository } from "@calcom/features/ee/organizations/repositories/OrganizationRepository";
-export { OrganizationMembershipService } from "@calcom/features/ee/organizations/lib/service/OrganizationMembershipService";
-export type { IOrganizationRepository } from "@calcom/features/ee/organizations/lib/repository/IOrganizationRepository";
-
-export { getOrgFullOrigin, subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
-export { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
-
-export { PlatformBillingRepository } from "@calcom/features/ee/organizations/repositories/PlatformBillingRepository";
-export { PlatformOrganizationBillingTasker } from "@calcom/features/ee/organizations/lib/billing/tasker/PlatformOrganizationBillingTasker";
-export { PlatformOrganizationBillingSyncTasker } from "@calcom/features/ee/organizations/lib/billing/tasker/PlatformOrganizationBillingSyncTasker";
-export { PlatformOrganizationBillingTriggerTasker } from "@calcom/features/ee/organizations/lib/billing/tasker/PlatformOrganizationBillingTriggerTasker";
-export { PlatformOrganizationBillingTaskService } from "@calcom/features/ee/organizations/lib/billing/tasker/PlatformOrganizationBillingTaskService";
-export type { IBillingProviderService } from "@calcom/features/ee/billing/service/billingProvider/IBillingProviderService";
-
-export { getActiveUserBillingService } from "@calcom/features/ee/billing/active-user/di/ActiveUserBillingService.container";
-export { ActiveUserBillingService } from "@calcom/features/ee/billing/active-user/services/ActiveUserBillingService";
+export { StubActiveUserBillingService as ActiveUserBillingService } from "@calcom/features/billing/lib/stubs/active-user/services/StubActiveUserBillingService";
+export type { IBillingProviderService } from "@calcom/features/billing/lib/stubs/service/billingProvider/IBillingProviderService";
+export { getBookerBaseUrlSync } from "@calcom/features/organizations/lib/stubs/getBookerBaseUrlSync";
+export { StubPlatformOrganizationBillingTasker as PlatformOrganizationBillingTasker } from "@calcom/features/organizations/lib/stubs/lib/billing/tasker/StubPlatformOrganizationBillingTasker";
+export { getOrganizationRepository } from "@calcom/features/organizations/lib/stubs/OrganizationRepository";
+export { getOrgFullOrigin, subdomainSuffix } from "@calcom/features/organizations/lib/stubs/orgDomains";
+export { OrganizationRepository } from "@calcom/features/organizations/lib/stubs/repositories/OrganizationRepository";
+export { StubPlatformBillingRepository as PlatformBillingRepository } from "@calcom/features/organizations/lib/stubs/repositories/StubPlatformBillingRepository";
+export type { IOrganizationRepository } from "@calcom/features/organizations/lib/stubs/repository/IOrganizationRepository";
+export { OrganizationMembershipService } from "@calcom/features/organizations/lib/stubs/service/OrganizationMembershipService";

@@ -1,19 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import posthog from "posthog-js";
-import { useEffect, useState } from "react";
-
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Button } from "@calcom/ui/components/button";
 import { ColorPicker, Label } from "@calcom/ui/components/form";
 import { BannerUploader, ImageUploader } from "@calcom/ui/components/image-uploader";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import posthog from "posthog-js";
+import { useEffect, useState } from "react";
 import { OnboardingCard } from "../../components/OnboardingCard";
 import { OnboardingLayout } from "../../components/OnboardingLayout";
 import { OnboardingOrganizationBrowserView } from "../../components/onboarding-organization-browser-view";
 import { useMigrationFlow } from "../../hooks/useMigrationFlow";
-import { useOnboardingQueryParams } from "../../hooks/useOnboardingQueryParams";
 import { useOnboardingStore } from "../../store/onboarding-store";
 
 type OrganizationBrandViewProps = {
@@ -22,8 +19,8 @@ type OrganizationBrandViewProps = {
 
 export const OrganizationBrandView = ({ userEmail }: OrganizationBrandViewProps) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { t } = useLocale();
-  const { getQueryString } = useOnboardingQueryParams();
   const { organizationDetails, organizationBrand, setOrganizationBrand } = useOnboardingStore();
   const { isMigrationFlow, hasTeams } = useMigrationFlow();
 
@@ -53,7 +50,8 @@ export const OrganizationBrandView = ({ userEmail }: OrganizationBrandViewProps)
   };
 
   const getNextStep = () => {
-    const queryString = getQueryString();
+    const migrateParam = searchParams?.get("migrate");
+    const queryString = migrateParam ? `?migrate=${migrateParam}` : "";
 
     // If migration flow and has teams, go to migrate-teams, otherwise go to teams
     if (isMigrationFlow && hasTeams) {
@@ -80,7 +78,7 @@ export const OrganizationBrandView = ({ userEmail }: OrganizationBrandViewProps)
   const handleSkip = () => {
     posthog.capture("onboarding_organization_brand_skip_clicked");
     // Skip brand customization and go to teams
-    router.push(`/onboarding/organization/teams${getQueryString()}`);
+    router.push("/onboarding/organization/teams");
   };
 
   const totalSteps = isMigrationFlow && hasTeams ? 6 : 4;

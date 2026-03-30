@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
-import { type Instrumentation } from "next";
+import type { Instrumentation } from "next";
 
 export async function register() {
   if (process.env.NODE_ENV === "production") {

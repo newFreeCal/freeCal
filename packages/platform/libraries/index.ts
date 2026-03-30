@@ -1,19 +1,19 @@
-import { getTranslation } from "@calcom/i18n/server";
 import { getBookingForReschedule } from "@calcom/features/bookings/lib/get-booking";
 import getAllUserBookings from "@calcom/features/bookings/lib/getAllUserBookings";
 import { getBookingFieldsWithSystemFields } from "@calcom/features/bookings/lib/getBookingFields";
 import getBookingInfo from "@calcom/features/bookings/lib/getBookingInfo";
 import handleCancelBooking from "@calcom/features/bookings/lib/handleCancelBooking";
-import { getClientSecretFromPayment } from "@calcom/features/ee/payments/pages/getClientSecretFromPayment";
-import { getTeamMemberEmailForResponseOrContactUsingUrlQuery } from "@calcom/features/ee/teams/lib/getTeamMemberEmailFromCrm";
-import {
-  sendVerificationCode,
-  verifyPhoneNumber,
-} from "@calcom/features/ee/workflows/lib/reminders/verifyPhoneNumber";
 import { handleCreatePhoneCall } from "@calcom/features/handleCreatePhoneCall";
 import handleMarkNoShow from "@calcom/features/handleMarkNoShow";
+import { getClientSecretFromPayment } from "@calcom/features/payments/lib/stubs/getClientSecretFromPayment";
 import { getRoutedUrl } from "@calcom/features/routing-forms/lib/getRoutedUrl";
+import { getTeamMemberEmailForResponseOrContactUsingUrlQuery } from "@calcom/features/teams/lib/stubs/getTeamMemberEmailFromCrm";
+import {
+  sendVerificationCode,
+  verifyPhoneNumber as verifyPhoneNumberStub,
+} from "@calcom/features/workflows/lib/stubs/lib/reminders/verifyPhoneNumber";
 import { symmetricDecrypt, symmetricEncrypt } from "@calcom/lib/crypto";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import type { Prisma } from "@calcom/prisma/client";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import { paymentDataSelect } from "@calcom/prisma/selects/payment";
@@ -23,13 +23,13 @@ export { slugify } from "@calcom/lib/slugify";
 export { slugifyLenient } from "@calcom/lib/slugify-lenient";
 export { getBookingForReschedule };
 
+export { getWebhookProducer } from "@calcom/features/di/webhooks/containers/webhook";
 export { getUsernameList } from "@calcom/features/eventtypes/lib/defaultEvents";
 export {
   DEFAULT_WEBHOOK_VERSION,
   WebhookVersion,
 } from "@calcom/features/webhooks/lib/interface/IWebhookRepository";
 export type { IWebhookProducerService } from "@calcom/features/webhooks/lib/interface/WebhookProducerService";
-export { getWebhookProducer } from "@calcom/features/di/webhooks/containers/webhook";
 export {
   AttributeType,
   CreationSource,
@@ -74,9 +74,9 @@ export { symmetricEncrypt, symmetricDecrypt };
 
 export { getTranslation };
 
-export { roundRobinManualReassignment } from "@calcom/features/ee/round-robin/roundRobinManualReassignment";
-export { roundRobinReassignment } from "@calcom/features/ee/round-robin/roundRobinReassignment";
 export { validateCustomEventName } from "@calcom/features/eventtypes/lib/eventNaming";
+export { roundRobinManualReassignment } from "@calcom/features/round-robin/lib/stubs/roundRobinManualReassignment";
+export { roundRobinReassignment } from "@calcom/features/round-robin/lib/stubs/roundRobinReassignment";
 
 export type TeamQuery = Prisma.TeamGetPayload<{
   select: {
@@ -115,20 +115,20 @@ export { encryptServiceAccountKey } from "@calcom/lib/server/serviceAccountKey";
 export { createHandler as createApiKeyHandler } from "@calcom/trpc/server/routers/viewer/apiKeys/create.handler";
 export type { TFindTeamMembersMatchingAttributeLogicInputSchema } from "@calcom/trpc/server/routers/viewer/attributes/findTeamMembersMatchingAttributeLogic.schema";
 
-export { verifyPhoneNumber, sendVerificationCode };
+export { verifyPhoneNumberStub as verifyPhoneNumber, sendVerificationCode };
 
 export { verifyCodeUnAuthenticated } from "@calcom/features/auth/lib/verifyCodeUnAuthenticated";
 export { sendEmailVerificationByCode } from "@calcom/features/auth/lib/verifyEmail";
+export { StubBillingService as StripeBillingService } from "@calcom/features/billing/lib/stubs/service/billingProvider/StubBillingService";
 export { BookingAccessService } from "@calcom/features/bookings/services/BookingAccessService";
 export type { OrgMembershipLookup } from "@calcom/features/di/modules/OrgMembershipLookup";
-export { StripeBillingService } from "@calcom/features/ee/billing/service/billingProvider/StripeBillingService";
-export { TeamService } from "@calcom/features/ee/teams/services/teamService";
 export type { OAuth2Tokens } from "@calcom/features/oauth/services/OAuthService";
 export { OAuthService } from "@calcom/features/oauth/services/OAuthService";
 export { generateSecret } from "@calcom/features/oauth/utils/generateSecret";
 export { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 export type { Tasker } from "@calcom/features/tasker/tasker";
 export { getTasker } from "@calcom/features/tasker/tasker-factory";
+export { StubTeamService as TeamService } from "@calcom/features/teams/lib/stubs/StubTeamService";
 export { verifyCodeChallenge } from "@calcom/lib/pkce";
 export { validateUrlForSSRFSync } from "@calcom/lib/ssrfProtection";
 export { checkEmailVerificationRequired } from "@calcom/trpc/server/routers/publicViewer/checkIfUserEmailVerificationRequired.handler";

@@ -1,12 +1,10 @@
-import { z } from "zod";
-
 import type { FORM_SUBMITTED_WEBHOOK_RESPONSES } from "@calcom/app-store/routing-forms/lib/formSubmissionUtils";
-import { scheduleWorkflowReminders } from "@calcom/ee/workflows/lib/reminders/reminderScheduler";
-import type { Workflow } from "@calcom/ee/workflows/lib/types";
-import { ZWorkflow } from "@calcom/ee/workflows/lib/types";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
+import { scheduleWorkflowReminders } from "@calcom/features/workflows/lib/stubs/scheduleWorkflowReminders";
+import type { Workflow } from "@calcom/features/workflows/lib/stubs/types";
+import { ZWorkflow } from "@calcom/features/workflows/lib/stubs/types";
 import logger from "@calcom/lib/logger";
-
+import type { WorkflowTriggerEvents } from "@calcom/prisma/enums";
+import { z } from "zod";
 import { shouldTriggerFormSubmittedNoEvent } from "./formSubmissionValidation";
 
 const log = logger.getSubLogger({ prefix: ["[tasker] triggerFormSubmittedNoEventWorkflow"] });
@@ -53,8 +51,6 @@ export async function triggerFormSubmittedNoEventWorkflow(payload: string): Prom
 
   if (!shouldTrigger) return;
 
-  const creditService = new CreditService();
-
   try {
     await scheduleWorkflowReminders({
       smsReminderNumber,
@@ -65,7 +61,7 @@ export async function triggerFormSubmittedNoEventWorkflow(payload: string): Prom
       },
       hideBranding,
       workflows: [workflow as Workflow],
-      creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
+      creditCheckFn: async () => true,
     });
   } catch (error) {
     log.error("Error while triggering form submitted no event workflows", JSON.stringify({ error }));

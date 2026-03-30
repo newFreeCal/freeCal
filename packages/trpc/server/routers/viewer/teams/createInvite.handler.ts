@@ -1,11 +1,9 @@
-import { TeamService } from "@calcom/features/ee/teams/services/teamService";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
+import { TeamService } from "@calcom/features/teams/lib/stubs/services/teamService";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 import { TRPCError } from "@trpc/server";
-
 import type { TCreateInviteInputSchema } from "./createInvite.schema";
 
 type CreateInviteOptions = {

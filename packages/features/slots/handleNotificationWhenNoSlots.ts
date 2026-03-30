@@ -1,10 +1,11 @@
+import process from "node:process";
 import type { Dayjs } from "@calcom/dayjs";
 import { sendOrganizationAdminNoSlotsNotification } from "@calcom/emails/organization-email-service";
-import type { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import type { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import type { IRedisService } from "@calcom/features/redis/IRedisService";
+import type { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import { IS_PRODUCTION, WEBAPP_URL } from "@calcom/lib/constants";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 
 type EventDetails = {
   username: string;

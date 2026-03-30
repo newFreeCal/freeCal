@@ -4,6 +4,6 @@ export {
   getIncrementUsageJobTag,
   INCREMENT_USAGE_JOB_ID,
   RESCHEDULE_USAGE_INCREMENT_JOB_ID,
-} from "@calcom/features/ee/organizations/lib/billing/tasker/constants";
+} from "@calcom/features/organizations/lib/stubs/lib/billing/tasker/constants";
 export type { Tasker } from "@calcom/features/tasker/tasker";
 export { getTasker } from "@calcom/features/tasker/tasker-factory";

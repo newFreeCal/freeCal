@@ -2,7 +2,7 @@
 
 ## Overview
 
-The PBAC system provides fine-grained access control for Cal.com using a combination of CRUD-based permissions and custom actions. It's designed to be flexible, performant, and maintain backward compatibility with the existing role system through fallback mechanisms.
+The PBAC system provides fine-grained access control for freeCal using a combination of CRUD-based permissions and custom actions. It's designed to be flexible, performant, and maintain backward compatibility with the existing role system through fallback mechanisms.
 
 ## Default Roles
 

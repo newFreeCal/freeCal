@@ -1,3 +1,4 @@
+import { useIsPlatform } from "@calcom/atoms/hooks/useIsPlatform";
 import { Dialog } from "@calcom/features/components/controlled-dialog";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { App } from "@calcom/types/App";
@@ -16,7 +17,6 @@ interface DisconnectIntegrationModalProps {
   teamId?: number;
   handleRemoveApp: (params: RemoveAppParams) => void;
   app?: App["slug"] | null;
-  isPlatform?: boolean;
 }
 
 export default function DisconnectIntegrationModal({
@@ -26,9 +26,9 @@ export default function DisconnectIntegrationModal({
   handleModelClose,
   teamId,
   handleRemoveApp,
-  isPlatform = false,
 }: DisconnectIntegrationModalProps) {
   const { t } = useLocale();
+  const isPlatform = useIsPlatform();
   return (
     <Dialog open={isOpen} onOpenChange={handleModelClose}>
       <ConfirmationDialogContent

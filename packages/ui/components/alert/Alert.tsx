@@ -1,10 +1,8 @@
+import { Icon } from "@iconify/react";
 import { cva } from "class-variance-authority";
 import classNames from "classnames";
 import type { ReactNode } from "react";
 import { forwardRef } from "react";
-
-import { Icon } from "../icon";
-import type { IconName } from "../icon";
 
 export const alertStyles = cva("rounded-[10px] p-3", {
   variants: {
@@ -27,7 +25,7 @@ export interface AlertProps {
   className?: string;
   iconClassName?: string;
   severity: "warning" | "error" | "info" | "neutral";
-  CustomIcon?: IconName;
+  CustomIcon?: string;
   customIconColor?: string;
 }
 
@@ -40,43 +38,43 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
         {CustomIcon ? (
           <div className="shrink-0">
             <Icon
-              name={CustomIcon}
+              icon={CustomIcon}
               data-testid="custom-icon"
               aria-hidden="true"
-              className={classNames(`h4 mr-2 w-4`, iconClassName, customIconColor ?? "text-default")}
+              className={classNames(`mr-2 h-4 w-4`, iconClassName, customIconColor ?? "text-default")}
             />
           </div>
         ) : (
           <div className={classNames("mr-2 shrink-0", props.title ? "" : "mt-0.5")}>
             {severity === "error" && (
               <Icon
-                name="circle-x"
+                icon="glyphs-poly:x-circle"
                 data-testid="circle-x"
-                className={classNames("h4 w-4", iconClassName)}
+                className={classNames("h-4 w-4", iconClassName)}
                 aria-hidden="true"
               />
             )}
             {severity === "warning" && (
               <Icon
-                name="triangle-alert"
+                icon="glyphs-poly:exclamation-triangle"
                 data-testid="alert-triangle"
-                className={classNames("h4 w-4", iconClassName)}
+                className={classNames("h-4 w-4", iconClassName)}
                 aria-hidden="true"
               />
             )}
             {severity === "info" && (
               <Icon
-                name="info"
+                icon="glyphs-poly:info-circle"
                 data-testid="info"
-                className={classNames("h4 w-4", iconClassName)}
+                className={classNames("h-4 w-4", iconClassName)}
                 aria-hidden="true"
               />
             )}
             {severity === "neutral" && (
               <Icon
-                name="info"
+                icon="glyphs-poly:info-circle"
                 data-testid="neutral"
-                className={classNames("text-default h4 w-4 fill-transparent", iconClassName)}
+                className={classNames("h-4 w-4 fill-transparent text-default", iconClassName)}
                 aria-hidden="true"
               />
             )}

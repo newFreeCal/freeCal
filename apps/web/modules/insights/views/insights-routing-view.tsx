@@ -1,17 +1,16 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
-import { DataTableProvider } from "~/data-table/DataTableProvider";
-import { useSegments } from "~/data-table/hooks/useSegments";
+import { useLocale } from "@calcom/lib/hooks/useLocale";
 import {
-  RoutingFormResponsesTable,
   FailedBookingsByField,
   RoutedToPerPeriod,
+  RoutingFormResponsesTable,
   RoutingFunnel,
 } from "@calcom/web/modules/insights/components/routing";
+import { usePathname } from "next/navigation";
+import { DataTableProvider } from "~/data-table/DataTableProvider";
+import { useSegments } from "~/data-table/hooks/useSegments";
 import { InsightsOrgTeamsProvider } from "../components/context/InsightsOrgTeamsProvider";
-import { useLocale } from "@calcom/lib/hooks/useLocale";
 
 export default function InsightsRoutingFormResponsesPage({ timeZone }: { timeZone: string }) {
   const { t } = useLocale();
@@ -36,7 +35,7 @@ export default function InsightsRoutingFormResponsesPage({ timeZone }: { timeZon
             {t("looking_for_more_insights")}{" "}
             <a
               className="text-blue-500 hover:underline"
-              href="mailto:updates@cal.com?subject=Feature%20Request%3A%20More%20Analytics&body=Hey%20Cal.com%20Team%2C%20I%20love%20the%20analytics%20page%20but%20I%20am%20looking%20for%20...">
+              href="mailto:updates@freeCal?subject=Feature%20Request%3A%20More%20Analytics&body=Hey%20freeCal%20Team%2C%20I%20love%20the%20analytics%20page%20but%20I%20am%20looking%20for%20...">
               {" "}
               {t("contact_support")}
             </a>

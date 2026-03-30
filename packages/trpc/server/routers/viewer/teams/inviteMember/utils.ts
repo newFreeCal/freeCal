@@ -1,5 +1,8 @@
-import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
-import { getParsedTeam } from "@calcom/features/ee/teams/lib/getParsedTeam";
+import { SeatChangeTrackingService } from "@calcom/features/billing/lib/stubs/service/seatTracking/SeatChangeTrackingService";
+import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
+import { createAProfileForAnExistingUser } from "@calcom/features/profile/lib/createAProfileForAnExistingUser";
+import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
+import { getParsedTeam } from "@calcom/features/teams/lib/stubs/lib/getParsedTeam";
 import {
   createMemberships,
   getTeamOrThrow,
@@ -7,17 +10,14 @@ import {
   sendExistingUserTeamInviteEmails,
   sendSignupToOrganizationEmail,
   type UserWithMembership,
-} from "@calcom/features/ee/teams/lib/inviteMemberUtils";
-import { updateNewTeamMemberEventTypes } from "@calcom/features/ee/teams/lib/queries";
-import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
-import { createAProfileForAnExistingUser } from "@calcom/features/profile/lib/createAProfileForAnExistingUser";
-import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
+} from "@calcom/features/teams/lib/stubs/lib/inviteMemberUtils";
+import { updateNewTeamMemberEventTypes } from "@calcom/features/teams/lib/stubs/queries";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { DEFAULT_SCHEDULE, getAvailabilityFromSchedule } from "@calcom/lib/availability";
 import { ENABLE_PROFILE_SWITCHER } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import slugify from "@calcom/lib/slugify";
 import { prisma } from "@calcom/prisma";
 import type { OrganizationSettings, Team } from "@calcom/prisma/client";
@@ -27,14 +27,14 @@ import { TRPCError } from "@trpc/server";
 import { isEmail } from "../util";
 import type { TeamWithParent } from "./types";
 
-export type { Invitee, UserWithMembership } from "@calcom/features/ee/teams/lib/inviteMemberUtils";
+export type { Invitee, UserWithMembership } from "@calcom/features/teams/lib/stubs/lib/inviteMemberUtils";
 export {
   createMemberships,
   getTeamOrThrow,
   sendEmails,
   sendExistingUserTeamInviteEmails,
   sendSignupToOrganizationEmail,
-} from "@calcom/features/ee/teams/lib/inviteMemberUtils";
+} from "@calcom/features/teams/lib/stubs/lib/inviteMemberUtils";
 
 const log = logger.getSubLogger({ prefix: ["inviteMember.utils"] });
 
@@ -274,6 +274,7 @@ export async function createNewUsersConnectToOrgIfExists({
   timeZone,
   language,
   creationSource,
+  userId,
 }: {
   invitations: Invitation[];
   isOrg: boolean;
@@ -287,6 +288,7 @@ export async function createNewUsersConnectToOrgIfExists({
   timeZone?: string;
   language: string;
   creationSource: CreationSource;
+  userId: number;
 }) {
   // fail if we have invalid emails
   invitations.forEach((invitation) => checkInputEmailIsValid(invitation.usernameOrEmail));
@@ -393,7 +395,7 @@ export async function createNewUsersConnectToOrgIfExists({
     const trackingTeamId = parentId ?? teamId;
     await seatTracker.logSeatAddition({
       teamId: trackingTeamId,
-      seatCount: createdUsers.length,
+      userId,
     });
   }
 
@@ -540,6 +542,7 @@ export async function handleExistingUsersInvites({
   inviter,
   orgSlug,
   isOrg,
+  userId,
 }: {
   invitableExistingUsers: InvitableExistingUser[];
   team: TeamWithParent;
@@ -549,6 +552,7 @@ export async function handleExistingUsersInvites({
   inviter: {
     name: string | null;
   };
+  userId: number;
   isOrg: boolean;
   orgSlug: string | null;
 }) {
@@ -704,7 +708,7 @@ export async function handleExistingUsersInvites({
       const seatTracker = new SeatChangeTrackingService();
       await seatTracker.logSeatAddition({
         teamId: team.id,
-        seatCount: existingUsersWithMembershipsNew.length,
+        userId,
       });
     }
 
@@ -754,6 +758,7 @@ export async function handleNewUsersInvites({
   autoAcceptEmailDomain,
   inviter,
   creationSource,
+  userId,
 }: {
   invitationsForNewUsers: Invitation[];
   teamId: number;
@@ -766,6 +771,7 @@ export async function handleNewUsersInvites({
   };
   isOrg: boolean;
   creationSource: CreationSource;
+  userId: number;
 }) {
   const translation = await getTranslation(language, "common");
 
@@ -778,6 +784,7 @@ export async function handleNewUsersInvites({
     parentId: team.parentId,
     language,
     creationSource,
+    userId,
   });
 
   // Add auto-accepted users to team event types with assignAllTeamMembers immediately

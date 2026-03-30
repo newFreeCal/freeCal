@@ -1,20 +1,17 @@
+import { EmailField as EmailWidget } from "@calcom/ui/components/form";
 import type { ChangeEvent } from "react";
 import type {
-  Settings,
   SelectWidgetProps,
   SelectWidget as SelectWidgetType,
+  Settings,
   WidgetProps,
 } from "react-awesome-query-builder";
-
-import { EmailField as EmailWidget } from "@calcom/ui/components/form";
-
 import widgetsComponents from "../widgets";
-import type { Widgets, WidgetsWithoutFactory } from "./types";
-import type { ConfigFor } from "./types";
+import type { ConfigFor, Widgets, WidgetsWithoutFactory } from "./types";
 
 export { ConfigFor } from "./types";
 
-const renderComponent = function <T1>(props: T1 | undefined, Component: React.FC<T1>) {
+const renderComponent = <T1,>(props: T1 | undefined, Component: React.FC<T1>) => {
   if (!props) {
     return <div />;
   }
@@ -77,7 +74,7 @@ const EmailFactory = (props: WidgetProps | undefined) => {
 };
 
 // react-query-builder types have missing type property on Widget
-//TODO: Reuse FormBuilder Components - FormBuilder components are built considering Cal.com design system and coding guidelines. But when awesome-query-builder renders these components, it passes its own props which are different from what our Components expect.
+//TODO: Reuse FormBuilder Components - FormBuilder components are built considering freeCal design system and coding guidelines. But when awesome-query-builder renders these components, it passes its own props which are different from what our Components expect.
 // So, a mapper should be written here that maps the props provided by awesome-query-builder to the props that our components expect.
 function withFactoryWidgets(widgets: WidgetsWithoutFactory) {
   const widgetsWithFactory: Widgets = {

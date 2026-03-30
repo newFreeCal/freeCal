@@ -11,10 +11,11 @@ import { ShellSubHeading } from "@calcom/ui/components/layout";
 import { List } from "@calcom/ui/components/list";
 import { showToast } from "@calcom/ui/components/toast";
 import { revalidateSettingsCalendars } from "@calcom/web/app/cache/path/settings/my-account";
-import AppListCardWebWrapper from "@calcom/web/modules/apps/components/AppListCardWebWrapper";
+import AppListCard from "@calcom/web/modules/apps/components/AppListCard";
 import { SkeletonLoader } from "@calcom/web/modules/apps/components/SkeletonLoader";
 import { SelectedCalendarsSettingsWebWrapper } from "@calcom/web/modules/calendars/components/SelectedCalendarsSettingsWebWrapper";
 import SubHeadingTitleWithConnections from "@components/integrations/SubHeadingTitleWithConnections";
+import { Icon } from "@iconify/react";
 import useRouterQuery from "@lib/hooks/useRouterQuery";
 import { QueryCell } from "@lib/QueryCell";
 import { Suspense, useEffect } from "react";
@@ -44,7 +45,7 @@ function CalendarList(props: Props): JSX.Element {
       success={({ data }) => (
         <List>
           {data.items.map((item) => (
-            <AppListCardWebWrapper
+            <AppListCard
               title={item.name}
               key={item.name}
               logo={item.logo}
@@ -73,7 +74,10 @@ function CalendarList(props: Props): JSX.Element {
 const AddCalendarButton = (): JSX.Element => {
   const { t } = useLocale();
   return (
-    <Button color="secondary" StartIcon="plus" href="/apps/categories/calendar">
+    <Button
+      color="secondary"
+      CustomStartIcon={<Icon icon="glyphs-poly:plus" className="h-4 w-4 stroke-[1.5px]" />}
+      href="/apps/categories/calendar">
       {t("add_calendar")}
     </Button>
   );
@@ -169,7 +173,7 @@ export function CalendarListContainer({
         description={t(`no_category_apps_description_calendar`)}
         buttonRaw={
           <Button
-            EndIcon="external-link"
+            CustomEndIcon={<Icon icon="glyphs-poly:arrow-external" className="h-4 w-4 stroke-[1.5px]" />}
             color="secondary"
             data-testid="connect-calendar-apps"
             href="/apps/categories/calendar">

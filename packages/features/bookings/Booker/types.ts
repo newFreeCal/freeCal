@@ -92,7 +92,6 @@ export interface BookerProps {
   crmRecordId?: string | null;
   areInstantMeetingParametersSet?: boolean | null;
   userLocale?: string | null;
-  hasValidLicense?: boolean;
   useApiV2?: boolean;
 }
 

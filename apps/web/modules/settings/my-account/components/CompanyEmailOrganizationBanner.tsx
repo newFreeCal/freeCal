@@ -1,12 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import posthog from "posthog-js";
-
 import { useFlagMap } from "@calcom/features/flags/context/provider";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Button } from "@calcom/ui/components/button";
-
+import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import { MailIcon } from "./MailIcon";
 
 type CompanyEmailOrganizationBannerProps = {
@@ -82,7 +81,10 @@ export const CompanyEmailOrganizationBanner = ({ onDismissAction }: CompanyEmail
             <Button color="secondary" onClick={handleDismiss}>
               {t("dismiss")}
             </Button>
-            <Button color="primary" EndIcon="external-link" onClick={handleLearnMore}>
+            <Button
+              color="primary"
+              CustomStartIcon={<Icon icon="glyphs-poly:external-link" className="h-4 w-4" />}
+              onClick={handleLearnMore}>
               {t("upgrade")}
             </Button>
           </div>

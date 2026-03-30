@@ -1,24 +1,30 @@
-import { createRouterCaller } from "app/_trpc/context";
-import type { GetServerSidePropsContext } from "next";
-import { z } from "zod";
-
 import { eventTypeMetaDataSchemaWithTypedApps } from "@calcom/app-store/zod-utils";
-import { orgDomainConfig } from "@calcom/ee/organizations/lib/orgDomains";
+
+function orgDomainConfig(_req: any) {
+  // Open-source stub - no org domain validation
+  return {
+    isValidOrgDomain: false,
+    currentOrgDomain: null,
+  };
+}
+
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import getBookingInfo from "@calcom/features/bookings/lib/getBookingInfo";
 import { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
-import { isTeamMember } from "@calcom/features/ee/teams/lib/queries";
 import { getDefaultEvent } from "@calcom/features/eventtypes/lib/defaultEvents";
 import { getBrandingForEventType } from "@calcom/features/profile/lib/getBranding";
 import { shouldHideBrandingForEvent } from "@calcom/features/profile/lib/hideBranding";
+import { isTeamMember } from "@calcom/features/teams/lib/stubs/queries";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
 import { markdownToSafeHTML } from "@calcom/lib/markdownToSafeHTML";
 import { maybeGetBookingUidFromSeat } from "@calcom/lib/server/maybeGetBookingUidFromSeat";
 import prisma from "@calcom/prisma";
 import { customInputSchema } from "@calcom/prisma/zod-utils";
 import { meRouter } from "@calcom/trpc/server/routers/viewer/me/_router";
-
 import type { inferSSRProps } from "@lib/types/inferSSRProps";
+import { createRouterCaller } from "app/_trpc/context";
+import type { GetServerSidePropsContext } from "next";
+import { z } from "zod";
 
 const stringToBoolean = z
   .string()

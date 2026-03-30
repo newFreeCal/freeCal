@@ -1,13 +1,11 @@
-import type { GetServerSidePropsContext } from "next";
-
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
-import { orgDomainConfig } from "@calcom/features/ee/organizations/lib/orgDomains";
+import { FeaturesRepository } from "@calcom/features/flags/features.repository";
+import { getBookerBaseUrlSync } from "@calcom/features/organizations/lib/stubs/getBookerBaseUrlSync";
+import { orgDomainConfig } from "@calcom/features/organizations/lib/stubs/orgDomains";
 import {
   getOrganizationSettings,
   getVerifiedDomain,
-} from "@calcom/features/ee/organizations/lib/orgSettings";
-import { getTeamWithMembers } from "@calcom/features/ee/teams/lib/queries";
-import { FeaturesRepository } from "@calcom/features/flags/features.repository";
+} from "@calcom/features/organizations/lib/stubs/orgSettings";
+import { getTeamWithMembers } from "@calcom/features/teams/lib/stubs/queries";
 import { IS_CALCOM } from "@calcom/lib/constants";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import logger from "@calcom/lib/logger";
@@ -15,11 +13,11 @@ import { markdownToSafeHTML } from "@calcom/lib/markdownToSafeHTML";
 import slugify from "@calcom/lib/slugify";
 import { stripMarkdown } from "@calcom/lib/stripMarkdown";
 import prisma from "@calcom/prisma";
-import type { Team, OrganizationSettings } from "@calcom/prisma/client";
+import type { OrganizationSettings, Team } from "@calcom/prisma/client";
 import { RedirectType } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
-
 import { handleOrgRedirect } from "@lib/handleOrgRedirect";
+import type { GetServerSidePropsContext } from "next";
 
 const log = logger.getSubLogger({ prefix: ["team/[slug]"] });
 
@@ -32,7 +30,7 @@ function getOrgProfileRedirectToVerifiedDomain(
   if (!team.isOrganization) {
     return null;
   }
-  // when this is not on a Cal.com page we don't auto redirect -
+  // when this is not on a freeCal page we don't auto redirect -
   // good for diagnosis purposes.
   if (!IS_CALCOM) {
     return null;
@@ -165,7 +163,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const isTeamOrParentOrgPrivate = team.isPrivate || (team.parent?.isOrganization && team.parent?.isPrivate);
 
   const minimalEventTypes =
-    team.eventTypes?.map((type) => ({
+    team.eventTypes?.map((type: { id: number; title: string; slug: string; length: number; schedulingType: string; recurringEvent: boolean; hidden: boolean; price: number; currency: string; lockTimeZoneToggleOnBookingPage: boolean; lockedTimeZone: string; requiresConfirmation: boolean; requiresBookerEmailVerification: boolean; canSendCalVideoTranscriptionEmails: boolean; seatsPerTimeSlot: number; metadata: any; description: string | null; users: any[] }) => ({
       // Fields from baseEventTypeSelect (except description which becomes descriptionAsSafeHTML)
       id: type.id,
       title: type.title,
@@ -214,7 +212,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const safeBio = markdownToSafeHTML(team.bio) || "";
 
   const minimalMembers = !isTeamOrParentOrgPrivate
-    ? team.members.map((member) => ({
+    ? team.members.map((member: { id: number; name: string; username: string; avatarUrl: string | null; bio: string | null; organizationId: number | null; subteams: any[]; accepted: boolean; profile: { id: number; username: string; organizationId: number; organization: { id: number; slug: string; name: string; requestedSlug: string; calVideoLogo: string | null; bannerUrl: string | null } | null }; organization?: { slug: string } | null }) => ({
         id: member.id,
         name: member.name,
         username: member.username,
@@ -259,7 +257,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const minimalChildren = isTeamOrParentOrgPrivate
     ? []
-    : team.children.map((child) => ({
+    : team.children.map((child: { slug: string; name: string }) => ({
         slug: child.slug,
         name: child.name,
       }));

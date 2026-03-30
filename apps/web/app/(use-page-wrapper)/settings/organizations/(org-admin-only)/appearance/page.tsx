@@ -1,6 +1,5 @@
 import { _generateMetadata } from "app/_utils";
-
-import Page from "~/ee/organizations/appearance";
+import Page from "~/organizations/appearance";
 
 export const generateMetadata = async () =>
   await _generateMetadata(

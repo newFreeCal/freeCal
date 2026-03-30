@@ -1,6 +1,6 @@
 # PBAC Refactoring Guide
 
-Quick guide for refactoring Cal.com to use Permission-Based Access Control (PBAC) instead of role-based checks and membership queries.
+Quick guide for refactoring freeCal to use Permission-Based Access Control (PBAC) instead of role-based checks and membership queries.
 
 ## Core Patterns
 

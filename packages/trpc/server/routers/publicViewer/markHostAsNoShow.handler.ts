@@ -1,5 +1,4 @@
 import { handleMarkHostNoShow } from "@calcom/features/handleMarkNoShow";
-
 import type { TNoShowInputSchema } from "./markHostAsNoShow.schema";
 
 type NoShowOptions = {
@@ -15,7 +14,6 @@ export const noShowHandler = async ({ input }: NoShowOptions) => {
     bookingUid,
     noShowHost,
     actionSource: "WEBAPP",
-    impersonatedByUserUuid: null,
   });
 };
 

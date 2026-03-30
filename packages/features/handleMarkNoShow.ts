@@ -1,4 +1,5 @@
 import process from "node:process";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
 import type { Actor } from "@calcom/features/booking-audit/lib/dto/types";
 import {
   buildActorEmail,
@@ -12,20 +13,15 @@ import { AttendeeRepository } from "@calcom/features/bookings/repositories/Atten
 import { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
 import { BookingAccessService } from "@calcom/features/bookings/services/BookingAccessService";
 import { getFeaturesRepository } from "@calcom/features/di/containers/FeaturesRepository";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import type { ExtendedCalendarEvent } from "@calcom/features/ee/workflows/lib/reminders/reminderScheduler";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-import {
-  type EventTypeBrandingData,
-  getEventTypeService,
-} from "@calcom/features/eventtypes/di/EventTypeService.container";
+import { getBookerBaseUrl } from "@calcom/features/organizations/lib/stubs/getBookerUrlServer";
 import { WebhookService } from "@calcom/features/webhooks/lib/WebhookService";
+import { getAllWorkflowsFromEventType } from "@calcom/features/workflows/lib/stubs/getAllWorkflowsFromEventType";
+import type { ExtendedCalendarEvent } from "@calcom/features/workflows/lib/stubs/lib/reminders/reminderScheduler";
+import { WorkflowService } from "@calcom/features/workflows/lib/stubs/WorkflowService";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
-import { getTranslation } from "@calcom/i18n/server";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import { getTimeFormatStringFromUserTimeFormat } from "@calcom/lib/timeFormat";
 import { prisma } from "@calcom/prisma";
 import { WebhookTriggerEvents, WorkflowTriggerEvents } from "@calcom/prisma/enums";
@@ -81,7 +77,6 @@ type HandleMarkHostNoShowArgs = {
   actionSource: ValidActionSource;
   locale?: string;
   platformClientParams?: PlatformClientParams;
-  impersonatedByUserUuid: string | null;
 };
 
 type HandleMarkAttendeesAndHostNoShowArgs = {
@@ -93,7 +88,6 @@ type HandleMarkAttendeesAndHostNoShowArgs = {
   actionSource: ValidActionSource;
   locale?: string;
   platformClientParams?: PlatformClientParams;
-  impersonatedByUserUuid: string | null;
 };
 
 type HandleMarkNoShowArgs = {
@@ -106,7 +100,6 @@ type HandleMarkNoShowArgs = {
   locale?: string;
   platformClientParams?: PlatformClientParams;
   actor: Actor;
-  impersonatedByUserUuid: string | null;
 };
 
 const buildResultPayload = async ({
@@ -204,7 +197,6 @@ async function fireNoShowUpdated({
   actor,
   orgId,
   actionSource,
-  impersonatedByUserUuid,
 }: {
   updatedNoShowHost?: boolean;
   hostUserUuid?: string;
@@ -217,7 +209,6 @@ async function fireNoShowUpdated({
   actor: Actor;
   orgId: number | null;
   actionSource: ValidActionSource;
-  impersonatedByUserUuid: string | null;
 }): Promise<void> {
   const auditData: {
     host?: { userUuid: string; noShow: { old: boolean | null; new: boolean } };
@@ -253,14 +244,12 @@ async function fireNoShowUpdated({
   const isSomethingChanged =
     auditData.host || (auditData.attendeesNoShow && auditData.attendeesNoShow.length > 0);
   if (isSomethingChanged) {
-    const auditContext = impersonatedByUserUuid ? { impersonatedBy: impersonatedByUserUuid } : undefined;
     await bookingEventHandlerService.onNoShowUpdated({
       bookingUid: booking.uid,
       actor,
       organizationId: orgId ?? null,
       source: actionSource,
       auditData,
-      context: auditContext,
       isBookingAuditEnabled,
     });
   }
@@ -275,7 +264,6 @@ const handleMarkNoShow = async ({
   locale,
   platformClientParams,
   actionSource,
-  impersonatedByUserUuid,
 }: HandleMarkNoShowArgs): Promise<ResponsePayloadResult> => {
   const responsePayload = new ResponsePayload();
   const t = await getTranslation(locale ?? "en", "common");
@@ -326,7 +314,7 @@ const handleMarkNoShow = async ({
       });
 
       if (booking.eventType) {
-        const workflows = await getAllWorkflowsFromEventType(booking.eventType, userId);
+        const workflows = await getAllWorkflowsFromEventType(booking.eventType, userId!);
 
         if (workflows.length > 0) {
           const tOrganizer = await getTranslation(booking.user?.locale ?? "en", "common");
@@ -372,25 +360,6 @@ const handleMarkNoShow = async ({
                 }
               : undefined;
 
-            const hideBranding = await getEventTypeService().shouldHideBrandingForEventType(
-              booking.eventType.id,
-              {
-                team: booking.eventType.team
-                  ? {
-                      hideBranding: booking.eventType.team.hideBranding,
-                      parent: booking.eventType.team.parent,
-                    }
-                  : null,
-                owner: booking.eventType.owner
-                  ? {
-                      id: booking.eventType.owner.id,
-                      hideBranding: booking.eventType.owner.hideBranding,
-                      profiles: booking.eventType.owner.profiles ?? [],
-                    }
-                  : null,
-              } satisfies EventTypeBrandingData
-            );
-
             const calendarEvent: ExtendedCalendarEvent = {
               type: booking.eventType.slug,
               title: booking.title,
@@ -419,21 +388,19 @@ const handleMarkNoShow = async ({
               destinationCalendar,
               bookerUrl,
               metadata,
-              rescheduleReason: null,
               cancellationReason: null,
               hideOrganizerEmail: booking.eventType?.hideOrganizerEmail,
               eventTypeId: booking.eventType?.id,
               customReplyToEmail: booking.eventType?.customReplyToEmail,
               team,
-              hideBranding,
             };
 
-            const creditService = new CreditService();
+            const creditService = new StubCreditService();
 
             await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
               workflows,
               smsReminderNumber: booking.smsReminderNumber,
-              hideBranding: calendarEvent.hideBranding,
+              hideBranding: booking.eventType.owner?.hideBranding,
               calendarEvent,
               triggers: [WorkflowTriggerEvents.BOOKING_NO_SHOW_UPDATED],
               creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
@@ -465,7 +432,6 @@ const handleMarkNoShow = async ({
       actor,
       orgId: orgId ?? null,
       actionSource,
-      impersonatedByUserUuid,
     });
 
     return responsePayload.getPayload();
@@ -548,7 +514,6 @@ export const handleMarkHostNoShow = async ({
   actionSource,
   locale,
   platformClientParams,
-  impersonatedByUserUuid,
 }: HandleMarkHostNoShowArgs): Promise<ResponsePayloadResult> => {
   const actorEmail = buildActorEmail({
     identifier: getUniqueIdentifier({ prefix: "attendee" }),
@@ -565,7 +530,6 @@ export const handleMarkHostNoShow = async ({
     actionSource,
     locale,
     platformClientParams,
-    impersonatedByUserUuid,
   });
 };
 
@@ -583,7 +547,6 @@ export const handleMarkAttendeesAndHostNoShow = async ({
   actionSource,
   locale,
   platformClientParams,
-  impersonatedByUserUuid,
 }: HandleMarkAttendeesAndHostNoShowArgs): Promise<ResponsePayloadResult> => {
   const actor = makeUserActor(userUuid);
 
@@ -596,7 +559,6 @@ export const handleMarkAttendeesAndHostNoShow = async ({
     actionSource,
     locale,
     platformClientParams,
-    impersonatedByUserUuid,
   });
 };
 

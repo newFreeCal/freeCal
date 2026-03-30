@@ -1,10 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
-
 import type { BookingCreateBody } from "@calcom/features/bookings/lib/bookingCreateBodySchema";
 import type { BookingResponse } from "@calcom/features/bookings/types";
 import { SUCCESS_STATUS } from "@calcom/platform-constants";
-import type { ApiResponse, ApiErrorResponse, ApiSuccessResponse } from "@calcom/platform-types";
-
+import type { ApiErrorResponse, ApiResponse, ApiSuccessResponse } from "@calcom/platform-types";
+import { useMutation } from "@tanstack/react-query";
 import http from "../../lib/http";
 
 export type UseCreateBookingInput = BookingCreateBody & { locationUrl?: string };
@@ -23,20 +21,21 @@ export const useCreateBooking = (
     },
   }
 ) => {
-  const createBooking = useMutation<ApiResponse<BookingResponse>, Error, UseCreateBookingInput>({
+  const createBooking = useMutation<ApiSuccessResponse<BookingResponse>, Error, UseCreateBookingInput>({
     mutationFn: (data) => {
       return http.post<ApiResponse<BookingResponse>>("/bookings", data).then((res) => {
         if (res.data.status === SUCCESS_STATUS) {
-          return res.data;
+          return res.data as ApiSuccessResponse<BookingResponse>;
         }
-        throw new Error(res.data.error.message);
+        throw new Error((res.data as any).error?.message || "Booking failed");
       });
     },
     onSuccess: (data) => {
       if (data.status === SUCCESS_STATUS) {
         onSuccess?.(data);
       } else {
-        onError?.(data);
+        // This shouldn't happen as mutationFn throws on error, but handle it anyway
+        onError?.(new Error("Booking failed"));
       }
     },
     onError: (err) => {

@@ -40,7 +40,6 @@ import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 import type { CalendarFetchMode, EventBusyDetails, IntervalLimitUnit } from "@calcom/types/Calendar";
 import type { CredentialForCalendarService } from "@calcom/types/Credential";
 import type { TimeRange, WorkingHours as WorkingHoursWithUserId } from "@calcom/types/schedule";
-import type { Ensure, Optional } from "@calcom/types/utils";
 import * as Sentry from "@sentry/nextjs";
 import { z } from "zod";
 import { detectEventTypeScheduleForUser } from "./detectEventTypeScheduleForUser";
@@ -168,10 +167,8 @@ export type CurrentSeats = Awaited<
   ReturnType<(typeof UserAvailabilityService)["prototype"]["_getCurrentSeats"]>
 >;
 
-type UserAvailabilityBusyDetails = Optional<EventBusyDetails, "source">;
-
 export type GetUserAvailabilityResult = {
-  busy: UserAvailabilityBusyDetails[];
+  busy: EventBusyDetails[];
   timeZone: string;
   dateRanges: {
     start: dayjs.Dayjs;
@@ -341,22 +338,6 @@ export class UserAvailabilityService {
 
   getCurrentSeats = withReporting(this._getCurrentSeats.bind(this), "getCurrentSeats");
 
-  private async parseLimits(eventType: { durationLimits?: unknown; bookingLimits?: unknown } | null) {
-    const bookingLimits =
-      eventType?.bookingLimits &&
-      typeof eventType.bookingLimits === "object" &&
-      Object.keys(eventType.bookingLimits).length > 0
-        ? parseBookingLimit(eventType.bookingLimits)
-        : null;
-    const durationLimits =
-      eventType?.durationLimits &&
-      typeof eventType.durationLimits === "object" &&
-      Object.keys(eventType.durationLimits).length > 0
-        ? parseDurationLimit(eventType.durationLimits)
-        : null;
-    return { bookingLimits, durationLimits };
-  }
-
   /** This should be called getUsersWorkingHoursAndBusySlots (...and remaining seats, and final timezone) */
   async _getUserAvailability(
     params: GetUserAvailabilityParams,
@@ -375,7 +356,6 @@ export class UserAvailabilityService {
       bypassBusyCalendarTimes = false,
       silentlyHandleCalendarFailures = false,
       mode = "none",
-      withSource = false,
     } = params;
 
     log.debug(
@@ -391,6 +371,7 @@ export class UserAvailabilityService {
 
     let eventType: EventType | null = initialData?.eventType || null;
     if (!eventType && eventTypeId) eventType = await this.getEventType(eventTypeId);
+
     /* Current logic is if a booking is in a time slot mark it as busy, but seats can have more than one attendee so grab
     current bookings with a seats event type and display them on the calendar, even if they are full */
     let currentSeats: CurrentSeats | null = initialData?.currentSeats || null;
@@ -529,7 +510,19 @@ export class UserAvailabilityService {
         datesOutOfOffice: undefined,
       };
 
-    const { bookingLimits, durationLimits } = await this.parseLimits(eventType);
+    const bookingLimits =
+      eventType?.bookingLimits &&
+      typeof eventType.bookingLimits === "object" &&
+      Object.keys(eventType.bookingLimits).length > 0
+        ? parseBookingLimit(eventType.bookingLimits)
+        : null;
+
+    const durationLimits =
+      eventType?.durationLimits &&
+      typeof eventType.durationLimits === "object" &&
+      Object.keys(eventType.durationLimits).length > 0
+        ? parseDurationLimit(eventType.durationLimits)
+        : null;
 
     // TODO: only query what we need after applying limits (shrink date range)
     const getBusyTimesStart = dateFrom.toISOString();
@@ -540,9 +533,11 @@ export class UserAvailabilityService {
       : user.userLevelSelectedCalendars;
 
     let busyTimesFromLimits: EventBusyDetails[] = [];
+
     if (initialData?.busyTimesFromLimits && initialData?.eventTypeForLimits) {
       busyTimesFromLimits = initialData.busyTimesFromLimits.get(user.id) || [];
     } else if (eventType && (bookingLimits || durationLimits)) {
+      // Fall back to individual query if not available in initialData
       busyTimesFromLimits = await getBusyTimesFromLimits(
         bookingLimits,
         durationLimits,
@@ -617,21 +612,17 @@ export class UserAvailabilityService {
       };
     }
 
-    const detailedBusyTimesWithSource: EventBusyDetails[] = [
+    const detailedBusyTimes: EventBusyDetails[] = [
       ...busyTimes.map((a) => ({
         ...a,
         start: dayjs(a.start).toISOString(),
         end: dayjs(a.end).toISOString(),
         title: a.title,
-        source: a.source,
+        source: params.withSource ? a.source : undefined,
       })),
       ...busyTimesFromLimits,
       ...busyTimesFromTeamLimits,
     ];
-
-    const detailedBusyTimes: UserAvailabilityBusyDetails[] = withSource
-      ? detailedBusyTimesWithSource
-      : detailedBusyTimesWithSource.map(({ source, ...rest }) => rest);
 
     log.debug(
       `EventType: ${eventTypeId} | User: ${username} (ID: ${userId}) - usingSchedule: ${safeStringify({
@@ -663,56 +654,6 @@ export class UserAvailabilityService {
       `EventType: ${eventTypeId} | User: ${username} (ID: ${userId}) - Result: ${safeStringify(result)}`
     );
 
-    return result;
-  }
-
-  /**
-   * This fn mainly uses _getUserAvailability but sends busy times from limits too to _getUserAvailability as expected by _getUserAvailability.
-   */
-  async getUserAvailabilityIncludingBusyTimesFromLimits(
-    params: GetUserAvailabilityParams,
-    initialData: Ensure<GetUserAvailabilityInitialData, "user">
-  ): Promise<GetUserAvailabilityResult> {
-    const { user } = initialData || {};
-    const { dateFrom, dateTo, eventTypeId } = params;
-    let eventType: EventType | null = initialData?.eventType || null;
-    if (!eventType && eventTypeId) eventType = await this.getEventType(eventTypeId);
-
-    const { bookingLimits, durationLimits } = await this.parseLimits(eventType);
-
-    let busyTimesFromLimitsBookings: EventBusyDetails[] | undefined =
-      initialData?.busyTimesFromLimitsBookings;
-    if (!busyTimesFromLimitsBookings && eventType && (bookingLimits || durationLimits)) {
-      const busyTimesService = getBusyTimesService();
-      const { limitDateFrom, limitDateTo } = busyTimesService.getStartEndDateforLimitCheck(
-        dateFrom.toISOString(),
-        dateTo.toISOString(),
-        bookingLimits,
-        durationLimits
-      );
-
-      // For team events with booking/duration limits, fetch bookings for all team members
-      // to accurately calculate if limits are reached for the event
-      const userIdsForLimitCheck =
-        eventType.hosts && eventType.hosts.length > 0
-          ? eventType.hosts.map((host) => host.user.id)
-          : [user.id];
-
-      busyTimesFromLimitsBookings = await busyTimesService.getBusyTimesForLimitChecks({
-        userIds: userIdsForLimitCheck,
-        eventTypeId: eventType.id,
-        startDate: limitDateFrom.format(),
-        endDate: limitDateTo.format(),
-        rescheduleUid: initialData?.rescheduleUid ?? undefined,
-        bookingLimits,
-        durationLimits,
-      });
-    }
-    const result = await this._getUserAvailability(params, {
-      ...initialData,
-      ...(eventType ? { eventType } : {}),
-      ...(busyTimesFromLimitsBookings ? { busyTimesFromLimitsBookings } : {}),
-    });
     return result;
   }
 

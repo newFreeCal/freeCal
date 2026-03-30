@@ -1,16 +1,14 @@
-import type short from "short-uuid";
-import type { z } from "zod";
-
 import type { routingFormResponseInDbSchema } from "@calcom/app-store/routing-forms/zod";
 import dayjs from "@calcom/dayjs";
 import { isPrismaObjOrUndefined } from "@calcom/lib/isPrismaObj";
 import { withReporting } from "@calcom/lib/sentryWrapper";
 import prisma from "@calcom/prisma";
 import { Prisma } from "@calcom/prisma/client";
-import { BookingStatus } from "@calcom/prisma/enums";
 import type { CreationSource } from "@calcom/prisma/enums";
+import { BookingStatus } from "@calcom/prisma/enums";
 import type { CalendarEvent } from "@calcom/types/Calendar";
-
+import type short from "short-uuid";
+import type { z } from "zod";
 import type { TgetBookingDataSchema } from "../getBookingDataSchema";
 import type { AwaitedBookingData, EventTypeId } from "./getBookingData";
 import type { NewBookingEventType } from "./getEventTypesFromDB";
@@ -137,7 +135,7 @@ async function saveBooking(
   originalRescheduledBooking: OriginalRescheduledBooking,
   paymentAppData: PaymentAppData,
   organizerUser: CreateBookingParams["eventType"]["organizerUser"]
-) {
+): Promise<any> {
   const { newBookingData, reroutingFormResponseUpdateData, originalBookingUpdateDataForCancellation } =
     bookingAndAssociatedData;
   const createBookingObj = {
@@ -233,7 +231,7 @@ function buildNewBookingData(params: CreateBookingParams) {
     routingFormResponseId,
   });
 
-  const newBookingData: Prisma.BookingCreateInput = {
+  const newBookingData: any = {
     uid,
     userPrimaryEmail: evt.organizer.email,
     responses: input.responses === null || evt.seatsPerTimeSlot ? Prisma.JsonNull : input.responses,
@@ -280,7 +278,7 @@ function buildNewBookingData(params: CreateBookingParams) {
     newBookingData.recurringEventId = reqBody.recurringEventId;
   }
 
-  let originalBookingUpdateDataForCancellation: Prisma.BookingUpdateArgs | undefined = undefined;
+  let originalBookingUpdateDataForCancellation: any | undefined;
 
   if (originalRescheduledBooking) {
     newBookingData.metadata = {
@@ -351,4 +349,4 @@ function buildNewBookingData(params: CreateBookingParams) {
   }
 }
 
-export type Booking = Awaited<ReturnType<typeof createBooking>>;
+export type Booking = any;

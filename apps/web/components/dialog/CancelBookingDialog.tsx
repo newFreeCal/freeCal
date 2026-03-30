@@ -1,14 +1,11 @@
-import type { Dispatch, SetStateAction } from "react";
-
 import { Dialog } from "@calcom/features/components/controlled-dialog";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
-import type { CancellationReasonRequirement } from "@calcom/prisma/enums";
 import { trpc } from "@calcom/trpc/react";
 import type { RecurringEvent } from "@calcom/types/Calendar";
 import { DialogContent, DialogHeader } from "@calcom/ui/components/dialog";
 import { showToast } from "@calcom/ui/components/toast";
-
 import CancelBooking from "@components/booking/CancelBooking";
+import type { Dispatch, SetStateAction } from "react";
 
 interface ICancelBookingDialog {
   isOpenDialog: boolean;
@@ -49,7 +46,6 @@ interface ICancelBookingDialog {
   isHost: boolean;
   internalNotePresets?: { id: number; name: string; cancellationReason: string | null }[];
   eventTypeMetadata?: Record<string, unknown> | null;
-  requiresCancellationReason?: CancellationReasonRequirement | null;
 }
 
 export const CancelBookingDialog = (props: ICancelBookingDialog) => {
@@ -69,7 +65,6 @@ export const CancelBookingDialog = (props: ICancelBookingDialog) => {
     isHost,
     internalNotePresets = [],
     eventTypeMetadata,
-    requiresCancellationReason,
   } = props;
 
   const utils = trpc.useUtils();
@@ -116,7 +111,6 @@ export const CancelBookingDialog = (props: ICancelBookingDialog) => {
           isHost={isHost}
           internalNotePresets={internalNotePresets}
           eventTypeMetadata={eventTypeMetadata}
-          requiresCancellationReason={requiresCancellationReason}
           showErrorAsToast={true}
           onCanceled={handleCanceled}
         />

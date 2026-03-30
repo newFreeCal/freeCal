@@ -1,7 +1,7 @@
 import { type Container, createModule, type ModuleLoader } from "@calcom/features/di/di";
-import { DI_TOKENS } from "@calcom/features/di/tokens";
 import { moduleLoader as prismaModuleLoader } from "@calcom/features/di/modules/Prisma";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { DI_TOKENS } from "@calcom/features/di/tokens";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 
 const thisModule = createModule();
 const token = DI_TOKENS.TEAM_REPOSITORY;

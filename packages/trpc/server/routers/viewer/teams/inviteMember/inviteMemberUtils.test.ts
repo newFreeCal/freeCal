@@ -2,7 +2,6 @@ import { PermissionCheckService } from "@calcom/features/pbac/services/permissio
 import { CreationSource, MembershipRole } from "@calcom/prisma/enums";
 import { TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
 import type { TeamWithParent } from "./types";
 import type { UserWithMembership } from "./utils";
 import {
@@ -78,7 +77,7 @@ vi.mock("@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingServ
   },
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn().mockResolvedValue((key: string) => key),
 }));
 

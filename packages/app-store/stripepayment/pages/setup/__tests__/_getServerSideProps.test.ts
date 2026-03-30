@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext } from "next";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock dependencies before imports
 vi.mock("@calcom/features/auth/lib/getServerSession", () => ({
@@ -19,12 +19,12 @@ vi.mock("../../../lib/getStripeAppKeys", () => ({
 }));
 
 vi.mock("@calcom/lib/constants", () => ({
-  WEBAPP_URL: "https://app.cal.com",
+  WEBAPP_URL: "https://app.freeCal",
 }));
 
+import process from "node:process";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import prisma from "@calcom/prisma";
-
 import { getStripeAppKeys } from "../../../lib/getStripeAppKeys";
 import { getServerSideProps } from "../_getServerSideProps";
 
@@ -187,7 +187,7 @@ describe("Stripe Setup Page getServerSideProps", () => {
 
       const redirect = (result as { redirect: { destination: string; permanent: boolean } }).redirect;
       expect(redirect.destination).toContain(
-        encodeURIComponent("https://app.cal.com/api/integrations/stripepayment/callback")
+        encodeURIComponent("https://app.freeCal/api/integrations/stripepayment/callback")
       );
     });
 
@@ -203,7 +203,7 @@ describe("Stripe Setup Page getServerSideProps", () => {
       const stateStr = decodeURIComponent(stateMatch![1]);
       const state = JSON.parse(stateStr);
       expect(state.fromApp).toBe(true);
-      expect(state.onErrorReturnTo).toBe("https://app.cal.com/apps/installed/payment");
+      expect(state.onErrorReturnTo).toBe("https://app.freeCal/apps/installed/payment");
       expect(state.returnTo).toBeUndefined();
     });
 
@@ -272,7 +272,7 @@ describe("Stripe Setup Page getServerSideProps", () => {
 
       expect(result).toEqual({
         redirect: {
-          destination: "https://app.cal.com/apps/installed/payment?error=stripe_oauth_failed",
+          destination: "https://app.freeCal/apps/installed/payment?error=stripe_oauth_failed",
           permanent: false,
         },
       });

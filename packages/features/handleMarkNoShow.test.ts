@@ -105,7 +105,7 @@ vi.mock("@calcom/features/bookings/di/BookingEventHandlerService.container", () 
   getBookingEventHandlerService: mockGetBookingEventHandlerService,
 }));
 
-vi.mock("@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/getAllWorkflowsFromEventType", () => ({
   getAllWorkflowsFromEventType: vi.fn().mockResolvedValue([]),
 }));
 
@@ -113,7 +113,7 @@ vi.mock("@calcom/lib/getOrgIdFromMemberOrTeamId", () => ({
   default: vi.fn().mockResolvedValue(null),
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi
     .fn()
     .mockResolvedValue((key: string, opts?: { x?: string }) => (opts?.x ? `${opts.x} ${key}` : key)),

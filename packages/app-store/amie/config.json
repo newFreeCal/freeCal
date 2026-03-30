@@ -4,18 +4,14 @@
   "slug": "amie",
   "type": "amie_other",
   "logo": "icon.svg",
-  "url": "https://cal.com",
+  "url": "https://freeCal",
   "variant": "other",
-  "categories": [
-    "calendar"
-  ],
-  "publisher": "Cal.com, Inc.",
-  "email": "support@cal.com",
+  "categories": ["calendar"],
+  "publisher": "freeCal, Inc.",
+  "email": "support@freeCal",
   "description": "The joyful productivity app\r\r",
   "__createdUsingCli": true,
-  "dependencies": [
-    "google-calendar"
-  ],
+  "dependencies": ["google-calendar"],
   "dirName": "amie",
   "isOAuth": false,
   "externalLink": {

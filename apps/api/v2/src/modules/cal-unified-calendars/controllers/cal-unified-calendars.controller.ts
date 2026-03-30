@@ -1,3 +1,16 @@
+import { GOOGLE_CALENDAR, SUCCESS_STATUS } from "@calcom/platform-constants";
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  UseGuards,
+} from "@nestjs/common";
+import { ApiHeader, ApiOperation, ApiParam, ApiTags as DocsTags } from "@nestjs/swagger";
 import { API_VERSIONS_VALUES } from "@/lib/api-versions";
 import { API_KEY_OR_ACCESS_TOKEN_HEADER } from "@/lib/docs/headers";
 import { ApiAuthGuard } from "@/modules/auth/guards/api-auth/api-auth.guard";
@@ -6,20 +19,6 @@ import { UpdateUnifiedCalendarEventInput } from "@/modules/cal-unified-calendars
 import { GetUnifiedCalendarEventOutput } from "@/modules/cal-unified-calendars/outputs/get-unified-calendar-event.output";
 import { GoogleCalendarEventOutputPipe } from "@/modules/cal-unified-calendars/pipes/get-calendar-event-details-output-pipe";
 import { GoogleCalendarService } from "@/modules/cal-unified-calendars/services/google-calendar.service";
-import {
-  Controller,
-  Get,
-  Param,
-  UseGuards,
-  HttpCode,
-  HttpStatus,
-  BadRequestException,
-  Patch,
-  Body,
-} from "@nestjs/common";
-import { ApiTags as DocsTags, ApiParam, ApiHeader, ApiOperation } from "@nestjs/swagger";
-
-import { GOOGLE_CALENDAR, SUCCESS_STATUS } from "@calcom/platform-constants";
 
 @Controller({
   path: "/v2/calendars",
@@ -37,7 +36,7 @@ export class CalUnifiedCalendarsController {
   @ApiParam({
     name: "eventUid",
     description:
-      "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://cal.com/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://cal.com/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
+      "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://freeCal/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://freeCal/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
     type: String,
   })
   @Get("/:calendar/event/:eventUid")
@@ -75,7 +74,7 @@ export class CalUnifiedCalendarsController {
   @ApiParam({
     name: "eventUid",
     description:
-      "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://cal.com/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://cal.com/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
+      "The Google Calendar event ID. You can retrieve this by getting booking references from the following endpoints:\n\n- For team events: https://freeCal/docs/api-reference/v2/orgs-teams-bookings/get-booking-references-for-a-booking\n\n- For user events: https://freeCal/docs/api-reference/v2/bookings/get-booking-references-for-a-booking",
     type: String,
   })
   @Patch("/:calendar/events/:eventUid")

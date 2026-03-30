@@ -4,21 +4,17 @@
   "slug": "vimcal",
   "type": "vimcal_other",
   "logo": "icon.svg",
-  "url": "https://cal.com/",
+  "url": "https://freeCal/",
   "variant": "other",
-  "categories": [
-    "calendar"
-  ],
-  "publisher": "Cal.com, Inc.",
-  "email": "support@cal.com",
+  "categories": ["calendar"],
+  "publisher": "freeCal, Inc.",
+  "email": "support@freeCal",
   "description": "The world's fastest calendar, beautifully designed for a remote world\r",
   "__createdUsingCli": true,
-  "dependencies": [
-    "google-calendar"
-  ],
+  "dependencies": ["google-calendar"],
   "isOAuth": false,
   "externalLink": {
-    "url": "https://cal.com/blog/cal-plus-vimcal",
+    "url": "https://freeCal/blog/cal-plus-vimcal",
     "newTab": true
   }
 }

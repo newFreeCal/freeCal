@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
+import { getBookerBaseUrlSync } from "@calcom/features/organizations/lib/stubs/getBookerBaseUrlSync";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import type { User } from "@calcom/prisma/client";
 import type { UserProfile } from "@calcom/types/UserProfile";
-
+import { useEffect, useState } from "react";
 import { AvatarGroup } from "./AvatarGroup";
 
 type UserAvatarProps = Omit<React.ComponentProps<typeof AvatarGroup>, "items"> & {

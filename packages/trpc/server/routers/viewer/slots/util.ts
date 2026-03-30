@@ -1,7 +1,6 @@
 import process from "node:process";
 import type { Dayjs } from "@calcom/dayjs";
 import dayjs from "@calcom/dayjs";
-import { orgDomainConfig } from "@calcom/ee/organizations/lib/orgDomains";
 import { getAggregatedAvailability } from "@calcom/features/availability/lib/getAggregatedAvailability/getAggregatedAvailability";
 import type {
   CurrentSeats,
@@ -9,6 +8,7 @@ import type {
   GetAvailabilityUser,
   UserAvailabilityService,
 } from "@calcom/features/availability/lib/getUserAvailability";
+import type { IGetAvailableSlots } from "@calcom/features/bookings/Booker/hooks/useAvailableTimeSlots";
 import type { CheckBookingLimitsService } from "@calcom/features/bookings/lib/checkBookingLimits";
 import { checkForConflicts } from "@calcom/features/bookings/lib/conflictChecker/checkForConflicts";
 import type { QualifiedHostsService } from "@calcom/features/bookings/lib/host-filtering/findQualifiedHostsWithDelegationCredentials";
@@ -16,28 +16,31 @@ import { isEventTypeLoggingEnabled } from "@calcom/features/bookings/lib/isEvent
 import type { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
 import type { BusyTimesService } from "@calcom/features/busyTimes/services/getBusyTimes";
 import type { getBusyTimesService } from "@calcom/features/di/containers/BusyTimes";
-import type { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import type { OrgMembershipLookup } from "@calcom/features/di/modules/OrgMembershipLookup";
 import { getDefaultEvent } from "@calcom/features/eventtypes/lib/defaultEvents";
 import type { EventTypeRepository } from "@calcom/features/eventtypes/repositories/eventTypeRepository";
 import type { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import type { PrismaOOORepository } from "@calcom/features/ooo/repositories/PrismaOOORepository";
 import type { IRedisService } from "@calcom/features/redis/IRedisService";
+import type { RoutingFormResponseRepository } from "@calcom/features/routing-forms/repositories/RoutingFormResponseRepository";
 import { buildDateRanges } from "@calcom/features/schedules/lib/date-ranges";
 import getSlots from "@calcom/features/schedules/lib/slots";
 import type { ScheduleRepository } from "@calcom/features/schedules/repositories/ScheduleRepository";
 import type { ISelectedSlotRepository } from "@calcom/features/selectedSlots/repositories/ISelectedSlotRepository";
 import type { NoSlotsNotificationService } from "@calcom/features/slots/handleNotificationWhenNoSlots";
+import type { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import type { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { withSelectedCalendars } from "@calcom/features/users/repositories/UserRepository";
 import { filterBlockedHosts } from "@calcom/features/watchlist/operations/filter-blocked-hosts.controller";
 import { shouldIgnoreContactOwner } from "@calcom/lib/bookings/routing/utils";
 import { RESERVED_SUBDOMAINS } from "@calcom/lib/constants";
 import { getUTCOffsetByTimezone } from "@calcom/lib/dayjs";
+import { orgDomainConfig } from "@calcom/lib/domainManager/organization";
 import { descendingLimitKeys, intervalLimitKeyToUnit } from "@calcom/lib/intervalLimits/intervalLimit";
 import type { IntervalLimit } from "@calcom/lib/intervalLimits/intervalLimitSchema";
 import { parseBookingLimit } from "@calcom/lib/intervalLimits/isBookingLimits";
 import { parseDurationLimit } from "@calcom/lib/intervalLimits/isDurationLimits";
-import LimitManager, { LimitSources } from "@calcom/lib/intervalLimits/limitManager";
+import LimitManager from "@calcom/lib/intervalLimits/limitManager";
 import { isBookingWithinPeriod } from "@calcom/lib/intervalLimits/utils";
 import {
   BookingDateInPastError,
@@ -48,7 +51,6 @@ import {
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import { withReporting } from "@calcom/lib/sentryWrapper";
-import type { RoutingFormResponseRepository } from "@calcom/features/routing-forms/repositories/RoutingFormResponseRepository";
 import { PeriodType, SchedulingType } from "@calcom/prisma/enums";
 import type { CalendarFetchMode, EventBusyDate, EventBusyDetails } from "@calcom/types/Calendar";
 import type { CredentialForCalendarService } from "@calcom/types/Credential";
@@ -57,8 +59,6 @@ import type { Logger } from "tslog";
 import { v4 as uuid } from "uuid";
 import type { TGetScheduleInputSchema } from "./getSchedule.schema";
 import type { GetScheduleOptions } from "./types";
-import type { OrgMembershipLookup } from "@calcom/features/di/modules/OrgMembershipLookup";
-import type { IGetAvailableSlots } from "@calcom/features/bookings/Booker/hooks/useAvailableTimeSlots";
 
 const log = logger.getSubLogger({ prefix: ["[slots/util]"] });
 const DEFAULT_SLOTS_CACHE_TTL = 2000;
@@ -444,8 +444,6 @@ export class AvailableSlotsService {
           const periodEnd = periodStart.endOf(unit);
           let totalBookings = 0;
 
-          const { title, source } = LimitSources.eventBookingLimit({ limit, unit });
-
           for (const booking of busyTimesFromLimitsBookings) {
             if (!isBookingWithinPeriod(booking, periodStart, periodEnd, timeZone)) {
               continue;
@@ -453,39 +451,11 @@ export class AvailableSlotsService {
 
             totalBookings++;
             if (totalBookings >= limit) {
-              globalLimitManager.addBusyTime({
-                start: periodStart,
-                unit,
-                timeZone,
-                title,
-                source,
-              });
+              globalLimitManager.addBusyTime(periodStart, unit, timeZone);
               break;
             }
           }
         }
-      }
-    }
-
-    // Pre-fetch yearly duration totals per event type to avoid N+1 queries
-    const yearlyDurationTotals = new Map<string, number>();
-    const missingYearlyDurationTotals = new Set<string>();
-    if (durationLimits?.PER_YEAR) {
-      const yearPeriodStartDates = this.dependencies.userAvailabilityService.getPeriodStartDatesBetween(
-        dateFrom,
-        dateTo,
-        "year",
-        timeZone
-      );
-      for (const periodStart of yearPeriodStartDates) {
-        const yearKey = periodStart.format("YYYY");
-        const totalDurationForYear = await this.dependencies.bookingRepo.getTotalBookingDuration({
-          eventId: eventType.id,
-          startDate: periodStart.toDate(),
-          endDate: periodStart.endOf("year").toDate(),
-          rescheduleUid,
-        });
-        yearlyDurationTotals.set(yearKey, totalDurationForYear);
       }
     }
 
@@ -511,8 +481,6 @@ export class AvailableSlotsService {
           for (const periodStart of periodStartDates) {
             if (limitManager.isAlreadyBusy(periodStart, unit, timeZone)) continue;
 
-            const { title, source } = LimitSources.eventBookingLimit({ limit, unit });
-
             if (unit === "year") {
               try {
                 await this.dependencies.checkBookingLimitsService.checkBookingLimit({
@@ -525,13 +493,7 @@ export class AvailableSlotsService {
                   timeZone,
                 });
               } catch {
-                limitManager.addBusyTime({
-                  start: periodStart,
-                  unit,
-                  timeZone,
-                  title,
-                  source,
-                });
+                limitManager.addBusyTime(periodStart, unit, timeZone);
                 if (
                   periodStartDates.every((start: Dayjs) => limitManager.isAlreadyBusy(start, unit, timeZone))
                 ) {
@@ -551,13 +513,7 @@ export class AvailableSlotsService {
 
               totalBookings++;
               if (totalBookings >= limit) {
-                limitManager.addBusyTime({
-                  start: periodStart,
-                  unit,
-                  timeZone,
-                  title,
-                  source,
-                });
+                limitManager.addBusyTime(periodStart, unit, timeZone);
                 break;
               }
             }
@@ -583,41 +539,20 @@ export class AvailableSlotsService {
 
             const selectedDuration = (duration || eventType.length) ?? 0;
 
-            const { title, source } = LimitSources.eventDurationLimit({ limit, unit });
-
             if (selectedDuration > limit) {
-              limitManager.addBusyTime({
-                start: periodStart,
-                unit,
-                timeZone,
-                title,
-                source,
-              });
+              limitManager.addBusyTime(periodStart, unit, timeZone);
               continue;
             }
 
             if (unit === "year") {
-              const yearKey = periodStart.format("YYYY");
-              if (!yearlyDurationTotals.has(yearKey) && !missingYearlyDurationTotals.has(yearKey)) {
-                missingYearlyDurationTotals.add(yearKey);
-                log.warn("[DURATION LIMIT CACHE MISS] Missing pre-fetched yearly duration total", {
-                  eventTypeId: eventType.id,
-                  durationLimitKey: key,
-                  yearKey,
-                  dateFrom: dateFrom.toISOString(),
-                  dateTo: dateTo.toISOString(),
-                  timeZone,
-                });
-              }
-              const totalYearlyDuration = yearlyDurationTotals.get(yearKey) ?? 0;
+              const totalYearlyDuration = await this.dependencies.bookingRepo.getTotalBookingDuration({
+                eventId: eventType.id,
+                startDate: periodStart.toDate(),
+                endDate: periodStart.endOf(unit).toDate(),
+                rescheduleUid,
+              });
               if (totalYearlyDuration + selectedDuration > limit) {
-                limitManager.addBusyTime({
-                  start: periodStart,
-                  unit,
-                  timeZone,
-                  title,
-                  source,
-                });
+                limitManager.addBusyTime(periodStart, unit, timeZone);
                 if (
                   periodStartDates.every((start: Dayjs) => limitManager.isAlreadyBusy(start, unit, timeZone))
                 ) {
@@ -636,13 +571,7 @@ export class AvailableSlotsService {
               }
               totalDuration += dayjs(booking.end).diff(dayjs(booking.start), "minute");
               if (totalDuration > limit) {
-                limitManager.addBusyTime({
-                  start: periodStart,
-                  unit,
-                  timeZone,
-                  title,
-                  source,
-                });
+                limitManager.addBusyTime(periodStart, unit, timeZone);
                 break;
               }
             }
@@ -715,8 +644,6 @@ export class AvailableSlotsService {
         const periodEnd = periodStart.endOf(unit);
         let totalBookings = 0;
 
-        const { title, source } = LimitSources.teamBookingLimit({ limit, unit });
-
         for (const booking of busyTimes) {
           if (!isBookingWithinPeriod(booking, periodStart, periodEnd, timeZone)) {
             continue;
@@ -724,13 +651,7 @@ export class AvailableSlotsService {
 
           totalBookings++;
           if (totalBookings >= limit) {
-            globalLimitManager.addBusyTime({
-              start: periodStart,
-              unit,
-              timeZone,
-              title,
-              source,
-            });
+            globalLimitManager.addBusyTime(periodStart, unit, timeZone);
             break;
           }
         }
@@ -760,8 +681,6 @@ export class AvailableSlotsService {
         for (const periodStart of periodStartDates) {
           if (limitManager.isAlreadyBusy(periodStart, unit, timeZone)) continue;
 
-          const { title, source } = LimitSources.teamBookingLimit({ limit, unit });
-
           if (unit === "year") {
             try {
               await this.dependencies.checkBookingLimitsService.checkBookingLimit({
@@ -775,13 +694,7 @@ export class AvailableSlotsService {
                 timeZone,
               });
             } catch {
-              limitManager.addBusyTime({
-                start: periodStart,
-                unit,
-                timeZone,
-                title,
-                source,
-              });
+              limitManager.addBusyTime(periodStart, unit, timeZone);
               if (
                 periodStartDates.every((start: Dayjs) => limitManager.isAlreadyBusy(start, unit, timeZone))
               ) {
@@ -801,13 +714,7 @@ export class AvailableSlotsService {
 
             totalBookings++;
             if (totalBookings >= limit) {
-              limitManager.addBusyTime({
-                start: periodStart,
-                unit,
-                timeZone,
-                title,
-                source,
-              });
+              limitManager.addBusyTime(periodStart, unit, timeZone);
               break;
             }
           }

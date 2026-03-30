@@ -43,25 +43,14 @@ export const addSecondaryEmailHandler = async ({ ctx, input }: AddSecondaryEmail
   }
 
   const updatedData = await prisma.secondaryEmail.create({
-    data: { email: input.email, userId: user.id },
+    data: { ...input, userId: user.id },
   });
-
-  const extraParams: Record<string, string> = {};
-  if (input.makePrimary) {
-    extraParams.makePrimary = "true";
-  }
-  if (input.redirectTo) {
-    extraParams.redirectTo = input.redirectTo;
-  }
-
-  const hasExtraParams = Object.keys(extraParams).length > 0;
 
   await sendEmailVerification({
     email: updatedData.email,
     username: user?.username ?? undefined,
     language: user.locale,
     secondaryEmailId: updatedData.id,
-    ...(hasExtraParams && { extraParams }),
   });
 
   return {

@@ -1,7 +1,5 @@
-import { expect, type Page } from "@playwright/test";
-
 import type { MembershipRole } from "@calcom/prisma/enums";
-
+import { expect, type Page } from "@playwright/test";
 import { localize } from "../lib/localize";
 import { submitAndWaitForResponse } from "../lib/testUtils";
 import type { createUsersFixture } from "./users";
@@ -90,7 +88,7 @@ export function createBookingPageFixture(page: Page) {
       await expect(redirectSwitch).toBeVisible();
       await redirectSwitch.click();
       await expect(page.getByTestId("external-redirect-url")).toBeVisible();
-      await page.getByTestId("external-redirect-url").fill("https://cal.com");
+      await page.getByTestId("external-redirect-url").fill("https://freeCal");
       await expect(page.getByTestId("redirect-url-warning")).toBeVisible();
     },
     checkEnablePrivateUrl: async () => {

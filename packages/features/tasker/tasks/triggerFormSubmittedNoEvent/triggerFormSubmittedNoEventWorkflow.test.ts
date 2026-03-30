@@ -1,17 +1,14 @@
 import prismaMock from "@calcom/testing/lib/__mocks__/prismaMock";
-
-import { describe, expect, it, beforeEach, vi } from "vitest";
-import type { z } from "zod";
-
-import { scheduleWorkflowReminders } from "@calcom/ee/workflows/lib/reminders/reminderScheduler";
+import { scheduleWorkflowReminders } from "@calcom/ee/workflows/lib/reminders/scheduleWorkflowReminders.ts";
 import type { ZTriggerFormSubmittedNoEventWorkflowPayloadSchema } from "@calcom/features/tasker/tasks/triggerFormSubmittedNoEvent/triggerFormSubmittedNoEventWorkflow";
 import { triggerFormSubmittedNoEventWorkflow } from "@calcom/features/tasker/tasks/triggerFormSubmittedNoEvent/triggerFormSubmittedNoEventWorkflow";
-import { WorkflowTriggerEvents, WorkflowActions, WorkflowTemplates, TimeUnit } from "@calcom/prisma/enums";
-
+import { TimeUnit, WorkflowActions, WorkflowTemplates, WorkflowTriggerEvents } from "@calcom/prisma/enums";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { z } from "zod";
 import { shouldTriggerFormSubmittedNoEvent } from "./formSubmissionValidation";
 
 // Mock the scheduleWorkflowReminders function
-vi.mock("@calcom/ee/workflows/lib/reminders/reminderScheduler", () => ({
+vi.mock("@calcom/ee/workflows/lib/reminders/scheduleWorkflowReminders.ts", () => ({
   scheduleWorkflowReminders: vi.fn(() => Promise.resolve()),
 }));
 

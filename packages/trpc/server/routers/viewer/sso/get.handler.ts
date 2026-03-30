@@ -1,15 +1,14 @@
-import jackson from "@calcom/features/ee/sso/lib/jackson";
-import type { SSOConnection } from "@calcom/features/ee/sso/lib/saml";
+import process from "node:process";
+import jackson from "@calcom/features/sso/lib/stubs/lib/jackson";
+import type { SSOConnection } from "@calcom/features/sso/lib/stubs/lib/saml";
 import {
   canAccessOrganization,
   oidcPath,
   samlProductID,
   samlTenantID,
   tenantPrefix,
-} from "@calcom/features/ee/sso/lib/saml";
-
+} from "@calcom/features/sso/lib/stubs/lib/saml";
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TGetInputSchema } from "./get.schema";
 

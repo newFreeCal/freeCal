@@ -1,6 +1,5 @@
 import type { ParsedUrlQuery } from "node:querystring";
 import { stringify } from "node:querystring";
-
 import { SINGLE_ORG_SLUG } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
@@ -114,8 +113,8 @@ interface HandleOrgRedirectParams {
  * Handles organization redirects for both regular org context and SINGLE_ORG_SLUG mode
  * The redirect is required for all existing user links and team links to keep working when a user/team is moved to an organization
  * Example:
- * - User "john87" is added to organization "acme" and his username in the organization is "john". So, cal.com/john87 is redirected to cal.com/john
- * - Team "acme-sales" is added to organization "acme" and its slug in the organization is "sales". So, cal.com/acme-sales is redirected to cal.com/sales
+ * - User "john87" is added to organization "acme" and his username in the organization is "john". So, freeCal/john87 is redirected to freeCal/john
+ * - Team "acme-sales" is added to organization "acme" and its slug in the organization is "sales". So, freeCal/acme-sales is redirected to freeCal/sales
  *
  * Returns a redirect object if a redirect is needed, null otherwise
  */

@@ -1,25 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
-
 import { prisma } from "@calcom/prisma";
-
+import { v4 as uuidv4 } from "uuid";
 import { convertSvgToPng } from "./imageUtils";
 
 export const uploadAvatar = async ({ userId, avatar: data }: { userId: number; avatar: string }) => {
+  const objectKey = uuidv4();
   const processedData = await convertSvgToPng(data);
-
-  // Check if avatar already exists to preserve the objectKey
-  const existing = await prisma.avatar.findUnique({
-    where: {
-      teamId_userId_isBanner: {
-        teamId: 0,
-        userId,
-        isBanner: false,
-      },
-    },
-    select: { objectKey: true },
-  });
-
-  const objectKey = existing?.objectKey ?? uuidv4();
 
   await prisma.avatar.upsert({
     where: {
@@ -37,7 +22,7 @@ export const uploadAvatar = async ({ userId, avatar: data }: { userId: number; a
     },
     update: {
       data: processedData,
-      // Don't update objectKey - keep existing to preserve URLs
+      objectKey,
     },
   });
 

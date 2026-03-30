@@ -1,11 +1,10 @@
+import type { OAuthReq } from "@calcom/features/sso/lib/stubs/lib/jackson";
+import jackson from "@calcom/features/sso/lib/stubs/lib/jackson";
+import type { HttpError } from "@calcom/lib/http-error";
+import logger from "@calcom/lib/logger";
 import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-
-import type { OAuthReq } from "@calcom/features/ee/sso/lib/jackson";
-import jackson from "@calcom/features/ee/sso/lib/jackson";
-import type { HttpError } from "@calcom/lib/http-error";
-import logger from "@calcom/lib/logger";
 
 async function handler(req: NextRequest) {
   const log = logger.getSubLogger({ prefix: ["[SAML authorize]"] });

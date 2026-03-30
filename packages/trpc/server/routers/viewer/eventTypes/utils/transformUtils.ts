@@ -1,10 +1,9 @@
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
+import { getBookerBaseUrlSync } from "@calcom/features/organizations/lib/stubs/getBookerBaseUrlSync";
+import { getBookerBaseUrl } from "@calcom/features/organizations/lib/stubs/getBookerUrlServer";
 import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import type { MembershipRole } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
-
 import type { TeamPermissions } from "./permissionUtils";
 
 export interface EventTypeGroup {
@@ -121,9 +120,9 @@ export function createProfilesWithPermissions(
   teamPermissionsMap: Map<number, TeamPermissions>
 ): ProfileWithPermissions[] {
   return eventTypeGroups.map((group) => {
-    let canCreateEventTypes: boolean | undefined = undefined;
-    let canUpdateEventTypes: boolean | undefined = undefined;
-    let canDeleteEventTypes: boolean | undefined = undefined;
+    let canCreateEventTypes: boolean | undefined;
+    let canUpdateEventTypes: boolean | undefined;
+    let canDeleteEventTypes: boolean | undefined;
 
     if (group.teamId) {
       const permissions = teamPermissionsMap.get(group.teamId);

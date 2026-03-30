@@ -1,9 +1,8 @@
-import { isTeamOwner } from "@calcom/features/ee/teams/lib/queries";
 import { isOrganisationAdmin, isOrganisationOwner } from "@calcom/features/pbac/utils/isOrganisationAdmin";
+import { isTeamOwner } from "@calcom/features/teams/lib/stubs/queries";
 import { prisma } from "@calcom/prisma";
 import type { Membership } from "@calcom/prisma/client";
 import { MembershipRole } from "@calcom/prisma/enums";
-
 import { RoleManagementError, RoleManagementErrorCode } from "../domain/errors/role-management.error";
 import type { IRoleManager } from "./role-manager.interface";
 

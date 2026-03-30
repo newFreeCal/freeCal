@@ -6,12 +6,12 @@
   "slug": "routing-forms",
   "type": "routing-forms_other",
   "logo": "icon-dark.svg",
-  "url": "https://cal.com/resources/feature/routing-forms",
+  "url": "https://freeCal/resources/feature/routing-forms",
   "variant": "other",
   "categories": ["automation"],
-  "publisher": "Cal.com, Inc.",
+  "publisher": "freeCal, Inc.",
   "simplePath": "/routing",
-  "email": "help@cal.com",
+  "email": "help@freeCal",
   "licenseRequired": true,
   "teamsPlanRequired": {
     "upgradeUrl": "/routing"

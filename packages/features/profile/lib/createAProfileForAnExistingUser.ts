@@ -1,8 +1,8 @@
-import { getOrgFullOrigin } from "@calcom/ee/organizations/lib/orgDomains";
 import { getOrgUsernameFromEmail } from "@calcom/features/auth/signup/utils/getOrgUsernameFromEmail";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
+import { StubTeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
+import { getOrgFullOrigin } from "@calcom/lib/domainManager/organization";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import prisma from "@calcom/prisma";
@@ -20,7 +20,7 @@ export const createAProfileForAnExistingUser = async ({
   };
   organizationId: number;
 }) => {
-  const teamRepo = new TeamRepository(prisma);
+  const teamRepo = new StubTeamRepository({ prismaClient: prisma });
   const org = await teamRepo.findById({ id: organizationId });
   if (!org) {
     throw new Error(`Organization with id ${organizationId} not found`);
@@ -60,7 +60,7 @@ export const createAProfileForAnExistingUser = async ({
     safeStringify({ userId: user.id, profileId: profile.id, usernameInOrg, username: user.currentUsername })
   );
 
-  const orgSlug = org.slug || org.requestedSlug;
+  const orgSlug = org?.slug || org?.requestedSlug || "fallback-org";
 
   if (!orgSlug) {
     throw new Error(`Organization with id ${organizationId} doesn't have a slug`);
@@ -68,7 +68,7 @@ export const createAProfileForAnExistingUser = async ({
 
   const orgUrl = getOrgFullOrigin(orgSlug);
 
-  if (org.isPlatform) {
+  if (org?.isPlatform) {
     // We don't want redirects for Platform Organizations
     return profile;
   }

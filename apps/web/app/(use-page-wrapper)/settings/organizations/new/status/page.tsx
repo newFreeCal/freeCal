@@ -1,6 +1,5 @@
 import { _generateMetadata } from "app/_utils";
-
-import LegacyPage, { LayoutWrapper } from "~/ee/organizations/new/payment-status-view";
+import LegacyPage, { LayoutWrapper } from "~/organizations/new/payment-status-view";
 
 export const generateMetadata = async () =>
   await _generateMetadata(

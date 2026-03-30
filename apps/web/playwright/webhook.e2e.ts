@@ -389,8 +389,8 @@ test.describe("BOOKING_RESCHEDULED", async () => {
     webhooks,
   }) => {
     const { user, eventType, booking } = await createUserWithSeatedEventAndAttendees({ users, bookings }, [
-      { name: "John First", email: "first+seats@cal.com", timeZone: "Europe/Berlin" },
-      { name: "Jane Second", email: "second+seats@cal.com", timeZone: "Europe/Berlin" },
+      { name: "John First", email: "first+seats@freeCal", timeZone: "Europe/Berlin" },
+      { name: "Jane Second", email: "second+seats@freeCal", timeZone: "Europe/Berlin" },
     ]);
 
     await prisma.eventType.update({

@@ -1,13 +1,12 @@
-import jackson from "@calcom/features/ee/sso/lib/jackson";
+import process from "node:process";
+import jackson from "@calcom/features/sso/lib/stubs/lib/jackson";
 import {
   canAccessOrganization,
   samlProductID,
   samlTenantID,
   tenantPrefix,
-} from "@calcom/features/ee/sso/lib/saml";
-
+} from "@calcom/features/sso/lib/stubs/lib/saml";
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TUpdateInputSchema } from "./update.schema";
 

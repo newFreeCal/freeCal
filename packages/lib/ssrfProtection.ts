@@ -1,7 +1,8 @@
 import dns from "node:dns/promises";
-import ipaddr from "ipaddr.js";
+import process from "node:process";
 import { IS_SELF_HOSTED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
+import ipaddr from "ipaddr.js";
 
 const log: ReturnType<typeof logger.getSubLogger> = logger.getSubLogger({ prefix: ["ssrf-protection"] });
 
@@ -31,7 +32,7 @@ const CLOUD_METADATA_ENDPOINTS: string[] = [
   "metadata.google.com", // GCP alternate
 ];
 
-// Hostnames blocked on Cal.com SaaS (includes metadata + localhost)
+// Hostnames blocked on freeCal SaaS (includes metadata + localhost)
 const BLOCKED_HOSTNAMES: string[] = [...CLOUD_METADATA_ENDPOINTS, "localhost"];
 
 const CAL_AVATAR_PATH_REGEX = /^\/api\/avatar\/.+\.png$/;

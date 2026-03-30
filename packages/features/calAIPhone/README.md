@@ -1,6 +1,6 @@
-# Cal.com AI Phone Service Architecture
+# freeCal AI Phone Service Architecture
 
-This package provides a comprehensive, provider-agnostic architecture for AI phone services in Cal.com, offering easy integration with different AI service providers, template management, and self-service UI components.
+This package provides a comprehensive, provider-agnostic architecture for AI phone services in freeCal, offering easy integration with different AI service providers, template management, and self-service UI components.
 
 ## Architecture Overview
 
@@ -163,15 +163,15 @@ The strategy pattern allows switching between different AI providers seamlessly.
 - **Extensibility**: Add new providers easily
 - **Testing**: Mock providers for testing
 
-## Integration with Cal.com Workflows
+## Integration with freeCal Workflows
 
-The AI Phone system is designed specifically for Cal.com's workflow automation, enabling AI-powered phone calls as part of scheduling workflows.
+The AI Phone system is designed specifically for freeCal's workflow automation, enabling AI-powered phone calls as part of scheduling workflows.
 
 ### Workflow Integration Architecture
 
 ```
 ┌─────────────────────────────────────────────┐
-│         Cal.com Workflow Engine              │
+│         freeCal Workflow Engine              │
 ├─────────────────────────────────────────────┤
 │        Workflow Step: AI Phone Call          │
 ├─────────────────────────────────────────────┤
@@ -325,7 +325,7 @@ The webhook requires proper configuration:
 
 #### Credit Service Integration
 
-The webhook integrates with Cal.com's credit system to check and deduct credits appropriately.
+The webhook integrates with freeCal's credit system to check and deduct credits appropriately.
 
 #### Error Handling
 
@@ -351,7 +351,7 @@ The webhook processes call completion events that contain the final usage data a
 - Advanced workflow builder UI
 - Provider health checks and automatic failover
 - Real-time call monitoring and analytics
-- Integration with Cal.com's webhook system
+- Integration with freeCal's webhook system
 - Custom field type plugins
 - Template marketplace and sharing
 - Advanced agent training and optimization tools

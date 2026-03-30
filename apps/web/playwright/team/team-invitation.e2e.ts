@@ -39,7 +39,7 @@ test.describe("Team", () => {
         page,
         emails,
         invitedUserEmail,
-        `${team.name}'s admin invited you to join the team ${team.name} on Cal.com`,
+        `${team.name}'s admin invited you to join the team ${team.name} on freeCal`,
         "signup?token"
       );
 
@@ -131,7 +131,7 @@ test.describe("Team", () => {
         page,
         emails,
         invitedUserEmail,
-        `${teamOwner.name} invited you to join the team ${team.name} on Cal.com`
+        `${teamOwner.name} invited you to join the team ${team.name} on freeCal`
       );
 
       await expect(
@@ -231,7 +231,7 @@ test.describe("Team", () => {
         page,
         emails,
         invitedUser.email,
-        `${teamOwner.name} invited you to join the team ${team.name} on Cal.com`,
+        `${teamOwner.name} invited you to join the team ${team.name} on freeCal`,
         "teams?token"
       );
 
@@ -298,7 +298,7 @@ test.describe("Team", () => {
         page,
         emails,
         invitedUser.email,
-        `${teamOwner.name} invited you to join the team ${team.name} on Cal.com`,
+        `${teamOwner.name} invited you to join the team ${team.name} on freeCal`,
         "teams?token"
       );
 

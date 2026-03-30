@@ -1,15 +1,13 @@
-import { z } from "zod";
-
-import { createSignature, generateNonce } from "@calcom/features/ee/common/server/private-api-utils";
+import { createSignature, generateNonce } from "@calcom/features/common/lib/stubs/server/private-api-utils";
 import {
   getDeploymentKey,
   getDeploymentSignatureToken,
-} from "@calcom/features/ee/deployment/lib/getDeploymentKey";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
+} from "@calcom/features/deployment/lib/stubs/lib/getDeploymentKey";
+import { DeploymentRepository } from "@calcom/features/deployment/lib/stubs/repositories/DeploymentRepository";
 import { CALCOM_PRIVATE_API_ROUTE } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";
-
+import { z } from "zod";
 import type { TrpcSessionUser } from "../../../types";
 import type { TBillingPortalLinkSchema } from "./billingPortalLink.schema";
 

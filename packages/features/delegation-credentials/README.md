@@ -2,14 +2,14 @@
 
 ## Setting up Delegation Credential for Google Calendar API
 
-Step 0: Create a Workspace Platform(to be done once for the Cal.com instance, by the Cal.com instance admin)
+Step 0: Create a Workspace Platform(to be done once for the freeCal instance, by the freeCal instance admin)
 
-- Create a Workspace Platform through admin interface at <https://app.cal.com/settings/admin/workspace-platforms>
+- Create a Workspace Platform through admin interface at <https://app.freeCal/settings/admin/workspace-platforms>
   - Use slug="google". Slug has to be exactly this. This is how we know we need to use Google Calendar and Google Meet.
   - Use "Google" as the name of the workspace platform. Change it as per your liking.
   - Optionally provide description for the workspace platform.
 
-Step 1: Create a Google Cloud Project or use existing one(to be done once for the Cal.com instance)
+Step 1: Create a Google Cloud Project or use existing one(to be done once for the freeCal instance)
 
 Before you can create a service account, you'll need to set up a Google Cloud project.
 
@@ -36,18 +36,18 @@ A service account is needed to act on behalf of users
     - Click Create and Continue(Optional steps can be skipped)
  3. Download the Service Account Key JSON file
 
-Step 3: Create Delegation Credential(To Be taken by Cal.com instance admin):
+Step 3: Create Delegation Credential(To Be taken by freeCal instance admin):
 
-- Impersonate the organization owner and go to https://app.cal.com/settings/organizations/delegation-credential to create a Delegation Credential
+- Impersonate the organization owner and go to https://app.freeCal/settings/organizations/delegation-credential to create a Delegation Credential
 
   - Use domain as "acme.com" if @acme.com is the email address for your Google Workspace
   - Choose Workspace Platform as "Google"
   - Add Service Account Key JSON file(obtained in Step 2)
   - Click on "Create" button
 
-Step 4: Copy the Client ID and OAuth Scope (To Be Taken By Cal.com organization Owner/Admin in Cal.com):
+Step 4: Copy the Client ID and OAuth Scope (To Be Taken By freeCal organization Owner/Admin in freeCal):
 
-- Go to https://app.cal.com/settings/organizations/delegation-credential
+- Go to https://app.freeCal/settings/organizations/delegation-credential
   - Copy the Client ID for your Google Workspace domain(e.g. acme.com)
     - Client ID is a number like 123456789012345678901 that
 
@@ -59,10 +59,10 @@ Step 5: Add Client ID under Domain-Wide Delegation (To Be taken By Google Worksp
   - Add the following API scope for Google Calendar(Full access to Google Calendar. We use it to read freebusy time and create/update events in the members' calendars)
     - `https://www.googleapis.com/auth/calendar`
 
-Step 6: Enable Delegation Credential(To Be taken By Cal.com organization Owner/Admin in Cal.com):
+Step 6: Enable Delegation Credential(To Be taken By freeCal organization Owner/Admin in freeCal):
 
 - Prerequisite: The owner/admin must be part of the Google Workspace to enable Delegation Credential
-- Go to https://app.cal.com/settings/organizations/delegation-credential
+- Go to https://app.freeCal/settings/organizations/delegation-credential
   - Enable Delegation Credential
     - If you have added the Client ID for correct Google Workspace, the Delegation Credential would be enabled, otherwise you would see an error message, that should help and contact support if you still face issues.
 
@@ -76,7 +76,7 @@ Step 6: Enable Delegation Credential(To Be taken By Cal.com organization Owner/A
 
 ## Restrictions after enabling Delegation Credential
 
-- Enabling Delegation Credential for a particular workspace in Cal.com(only google/outlook supported at the moment) disables the user from disconnecting that credential.
+- Enabling Delegation Credential for a particular workspace in freeCal(only google/outlook supported at the moment) disables the user from disconnecting that credential.
 
 ## Who can create Delegation Credential and enable it?
 
@@ -101,13 +101,13 @@ Step 6: Enable Delegation Credential(To Be taken By Cal.com organization Owner/A
 
 ### How Delegation Credential works
 
-- We use the Cal.com user's email to impersonate that user using Delegation Credential(which is just a service account key at the moment)
+- We use the freeCal user's email to impersonate that user using Delegation Credential(which is just a service account key at the moment)
   - That gives us read/write permission to get availability of the user and create new events in their calendar.
 
 ### What is a Delegation Credential?
 
 - A Delegation Credential service account key along with user's email becomes the Delegation Credential which is an alternative to regular Credential in DB.
-- Delegation Credential doesn't completely replace the regular credentials. Delegation Credential gives access to the cal.com user's email in Google Calendar. So, if the user needs to connect to some other email's calendar, we need to use the regular credentials.
+- Delegation Credential doesn't completely replace the regular credentials. Delegation Credential gives access to the freeCal user's email in Google Calendar. So, if the user needs to connect to some other email's calendar, we need to use the regular credentials.
 
 ### Cron Jobs
 

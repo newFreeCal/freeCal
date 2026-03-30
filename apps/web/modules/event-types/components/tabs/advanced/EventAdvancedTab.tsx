@@ -4,12 +4,7 @@ import { useIsPlatform } from "@calcom/atoms/hooks/useIsPlatform";
 import { Timezone as PlatformTimzoneSelect } from "@calcom/atoms/timezone";
 import getLocationsOptionsForSelect from "@calcom/features/bookings/lib/getLocationOptionsForSelect";
 import DestinationCalendarSelector from "@calcom/features/calendars/components/DestinationCalendarSelector";
-import { TimezoneSelect as WebTimezoneSelect } from "@calcom/web/modules/timezone/components/TimezoneSelect";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
-import {
-  allowDisablingAttendeeConfirmationEmails,
-  allowDisablingHostConfirmationEmails,
-} from "@calcom/features/ee/workflows/lib/allowDisablingStandardEmails";
+import { LearnMoreLink } from "@calcom/features/eventtypes/components/LearnMoreLink";
 import type { EventNameObjectType } from "@calcom/features/eventtypes/lib/eventNaming";
 import { getEventName } from "@calcom/features/eventtypes/lib/eventNaming";
 import type {
@@ -20,7 +15,11 @@ import type {
   SelectClassNames,
   SettingsToggleClassNames,
 } from "@calcom/features/eventtypes/lib/types";
-import { BookerLayoutSelector } from "@calcom/web/modules/settings/components/BookerLayoutSelector";
+import useLockedFieldsManager from "@calcom/features/managed-event-types/lib/stubs/useLockedFieldsManager";
+import {
+  allowDisablingAttendeeConfirmationEmails,
+  allowDisablingHostConfirmationEmails,
+} from "@calcom/features/workflows/lib/stubs/allowDisablingStandardEmails.stub";
 import {
   DEFAULT_DARK_BRAND_COLOR,
   DEFAULT_LIGHT_BRAND_COLOR,
@@ -31,7 +30,7 @@ import { checkWCAGContrastColor } from "@calcom/lib/getBrandColours";
 import { extractHostTimezone } from "@calcom/lib/hashedLinksUtils";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { Prisma } from "@calcom/prisma/client";
-import { CancellationReasonRequirement, SchedulingType } from "@calcom/prisma/enums";
+import { SchedulingType } from "@calcom/prisma/enums";
 import type { EditableSchema, fieldSchema } from "@calcom/prisma/zod-utils";
 import type { RouterOutputs } from "@calcom/trpc/react";
 import classNames from "@calcom/ui/classNames";
@@ -48,7 +47,6 @@ import {
   Switch,
   TextField,
 } from "@calcom/ui/components/form";
-import { InfoIcon, PencilIcon } from "@coss/ui/icons";
 import {
   SelectedCalendarSettingsScope,
   SelectedCalendarsSettingsWebWrapper,
@@ -56,12 +54,13 @@ import {
 } from "@calcom/web/modules/calendars/components/SelectedCalendarsSettingsWebWrapper";
 import { MultiplePrivateLinksController } from "@calcom/web/modules/event-types/components";
 import AddVerifiedEmail from "@calcom/web/modules/event-types/components/AddVerifiedEmail";
-import { LearnMoreLink } from "@calcom/features/eventtypes/components/LearnMoreLink";
+import { BookerLayoutSelector } from "@calcom/web/modules/settings/components/BookerLayoutSelector";
+import { TimezoneSelect as WebTimezoneSelect } from "@calcom/web/modules/timezone/components/TimezoneSelect";
+import { InfoIcon, PencilIcon } from "@coss/ui/icons";
 import type { Dispatch, SetStateAction } from "react";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import type { z } from "zod";
-
 import type { CustomEventTypeModalClassNames } from "./CustomEventTypeModal";
 import CustomEventTypeModal from "./CustomEventTypeModal";
 import type { EmailNotificationToggleCustomClassNames } from "./DisableAllEmailsSetting";
@@ -644,7 +643,7 @@ export const EventAdvancedTab = ({
             <LearnMoreLink
               t={t}
               i18nKey="booking_questions_description"
-              href="https://cal.com/help/event-types/booking-questions"
+              href="https://freeCal/help/event-types/booking-questions"
             />
           </p>
         </div>
@@ -674,43 +673,6 @@ export const EventAdvancedTab = ({
           />
         </div>
       </div>
-      {!isPlatform && (
-        <Controller
-          name="requiresCancellationReason"
-          render={({ field: { value, onChange } }) => {
-            const cancellationReasonOptions = [
-              { value: CancellationReasonRequirement.MANDATORY_BOTH, label: t("mandatory_for_both") },
-              {
-                value: CancellationReasonRequirement.MANDATORY_HOST_ONLY,
-                label: t("mandatory_for_host_only"),
-              },
-              {
-                value: CancellationReasonRequirement.MANDATORY_ATTENDEE_ONLY,
-                label: t("mandatory_for_attendee_only"),
-              },
-              { value: CancellationReasonRequirement.OPTIONAL_BOTH, label: t("optional_for_both") },
-            ];
-            return (
-              <div className="border-subtle rounded-lg border px-4 py-6 sm:px-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-default text-sm font-semibold">{t("require_cancellation_reason")}</p>
-                    <p className="text-default text-sm">{t("require_cancellation_reason_description")}</p>
-                  </div>
-                  <Select
-                    value={cancellationReasonOptions.find(
-                      (opt) => opt.value === (value || CancellationReasonRequirement.MANDATORY_HOST_ONLY)
-                    )}
-                    options={cancellationReasonOptions}
-                    onChange={(selected) => onChange(selected?.value)}
-                    className="w-52"
-                  />
-                </div>
-              </div>
-            );
-          }}
-        />
-      )}
       <RequiresConfirmationController
         eventType={eventType}
         seatsEnabled={seatsEnabled}
@@ -737,7 +699,7 @@ export const EventAdvancedTab = ({
                   <LearnMoreLink
                     t={t}
                     i18nKey="description_disable_cancelling"
-                    href="https://cal.com/help/event-types/disable-canceling-rescheduling#disable-cancelling"
+                    href="https://freeCal/help/event-types/disable-canceling-rescheduling#disable-cancelling"
                   />
                 }
                 checked={value}
@@ -881,7 +843,7 @@ export const EventAdvancedTab = ({
               <LearnMoreLink
                 t={t}
                 i18nKey="disable_notes_description"
-                href="https://cal.com/help/event-types/hide-notes"
+                href="https://freeCal/help/event-types/hide-notes"
               />
             }
             checked={value}
@@ -1049,7 +1011,7 @@ export const EventAdvancedTab = ({
                   <LearnMoreLink
                     t={t}
                     i18nKey="multiple_private_links_description"
-                    href="https://cal.com/help/event-types/private-links"
+                    href="https://freeCal/help/event-types/private-links"
                   />
                 }
                 tooltip={isManagedEventType ? t("managed_event_field_parent_control_disabled") : ""}
@@ -1102,7 +1064,7 @@ export const EventAdvancedTab = ({
                 <LearnMoreLink
                   t={t}
                   i18nKey="offer_seats_description"
-                  href="https://cal.com/help/event-types/offer-seats"
+                  href="https://freeCal/help/event-types/offer-seats"
                 />
               }
               checked={value}
@@ -1234,7 +1196,7 @@ export const EventAdvancedTab = ({
               <LearnMoreLink
                 t={t}
                 i18nKey="hide_organizer_email_description"
-                href="https://cal.com/help/event-types/hideorganizersemail#hide-organizers-email"
+                href="https://freeCal/help/event-types/hideorganizersemail#hide-organizers-email"
               />
             }
             descriptionClassName={customClassNames?.hideOrganizerEmail?.description}
@@ -1270,7 +1232,7 @@ export const EventAdvancedTab = ({
                 <LearnMoreLink
                   t={t}
                   i18nKey="description_lock_timezone_toggle_on_booking_page"
-                  href="https://cal.com/help/event-types/timezone-lock"
+                  href="https://freeCal/help/event-types/timezone-lock"
                 />
               }
               checked={value}
@@ -1323,7 +1285,7 @@ export const EventAdvancedTab = ({
               <LearnMoreLink
                 t={t}
                 i18nKey="allow_rescheduling_past_events_description"
-                href="https://cal.com/help/event-types/allow-rescheduling"
+                href="https://freeCal/help/event-types/allow-rescheduling"
               />
             }
             checked={value}
@@ -1497,7 +1459,7 @@ export const EventAdvancedTab = ({
                 <LearnMoreLink
                   t={t}
                   i18nKey="show_optimized_slots_description"
-                  href="https://cal.com/help/event-types/optimized-slots#optimized-slots"
+                  href="https://freeCal/help/event-types/optimized-slots#optimized-slots"
                 />
               }
               checked={isChecked}

@@ -168,7 +168,6 @@ const defaultProps = {
   customClassNames: {},
   areInstantMeetingParametersSet: false,
   userLocale: "en",
-  hasValidLicense: true,
   isBookingDryRun: false,
   renderCaptcha: false,
   onConnectNowInstantMeeting: vi.fn(),
@@ -187,8 +186,7 @@ describe("Booker", () => {
   beforeEach(() => {
     constantsScenarios.set({
       PUBLIC_QUICK_AVAILABILITY_ROLLOUT: "100",
-      POWERED_BY_URL: "https://go.cal.com/booking",
-      APP_NAME: "Cal.com",
+      APP_NAME: "freeCal",
     });
     vi.clearAllMocks();
   });

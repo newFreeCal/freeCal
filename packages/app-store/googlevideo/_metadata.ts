@@ -14,10 +14,10 @@ export const metadata = {
   title: "Google Meet",
   variant: "conferencing",
   logo: "logo.webp",
-  publisher: "Cal.com",
-  url: "https://cal.com/",
+  publisher: "freeCal",
+  url: "https://freeCal/",
   isGlobal: false,
-  email: "help@cal.com",
+  email: "help@freeCal",
   appData: {
     location: {
       linkType: "dynamic",

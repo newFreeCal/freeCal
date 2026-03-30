@@ -1,5 +1,5 @@
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";
@@ -10,6 +10,7 @@ const userRepository = new UserRepository(prisma);
 type Team = {
   hideBranding: boolean | null;
   parent: {
+    bannerUrl?: string | null;
     hideBranding: boolean | null;
   } | null;
 };

@@ -7,9 +7,9 @@
   "logo": "icon.svg",
   "variant": "calendar",
   "categories": ["calendar"],
-  "publisher": "Cal.com, Inc.",
-  "email": "help@cal.com",
-  "description": "Import events from an ICS Feed into [Cal.com](https://cal.com).",
+  "publisher": "freeCal, Inc.",
+  "email": "help@freeCal",
+  "description": "Import events from an ICS Feed into [freeCal](https://freeCal).",
   "isTemplate": false,
   "__createdUsingCli": true
 }

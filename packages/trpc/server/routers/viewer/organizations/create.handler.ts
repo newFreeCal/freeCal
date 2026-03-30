@@ -1,31 +1,27 @@
 import { lookup } from "node:dns";
-
-import { getOrgFullOrigin } from "@calcom/ee/organizations/lib/orgDomains";
-import { isNotACompanyEmail } from "@calcom/ee/organizations/lib/server/orgCreationUtils";
 import {
   sendAdminOrganizationNotification,
   sendOrganizationCreationEmail,
 } from "@calcom/emails/organization-email-service";
 import { sendEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
+import { isNotACompanyEmail } from "@calcom/features/organizations/lib/stubs/lib/server/orgCreationUtils";
+import { getOrganizationRepository } from "@calcom/features/organizations/lib/stubs/OrganizationRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { DEFAULT_SCHEDULE, getAvailabilityFromSchedule } from "@calcom/lib/availability";
 import {
-  RESERVED_SUBDOMAINS,
-  ORG_SELF_SERVE_ENABLED,
   ORG_MINIMUM_PUBLISHED_TEAMS_SELF_SERVE,
+  ORG_SELF_SERVE_ENABLED,
+  RESERVED_SUBDOMAINS,
   WEBAPP_URL,
 } from "@calcom/lib/constants";
-import { createDomain } from "@calcom/lib/domainManager/organization";
-import { getTranslation } from "@calcom/i18n/server";
+import { createDomain, getOrgFullOrigin, subdomainSuffix } from "@calcom/lib/domainManager/organization";
+import { getTranslation } from "@calcom/lib/server/i18n";
 import { prisma } from "@calcom/prisma";
 import { UserPermissionRole } from "@calcom/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
-import { BillingPeriod } from "./create.schema";
 import type { TCreateInputSchema } from "./create.schema";
+import { BillingPeriod } from "./create.schema";
 
 type CreateOptions = {
   ctx: {
@@ -115,6 +111,12 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
   let orgOwner = await prisma.user.findUnique({
     where: {
       email: orgOwnerEmail,
+    },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      emailVerified: true,
     },
   });
 
@@ -219,7 +221,7 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
         language: translation,
         from: ctx.user.name ?? `${organization.name}'s admin`,
         to: orgOwnerEmail,
-        ownerNewUsername: ownerProfile.username,
+        ownerNewUsername: ownerProfile.username || "",
         ownerOldUsername: null,
         orgDomain: getOrgFullOrigin(slug, { protocol: false }),
         orgName: organization.name,
@@ -228,19 +230,23 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
       });
     }
 
+    if (!orgOwner) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Organization owner not found" });
+    }
     const user = await new UserRepository(prisma).enrichUserWithItsProfile({
-      user: { ...orgOwner, organizationId: organization.id },
+      user: { id: orgOwner.id, username: orgOwner.username },
     });
 
     return {
       userId: user.id,
-      email: user.email,
-      organizationId: user.organizationId,
+      email: orgOwnerEmail,
+      organizationId: organization.id,
       upId: user.profile.upId,
     };
   } else {
     // If we are making the loggedIn user the owner of the organization and he is already a part of an organization, we don't allow it because multi-org is not supported yet
-    const isLoggedInUserOrgOwner = orgOwner.id === loggedInUser.id;
+    // orgOwner is guaranteed to be non-null here since we're in the else branch of if (!orgOwner)
+    const isLoggedInUserOrgOwner = orgOwner!.id === loggedInUser.id;
     if (ctx.user.profile.organizationId && isLoggedInUserOrgOwner) {
       throw new TRPCError({ code: "FORBIDDEN", message: "You are part of an organization already" });
     }
@@ -255,6 +261,7 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
       owner: {
         id: orgOwner.id,
         email: orgOwnerEmail,
+        username: orgOwner.username,
         nonOrgUsername: nonOrgUsernameForOwner,
       },
     });
@@ -264,7 +271,7 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
         language: inputLanguageTranslation,
         from: ctx.user.name ?? `${organization.name}'s admin`,
         to: orgOwnerEmail,
-        ownerNewUsername: ownerProfile.username,
+        ownerNewUsername: ownerProfile.username || "",
         ownerOldUsername: nonOrgUsernameForOwner,
         orgDomain: getOrgFullOrigin(slug, { protocol: false }),
         orgName: organization.name,
@@ -275,7 +282,7 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
 
     if (!organization.id) throw Error("User not created");
     const user = await new UserRepository(prisma).enrichUserWithItsProfile({
-      user: { ...orgOwner, organizationId: organization.id },
+      user: { id: orgOwner.id, username: orgOwner.username },
     });
 
     await prisma.availability.createMany({
@@ -289,8 +296,8 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
 
     return {
       userId: user.id,
-      email: user.email,
-      organizationId: user.organizationId,
+      email: orgOwnerEmail,
+      organizationId: organization.id,
       upId: user.profile.upId,
     };
   }

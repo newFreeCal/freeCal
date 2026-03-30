@@ -19,8 +19,4 @@ export class SelectedSlotRepositoryFixture {
   async deleteByUId(uid: SelectedSlots["uid"]) {
     return this.prismaWriteClient.selectedSlots.deleteMany({ where: { uid } });
   }
-
-  async deleteAllByUserId(userId: number) {
-    return this.prismaWriteClient.selectedSlots.deleteMany({ where: { userId } });
-  }
 }

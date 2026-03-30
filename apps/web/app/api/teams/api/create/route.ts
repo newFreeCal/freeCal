@@ -1,19 +1,20 @@
-import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import type Stripe from "stripe";
-import { z } from "zod";
-
-import { getBillingProviderService } from "@calcom/ee/billing/di/containers/Billing";
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { extractBillingDataFromStripeSubscription } from "@calcom/features/ee/billing/lib/stripe-subscription-utils";
-import { Plan, SubscriptionStatus } from "@calcom/features/ee/billing/repository/billing/IBillingRepository";
-import stripe from "@calcom/features/ee/payments/server/stripe";
+import { getBillingProviderService, getTeamBillingServiceFactory } from "@calcom/features/billing/lib/stubs";
+import {
+  Plan,
+  SubscriptionStatus,
+} from "@calcom/features/billing/lib/stubs/repository/billing/IBillingRepository";
+import { extractBillingDataFromStripeSubscription } from "@calcom/features/billing/lib/stubs/stripe-subscription-utils";
+import stripe from "@calcom/features/payments/lib/stubs/stripe";
 import { HttpError } from "@calcom/lib/http-error";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
 import { MembershipSchema } from "@calcom/prisma/zod/modelSchema/MembershipSchema";
 import { TeamSchema } from "@calcom/prisma/zod/modelSchema/TeamSchema";
+import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type Stripe from "stripe";
+import { z } from "zod";
 
 const querySchema = z.object({
   session_id: z.string().min(1),
@@ -115,12 +116,12 @@ async function getCheckoutSession(sessionId: string) {
   return checkoutSession;
 }
 
-function validateCheckoutSession(checkoutSession: Stripe.Response<Stripe.Checkout.Session>) {
+function validateCheckoutSession(checkoutSession: Stripe.Checkout.Session) {
   if (checkoutSession.payment_status !== "paid")
     throw new HttpError({ statusCode: 402, message: "Payment required" });
 }
 
-function getCheckoutSessionSubscription(checkoutSession: Stripe.Response<Stripe.Checkout.Session>) {
+function getCheckoutSessionSubscription(checkoutSession: Stripe.Checkout.Session) {
   if (!checkoutSession.subscription) {
     throw new HttpError({
       statusCode: 400,
@@ -132,7 +133,7 @@ function getCheckoutSessionSubscription(checkoutSession: Stripe.Response<Stripe.
 }
 
 function getCheckoutSessionMetadata(
-  checkoutSession: Stripe.Response<Stripe.Checkout.Session>
+  checkoutSession: Stripe.Checkout.Session
 ): CheckoutSessionMetadata {
   const parseCheckoutSessionMetadata = checkoutSessionMetadataSchema.safeParse(checkoutSession.metadata);
 

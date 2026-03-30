@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateANewLicenseKeyForm } from "~/ee/deployment/components/CreateLicenseKeyForm";
+import { CreateANewLicenseKeyForm } from "~/deployment/components/CreateLicenseKeyForm";
 
 export default function SettingsNewView() {
   return (

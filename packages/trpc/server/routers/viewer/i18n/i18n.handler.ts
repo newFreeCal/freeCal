@@ -1,4 +1,3 @@
-import i18nConfig from "@calcom/i18n/next-i18next.config";
 import type { I18nInputSchema } from "./i18n.schema";
 
 type I18nOptions = {
@@ -8,7 +7,7 @@ type I18nOptions = {
 export const i18nHandler = async ({ input }: I18nOptions) => {
   const { locale } = input;
   const { serverSideTranslations } = await import("next-i18next/serverSideTranslations");
-  const i18n = await serverSideTranslations(locale, ["common", "vital"], i18nConfig);
+  const i18n = await serverSideTranslations(locale, ["common", "vital"]);
 
   return {
     i18n,

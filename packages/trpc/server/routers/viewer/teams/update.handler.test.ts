@@ -1,10 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/TeamRepository";
 import { prisma } from "@calcom/prisma";
 import { RRTimestampBasis } from "@calcom/prisma/enums";
-
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { TrpcSessionUser } from "../../../types";
 import { updateHandler } from "./update.handler";
 import type { TUpdateInputSchema } from "./update.schema";
@@ -33,7 +31,7 @@ vi.mock("@calcom/features/pbac/services/permission-check.service", () => ({
   }),
 }));
 
-vi.mock("@calcom/features/ee/teams/repositories/TeamRepository", () => ({
+vi.mock("@calcom/features/teams/lib/stubs/TeamRepository", () => ({
   TeamRepository: vi.fn().mockImplementation(function () {
     return {
       isSlugAvailableForUpdate: vi.fn().mockResolvedValue(true),
@@ -53,8 +51,8 @@ vi.mock("@calcom/lib/constants", () => ({
   IS_TEAM_BILLING_ENABLED: false,
 }));
 
-vi.mock("@calcom/ee/organizations/lib/orgDomains", () => ({
-  getOrgFullOrigin: vi.fn((slug: string) => `https://${slug}.cal.com`),
+vi.mock("@calcom/features/organizations/lib/stubs/orgDomains", () => ({
+  getOrgFullOrigin: vi.fn((slug: string) => `https://${slug}.freeCal`),
 }));
 
 describe("updateHandler - Permission Check Tests", () => {

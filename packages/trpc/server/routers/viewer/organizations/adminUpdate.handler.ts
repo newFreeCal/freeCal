@@ -1,7 +1,6 @@
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
-import { AdminOrganizationUpdateService } from "@calcom/features/ee/organizations/lib/service/AdminOrganizationUpdateService";
+import { AdminOrganizationUpdateService } from "@calcom/features/organizations/lib/stubs/lib/service/AdminOrganizationUpdateService";
+import { getOrganizationRepository } from "@calcom/features/organizations/lib/stubs/OrganizationRepository";
 import { prisma } from "@calcom/prisma";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TAdminUpdate } from "./adminUpdate.schema";
 

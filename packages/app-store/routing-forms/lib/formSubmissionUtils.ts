@@ -1,9 +1,9 @@
 import dayjs from "@calcom/dayjs";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
 import type { Tasker } from "@calcom/features/tasker/tasker";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import { sendGenericWebhookPayload } from "@calcom/features/webhooks/lib/sendPayload";
+import { WorkflowService } from "@calcom/features/workflows/lib/stubs/WorkflowService";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
@@ -134,12 +134,7 @@ export async function _onFormSubmission(
     type: "customPageMessage" | "externalRedirectUrl" | "eventTypeRedirectUrl";
     value: string;
     eventTypeId?: number;
-  },
-  fallbackAction?: {
-    type: "customPageMessage" | "externalRedirectUrl" | "eventTypeRedirectUrl";
-    value: string;
-    eventTypeId?: number;
-  } | null
+  }
 ) {
   const fieldResponsesByIdentifier: FORM_SUBMITTED_WEBHOOK_RESPONSES = {};
 
@@ -177,20 +172,9 @@ export async function _onFormSubmission(
     triggerEvent: WebhookTriggerEvents.FORM_SUBMITTED_NO_EVENT,
   };
 
-  const subscriberOptionsFallbackHit = fallbackAction
-    ? {
-        userId,
-        teamId,
-        orgId,
-        triggerEvent: WebhookTriggerEvents.ROUTING_FORM_FALLBACK_HIT,
-      }
-    : null;
+  const webhooksFormSubmitted = await getWebhooks(subscriberOptionsFormSubmitted);
 
-  const [webhooksFormSubmitted, webhooksFormSubmittedNoEvent, webhooksFallbackHit] = await Promise.all([
-    getWebhooks(subscriberOptionsFormSubmitted),
-    getWebhooks(subscriberOptionsFormSubmittedNoEvent),
-    subscriberOptionsFallbackHit ? getWebhooks(subscriberOptionsFallbackHit) : Promise.resolve([]),
-  ]);
+  const webhooksFormSubmittedNoEvent = await getWebhooks(subscriberOptionsFormSubmittedNoEvent);
 
   const promisesFormSubmitted = webhooksFormSubmitted.map((webhook) => {
     sendGenericWebhookPayload({
@@ -243,32 +227,7 @@ export async function _onFormSubmission(
         );
       });
 
-      const promisesFallbackHit = webhooksFallbackHit.map((webhook) =>
-        sendGenericWebhookPayload({
-          secretKey: webhook.secret,
-          triggerEvent: "ROUTING_FORM_FALLBACK_HIT",
-          createdAt: new Date().toISOString(),
-          webhook,
-          data: {
-            formId: form.id,
-            formName: form.name,
-            teamId: form.teamId,
-            responseId,
-            fallbackAction: fallbackAction
-              ? {
-                  type: fallbackAction.type,
-                  value: fallbackAction.value,
-                  ...(fallbackAction.eventTypeId ? { eventTypeId: fallbackAction.eventTypeId } : {}),
-                }
-              : undefined,
-            responses: response,
-          },
-        }).catch((e) => {
-          moduleLogger.error(`Error executing ROUTING_FORM_FALLBACK_HIT webhook`, e);
-        })
-      );
-
-      const promises = [...promisesFormSubmitted, ...promisesFormSubmittedNoEvent, ...promisesFallbackHit];
+      const promises = [...promisesFormSubmitted, ...promisesFormSubmittedNoEvent];
 
       await Promise.all(promises);
 
@@ -278,7 +237,7 @@ export async function _onFormSubmission(
           ? chosenAction.eventTypeId
           : null;
 
-      const creditService = new CreditService();
+      const creditService = new StubCreditService();
 
       await WorkflowService.scheduleFormWorkflows({
         workflows,
@@ -322,7 +281,7 @@ export async function _onFormSubmission(
 }
 export const onFormSubmission = withReporting(_onFormSubmission, "onFormSubmission");
 
-export type TargetRoutingFormForResponse= SerializableForm<
+export type TargetRoutingFormForResponse = SerializableForm<
   App_RoutingForms_Form & {
     user: {
       id: number;
@@ -343,16 +302,10 @@ export const onSubmissionOfFormResponse = async ({
   form,
   formResponseInDb,
   chosenRouteAction,
-  fallbackAction,
 }: {
   form: TargetRoutingFormForResponse;
   formResponseInDb: { id: number; response: Prisma.JsonValue };
   chosenRouteAction: {
-    type: "customPageMessage" | "externalRedirectUrl" | "eventTypeRedirectUrl";
-    value: string;
-    eventTypeId?: number;
-  } | null;
-  fallbackAction?: {
     type: "customPageMessage" | "externalRedirectUrl" | "eventTypeRedirectUrl";
     value: string;
     eventTypeId?: number;
@@ -387,7 +340,6 @@ export const onSubmissionOfFormResponse = async ({
     { ...form, fields: form.fields, userWithEmails },
     formResponseInDb.response as FormResponse,
     formResponseInDb.id,
-    chosenRouteAction ?? undefined,
-    fallbackAction
+    chosenRouteAction ?? undefined
   );
 };

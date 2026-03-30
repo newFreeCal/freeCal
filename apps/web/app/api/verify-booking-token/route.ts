@@ -1,5 +1,4 @@
 import { makeUserActor } from "@calcom/features/booking-audit/lib/makeActor";
-import { WEBAPP_URL } from "@calcom/lib/constants";
 import { distributedTracing } from "@calcom/lib/tracing/factory";
 import prisma from "@calcom/prisma";
 import { confirmHandler } from "@calcom/trpc/server/routers/viewer/bookings/confirm.handler";
@@ -32,7 +31,7 @@ async function getHandler(request: NextRequest) {
   } catch {
     const bookingUid = queryParams.bookingUid || "";
     return NextResponse.redirect(
-      new URL(`/booking/${bookingUid}?error=${encodeURIComponent("Error confirming booking")}`, WEBAPP_URL)
+      new URL(`/booking/${bookingUid}?error=${encodeURIComponent("Error confirming booking")}`, request.url)
     );
   }
 }
@@ -49,7 +48,7 @@ async function postHandler(request: NextRequest) {
   } catch {
     const bookingUid = queryParams.bookingUid || "";
     return NextResponse.redirect(
-      new URL(`/booking/${bookingUid}?error=${encodeURIComponent("Error confirming booking")}`, WEBAPP_URL),
+      new URL(`/booking/${bookingUid}?error=${encodeURIComponent("Error confirming booking")}`, request.url),
       { status: 303 }
     );
   }
@@ -60,7 +59,7 @@ async function handleBookingAction(
   token: string,
   bookingUid: string,
   userId: string,
-  _request: NextRequest,
+  request: NextRequest,
   reason?: string
 ) {
   const booking = await prisma.booking.findUnique({
@@ -69,7 +68,7 @@ async function handleBookingAction(
 
   if (!booking) {
     return NextResponse.redirect(
-      new URL(`/booking/${bookingUid}?error=${encodeURIComponent("Error confirming booking")}`, WEBAPP_URL),
+      new URL(`/booking/${bookingUid}?error=${encodeURIComponent("Error confirming booking")}`, request.url),
       { status: 303 }
     );
   }
@@ -108,14 +107,13 @@ async function handleBookingAction(
         emailsEnabled: true,
         actionSource: "MAGIC_LINK",
         actor: makeUserActor(user.uuid),
-        impersonatedByUserUuid: null,
       },
     });
   } catch (e) {
     let message = "Error confirming booking";
     if (e instanceof TRPCError) message = (e as TRPCError).message;
     return NextResponse.redirect(
-      new URL(`/booking/${booking.uid}?error=${encodeURIComponent(message)}`, WEBAPP_URL),
+      new URL(`/booking/${booking.uid}?error=${encodeURIComponent(message)}`, request.url),
       { status: 303 }
     );
   }
@@ -125,7 +123,7 @@ async function handleBookingAction(
     data: { oneTimePassword: null },
   });
 
-  return NextResponse.redirect(new URL(`/booking/${booking.uid}`, WEBAPP_URL), { status: 303 });
+  return NextResponse.redirect(new URL(`/booking/${booking.uid}`, request.url), { status: 303 });
 }
 
 export const GET = defaultResponderForAppDir(getHandler);

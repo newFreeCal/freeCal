@@ -1,6 +1,6 @@
 import { eventTypeAppMetadataOptionalSchema } from "@calcom/app-store/zod-utils";
-import { scheduleMandatoryReminder } from "@calcom/ee/workflows/lib/reminders/scheduleMandatoryReminder";
 import { sendScheduledEmailsAndSMS } from "@calcom/emails/email-manager";
+import { StubCreditService } from "@calcom/features/billing/lib/stubs/service/StubCreditService";
 import type { Actor } from "@calcom/features/booking-audit/lib/dto/types";
 import type { ValidActionSource } from "@calcom/features/booking-audit/lib/types/actionSource";
 import { getBookingEventHandlerService } from "@calcom/features/bookings/di/BookingEventHandlerService.container";
@@ -8,19 +8,19 @@ import type { EventManagerUser } from "@calcom/features/bookings/lib/EventManage
 import EventManager, { placeholderCreatedEvent } from "@calcom/features/bookings/lib/EventManager";
 import { getFeaturesRepository } from "@calcom/features/di/containers/FeaturesRepository";
 import type { ISimpleLogger } from "@calcom/features/di/shared/services/logger.service";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
-import {
-  allowDisablingAttendeeConfirmationEmails,
-  allowDisablingHostConfirmationEmails,
-} from "@calcom/features/ee/workflows/lib/allowDisablingStandardEmails";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-import type { Workflow } from "@calcom/features/ee/workflows/lib/types";
+import { getBookerBaseUrl } from "@calcom/features/organizations/lib/stubs/getBookerUrlServer";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import { scheduleTrigger } from "@calcom/features/webhooks/lib/scheduleTrigger";
 import sendPayload from "@calcom/features/webhooks/lib/sendOrSchedulePayload";
 import type { EventPayloadType, EventTypeInfo } from "@calcom/features/webhooks/lib/sendPayload";
+import {
+  allowDisablingAttendeeConfirmationEmails,
+  allowDisablingHostConfirmationEmails,
+} from "@calcom/features/workflows/lib/stubs/allowDisablingStandardEmails.stub";
+import { getAllWorkflowsFromEventType } from "@calcom/features/workflows/lib/stubs/getAllWorkflowsFromEventType";
+import { WorkflowService } from "@calcom/features/workflows/lib/stubs/StubWorkflowService";
+import { scheduleMandatoryReminder } from "@calcom/features/workflows/lib/stubs/scheduleMandatoryReminder";
+import type { Workflow } from "@calcom/features/workflows/lib/stubs/types";
 import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { getTeamIdFromEventType } from "@calcom/lib/getTeamIdFromEventType";
@@ -45,7 +45,6 @@ async function fireBookingAcceptedEvent({
   acceptedBookings,
   isBookingAuditEnabled,
   tracingLogger,
-  impersonatedByUserUuid,
 }: {
   actor: Actor;
   organizationId: number | null;
@@ -56,11 +55,9 @@ async function fireBookingAcceptedEvent({
   }[];
   isBookingAuditEnabled: boolean;
   tracingLogger: ISimpleLogger;
-  impersonatedByUserUuid: string | null;
 }) {
   try {
     const bookingEventHandlerService = getBookingEventHandlerService();
-    const context = impersonatedByUserUuid ? { impersonatedBy: impersonatedByUserUuid } : undefined;
     if (acceptedBookings.length > 1) {
       const operationId = uuidv4();
       await bookingEventHandlerService.onBulkBookingsAccepted({
@@ -74,7 +71,6 @@ async function fireBookingAcceptedEvent({
         organizationId,
         operationId,
         source: actionSource,
-        context,
         isBookingAuditEnabled,
       });
     } else if (acceptedBookings.length === 1) {
@@ -87,7 +83,6 @@ async function fireBookingAcceptedEvent({
           status: { old: acceptedBooking.oldStatus, new: BookingStatus.ACCEPTED },
         },
         source: actionSource,
-        context,
         isBookingAuditEnabled,
       });
     }
@@ -140,7 +135,6 @@ export async function handleConfirmation(args: {
   traceContext: TraceContext;
   actionSource: ValidActionSource;
   actor: Actor;
-  impersonatedByUserUuid: string | null;
 }) {
   const {
     user,
@@ -155,7 +149,6 @@ export async function handleConfirmation(args: {
     traceContext,
     actionSource,
     actor,
-    impersonatedByUserUuid,
   } = args;
   const eventType = booking.eventType;
   const eventTypeMetadata = EventTypeMetaDataSchema.parse(eventType?.metadata || {});
@@ -165,7 +158,7 @@ export async function handleConfirmation(args: {
   const scheduleResult = await eventManager.create(evt, { skipCalendarEvent: !areCalendarEventsEnabled });
   const results = scheduleResult.results;
   const metadata: AdditionalInformation = {};
-  const workflows = await getAllWorkflowsFromEventType(eventType, booking.userId);
+  const workflows = await getAllWorkflowsFromEventType(eventType, booking.userId!);
 
   const spanContext = distributedTracing.createSpan(traceContext, "handle_confirmation");
 
@@ -435,7 +428,6 @@ export async function handleConfirmation(args: {
     actionSource,
     isBookingAuditEnabled,
     tracingLogger,
-    impersonatedByUserUuid,
   });
 
   //Workflows - set reminders for confirmed events
@@ -463,20 +455,20 @@ export async function handleConfirmation(args: {
           evt: evtOfBooking,
           workflows,
           requiresConfirmation: false,
-          hideBranding: evtOfBooking.hideBranding ?? false,
+          hideBranding: !!updatedBookings[index].eventType?.owner?.hideBranding,
           seatReferenceUid: evt.attendeeSeatId,
           isPlatformNoEmail: !emailsEnabled && Boolean(platformClientParams?.platformClientId),
           traceContext: spanContext,
         });
       }
 
-      const creditService = new CreditService();
+      const creditService = new StubCreditService();
 
       await WorkflowService.scheduleWorkflowsForNewBooking({
         workflows,
         smsReminderNumber: updatedBookings[index].smsReminderNumber,
         calendarEvent: evtOfBooking,
-        hideBranding: evtOfBooking.hideBranding,
+        hideBranding: !!updatedBookings[index].eventType?.owner?.hideBranding,
         isConfirmedByDefault: true,
         isNormalBookingOrFirstRecurringSlot: isFirstBooking,
         isRescheduleEvent: false,

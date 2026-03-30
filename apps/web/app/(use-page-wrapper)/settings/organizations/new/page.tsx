@@ -1,12 +1,12 @@
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { isCompanyEmail } from "@calcom/features/ee/organizations/lib/utils";
+import { isCompanyEmail } from "@calcom/features/organizations/lib/stubs/utils";
 import { UserPermissionRole } from "@calcom/prisma/enums";
 import { buildLegacyRequest } from "@lib/buildLegacyCtx";
 import { _generateMetadata } from "app/_utils";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
-import LegacyPage, { LayoutWrapper } from "~/ee/organizations/new/create-new-view";
+import LicenseRequired from "~/common/components/LicenseRequired";
+import LegacyPage, { LayoutWrapper } from "~/organizations/new/create-new-view";
 
 export const generateMetadata = async () =>
   await _generateMetadata(

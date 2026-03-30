@@ -540,7 +540,7 @@ describe("BookingAuditViewerService - Integration Tests", () => {
         });
       });
 
-      it("should show 'Cal.com' for SYSTEM actor", async () => {
+      it("should show 'freeCal' for SYSTEM actor", async () => {
         createMockAuditLog("booking-uid-123", {
           actorType: "SYSTEM",
           actorUserUuid: null,
@@ -565,7 +565,7 @@ describe("BookingAuditViewerService - Integration Tests", () => {
 
         expect(result.auditLogs[0].actor).toMatchObject({
           type: "SYSTEM",
-          displayName: "Cal.com",
+          displayName: "freeCal",
           displayEmail: null,
           displayAvatar: null,
         });
@@ -1236,7 +1236,7 @@ describe("BookingAuditViewerService - Integration Tests", () => {
 
         expect(result.auditLogs[2].id).toBe("another-successful-log");
         expect(result.auditLogs[2].hasError).toBeUndefined();
-        expect(result.auditLogs[2].actor.displayName).toBe("Cal.com");
+        expect(result.auditLogs[2].actor.displayName).toBe("freeCal");
       });
 
       it("should log error message when enrichment fails", async () => {

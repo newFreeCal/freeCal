@@ -1,7 +1,6 @@
 import { prisma } from "@calcom/prisma/__mocks__/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
 import type { TrpcSessionUser } from "../../../types";
 
 const { mockFindTeamsNotBelongingToOrgByIds, mockCheckPermission, mockUpdateNewTeamMemberEventTypes } =
@@ -32,7 +31,7 @@ vi.mock("@calcom/features/pbac/services/permission-check.service", () => ({
   }),
 }));
 
-vi.mock("@calcom/features/ee/teams/lib/queries", () => ({
+vi.mock("@calcom/features/teams/lib/stubs/queries", () => ({
   updateNewTeamMemberEventTypes: mockUpdateNewTeamMemberEventTypes,
 }));
 

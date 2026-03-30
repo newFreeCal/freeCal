@@ -1,20 +1,19 @@
+import { getBillingProviderService, getTeamBillingServiceFactory } from "@calcom/features/billing/lib/stubs";
+import {
+  Plan,
+  SubscriptionStatus,
+} from "@calcom/features/billing/lib/stubs/repository/billing/IBillingRepository";
+import { extractBillingDataFromStripeSubscription } from "@calcom/features/billing/lib/stubs/stripe-subscription-utils";
+import stripe from "@calcom/features/payments/lib/stubs/stripe";
+import { WEBAPP_URL } from "@calcom/lib/constants";
+import { HttpError } from "@calcom/lib/http-error";
+import prisma from "@calcom/prisma";
+import { MembershipRole } from "@calcom/prisma/enums";
 import { defaultResponderForAppDir } from "app/api/defaultResponderForAppDir";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { z } from "zod";
-
-import {
-  getBillingProviderService,
-  getTeamBillingServiceFactory,
-} from "@calcom/features/ee/billing/di/containers/Billing";
-import { extractBillingDataFromStripeSubscription } from "@calcom/features/ee/billing/lib/stripe-subscription-utils";
-import { Plan, SubscriptionStatus } from "@calcom/features/ee/billing/repository/billing/IBillingRepository";
-import stripe from "@calcom/features/ee/payments/server/stripe";
-import { WEBAPP_URL } from "@calcom/lib/constants";
-import { HttpError } from "@calcom/lib/http-error";
-import prisma from "@calcom/prisma";
-import { MembershipRole } from "@calcom/prisma/enums";
 
 const querySchema = z.object({
   session_id: z.string().min(1),

@@ -1,11 +1,9 @@
-import type { GetServerSidePropsContext } from "next";
 import type { ParsedUrlQuery } from "node:querystring";
-import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
-
 import * as constants from "@calcom/lib/constants";
 import { RedirectType } from "@calcom/prisma/enums";
-
-import { handleOrgRedirect, getRedirectWithOriginAndSearchString } from "./handleOrgRedirect";
+import type { GetServerSidePropsContext } from "next";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { getRedirectWithOriginAndSearchString, handleOrgRedirect } from "./handleOrgRedirect";
 
 // Mock prisma for all tests
 const prismaMock = vi.hoisted(() => ({
@@ -393,12 +391,12 @@ describe("handleOrgRedirect", () => {
         redirects: [
           {
             from: "user1",
-            toUrl: "https://org1.cal.com/john",
+            toUrl: "https://org1.freeCal/john",
             type: RedirectType.User,
           },
           {
             from: "user2",
-            toUrl: "https://org1.cal.com/jane",
+            toUrl: "https://org1.freeCal/jane",
             type: RedirectType.User,
           },
         ],
@@ -410,8 +408,8 @@ describe("handleOrgRedirect", () => {
       const result = await handleOrgRedirect(params);
 
       // Should use the first redirect's origin
-      expectRedirectTo(result, "https://org1.cal.com/john+jane?orgRedirection=true");
-      expectRedirectUsesData(result, "john+jane", "https://org1.cal.com");
+      expectRedirectTo(result, "https://org1.freeCal/john+jane?orgRedirection=true");
+      expectRedirectUsesData(result, "john+jane", "https://org1.freeCal");
     });
   });
 

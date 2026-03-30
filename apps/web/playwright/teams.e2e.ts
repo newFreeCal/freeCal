@@ -16,7 +16,7 @@ test.describe.configure({ mode: "parallel" });
 
 test.describe("Teams tests", () => {
   test("should render the /teams page", async ({ page, users, context }) => {
-    const user = await users.create(undefined, { hasTeam: true });
+    const user = await users.create();
 
     await user.apiLogin();
 
@@ -121,7 +121,6 @@ test.describe("Teams - NonOrg", () => {
     const owner = await users.create(undefined, {
       hasTeam: true,
       isOrg: true,
-      hasSubteam: true,
       teammates: [{ name: teamMateName }],
     });
 
@@ -130,26 +129,11 @@ test.describe("Teams - NonOrg", () => {
 
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (memberUser) {
-      // Add teammate to the sub-team so they have a team membership and see teams list
-      const org = await owner.getOrgMembership();
-      const subTeam = await prisma.team.findFirst({
-        where: { parentId: org.teamId },
-        select: { id: true },
-      });
-      if (!subTeam) throw new Error("Expected a sub-team under the org, but none was found");
-      await prisma.membership.create({
-        data: {
-          teamId: subTeam.id,
-          userId: memberUser.id,
-          role: "MEMBER",
-          accepted: true,
-        },
-      });
-
       await memberUser.apiLogin();
 
       await page.goto("/teams");
       await expect(page.locator("[data-testid=new-team-btn]")).toBeHidden();
+      await expect(page.locator("[data-testid=create-team-btn]")).toHaveAttribute("disabled", "");
 
       const uniqueName = "test-unique-team-name";
 
@@ -161,19 +145,21 @@ test.describe("Teams - NonOrg", () => {
       await page.click("[type=submit]");
 
       // cleanup
+      const org = await owner.getOrgMembership();
       await prisma.team.delete({ where: { id: org.teamId } });
     }
   });
 
   test("Can create team with same name as user", async ({ page, users }) => {
-    const user = await users.create(undefined, { hasTeam: true });
+    const user = await users.create();
     // Name to be used for both user and team
     const uniqueName = user.username!;
     await user.apiLogin();
     await page.goto("/teams");
 
     await test.step("Can create team with same name", async () => {
-      await page.locator("[data-testid=new-team-btn]").click();
+      // Click text=Create Team
+      await page.locator("text=Create Team").click();
       await page.waitForLoadState("networkidle");
       // Fill team name input (new onboarding-v3 style flow)
       await page.locator('[data-testid="team-name-input"]').fill(uniqueName);

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(timeout *)",
+      "Bash(tee *)",
+      "Bash(find *)",
+      "Bash(git show *)",
+      "Bash(grep *)",
+      "Bash(curl *)",
+      "Bash(yarn *)",
+      "Bash(./build.sh)",
+      "Bash(git *)",
+      "Bash(head *)",
+      "Bash(ls *)",
+      "Bash(git log *)",
+      "Bash(cat *)",
+      "Bash(mv *)",
+      "Bash(xargs *)",
+      "Bash(yarn workspace *)",
+      "Bash(npx *)",
+      "Bash(rm *)",
+      "Bash(do *)",
+      "Bash(done)",
+      "Bash(node *)",
+      "Bash(yarn install)"
+    ]
+  },
+  "$version": 3
+}

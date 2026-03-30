@@ -1,13 +1,12 @@
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
-
 import type {
-  AIPhoneServiceProviderType,
   AIPhoneServiceCall,
+  AIPhoneServiceProviderType,
 } from "../../../interfaces/AIPhoneService.interface";
 import type { AgentRepositoryInterface } from "../../interfaces/AgentRepositoryInterface";
-import type { RetellAIRepository, RetellDynamicVariables, RetellCallListResponse } from "../types";
+import type { RetellAIRepository, RetellCallListResponse, RetellDynamicVariables } from "../types";
 
 interface RetellAIServiceInterface {
   updateToolsFromAgentId(
@@ -147,7 +146,7 @@ export class CallService {
         EVENT_END_TIME: "2:30 PM",
         TIMEZONE: timeZone,
         LOCATION: "Phone Call",
-        ORGANIZER_NAME: "Cal.com AI Agent",
+        ORGANIZER_NAME: "freeCal AI Agent",
         ATTENDEE_NAME: "Test User",
         ATTENDEE_FIRST_NAME: "Test",
         ATTENDEE_LAST_NAME: "User",
@@ -221,7 +220,7 @@ export class CallService {
       EVENT_END_TIME: "2:30 PM",
       TIMEZONE: timeZone,
       LOCATION: "Web Call",
-      ORGANIZER_NAME: "Cal.com AI Agent",
+      ORGANIZER_NAME: "freeCal AI Agent",
       ATTENDEE_NAME: "Test User",
       ATTENDEE_FIRST_NAME: "Test",
       ATTENDEE_LAST_NAME: "User",
@@ -258,12 +257,9 @@ export class CallService {
 
   private async validateCreditsForTestCall({ userId, teamId }: { userId: number; teamId?: number }) {
     try {
-      const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
-      const creditService = new CreditService();
-      const hasCredits = await creditService.hasAvailableCredits({
-        userId: userId || undefined,
-        teamId: teamId || undefined,
-      });
+      const { StubCreditService } = await import("@calcom/features/billing/lib/stubs/StubCreditService");
+      const creditService = new StubCreditService();
+      const hasCredits = await creditService.hasAvailableCredits({});
 
       if (!hasCredits) {
         throw new HttpError({

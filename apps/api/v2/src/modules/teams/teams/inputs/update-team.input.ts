@@ -1,8 +1,6 @@
+import { METADATA_DOCS, Metadata, ValidateMetadata } from "@calcom/platform-types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsObject, IsOptional, IsString, Length, Validate } from "class-validator";
-
-import { Metadata, METADATA_DOCS, ValidateMetadata } from "@calcom/platform-types";
-
 import { SSRFSafeUrlValidator } from "../validators/ssrfSafeUrlValidator";
 
 export class UpdateTeamDto {
@@ -21,7 +19,7 @@ export class UpdateTeamDto {
   @Validate(SSRFSafeUrlValidator)
   @ApiPropertyOptional({
     type: String,
-    example: "https://i.cal.com/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
+    example: "https://i.freeCal/api/avatar/b0b58752-68ad-4c0d-8024-4fa382a77752.png",
     description: `URL of the teams logo image`,
   })
   readonly logoUrl?: string;
@@ -94,7 +92,7 @@ export class UpdateTeamDto {
   @Validate(SSRFSafeUrlValidator)
   @ApiPropertyOptional({
     type: String,
-    example: "https://i.cal.com/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
+    example: "https://i.freeCal/api/avatar/949be534-7a88-4185-967c-c020b0c0bef3.png",
     description: `URL of the teams banner image which is shown on booker`,
   })
   readonly bannerUrl?: string;

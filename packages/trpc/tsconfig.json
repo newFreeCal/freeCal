@@ -22,6 +22,7 @@
     "moduleResolution": "node",
     "paths": {
       "~/*": ["./*"]
-    }
+    },
+    "downlevelIteration": true
   }
 }

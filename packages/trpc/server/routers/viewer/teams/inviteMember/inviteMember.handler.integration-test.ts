@@ -1,10 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-
 import { prisma } from "@calcom/prisma";
-import type { Prisma, Team, User, Membership, Profile } from "@calcom/prisma/client";
+import type { Membership, Prisma, Profile, Team, User } from "@calcom/prisma/client";
 import { MembershipRole } from "@calcom/prisma/enums";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import inviteMemberHandler, { inviteMembersWithNoInviterPermissionCheck } from "./inviteMember.handler";
 
 // Helper functions for database verification
@@ -124,7 +122,7 @@ vi.mock("@calcom/emails/organization-email-service", () => ({
 }));
 
 // Mock for getTranslation
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn(() => Promise.resolve((key: string) => key)),
 }));
 
@@ -387,7 +385,8 @@ describe("inviteMember.handler Integration Tests", () => {
       // Act: Simulate migration by inviting the user to the organization
       await inviteMembersWithNoInviterPermissionCheck({
         inviterName: null,
-        teamId: organization.id,
+        inviterId: 1,
+        team: { id: organization.id, parent: null } as any,
         language: "en",
         creationSource: "WEBAPP" as const,
         orgSlug: organization.slug,
@@ -481,7 +480,8 @@ describe("inviteMember.handler Integration Tests", () => {
 
       await inviteMembersWithNoInviterPermissionCheck({
         inviterName: inviterUser.name,
-        teamId: team.id,
+        inviterId: inviterUser.id,
+        team: { id: team.id, parent: null } as any,
         language: "en",
         creationSource: "WEBAPP" as const,
         orgSlug: organization.slug,

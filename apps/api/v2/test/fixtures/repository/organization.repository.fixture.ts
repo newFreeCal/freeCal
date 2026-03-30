@@ -1,8 +1,7 @@
+import type { Prisma, Team } from "@calcom/prisma/client";
+import { TestingModule } from "@nestjs/testing";
 import { PrismaReadService } from "@/modules/prisma/prisma-read.service";
 import { PrismaWriteService } from "@/modules/prisma/prisma-write.service";
-import { TestingModule } from "@nestjs/testing";
-
-import type { Prisma, Team } from "@calcom/prisma/client";
 
 export class OrganizationRepositoryFixture {
   private primaReadClient: PrismaReadService["prisma"];
@@ -30,7 +29,7 @@ export class OrganizationRepositoryFixture {
         data: {
           organizationId: team.id,
           isAdminAPIEnabled: true,
-          orgAutoAcceptEmail: "cal.com",
+          orgAutoAcceptEmail: "freeCal",
         },
       });
       return team;

@@ -1,17 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-
 import { CreditsRepository } from "@calcom/features/credits/repositories/CreditsRepository";
-import { sendVerificationCode } from "@calcom/features/ee/workflows/lib/reminders/verifyPhoneNumber";
+import { sendVerificationCode } from "@calcom/features/workflows/lib/stubs/lib/reminders/verifyPhoneNumber";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
-
 import { TRPCError } from "@trpc/server";
-
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { hasTeamPlanHandler } from "../teams/hasTeamPlan.handler";
 import { sendVerificationCodeHandler } from "./sendVerificationCode.handler";
 
 vi.mock("@calcom/lib/checkRateLimitAndThrowError");
 vi.mock("@calcom/features/credits/repositories/CreditsRepository");
-vi.mock("@calcom/features/ee/workflows/lib/reminders/verifyPhoneNumber");
+vi.mock("@calcom/features/workflows/lib/stubs/lib/reminders/verifyPhoneNumber");
 vi.mock("../teams/hasTeamPlan.handler");
 
 describe("sendVerificationCodeHandler", () => {

@@ -1,19 +1,12 @@
-import { getWorkflowActionOptions } from "@calcom/features/ee/workflows/lib/getOptions";
-import { getTranslation } from "@calcom/i18n/server";
-import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 type GetWorkflowActionOptionsOptions = {
   ctx: {
-    user: NonNullable<TrpcSessionUser> & {
+    user: {
+      id: number;
       locale: string;
     };
   };
 };
 
-export const getWorkflowActionOptionsHandler = async ({ ctx }: GetWorkflowActionOptionsOptions) => {
-  const { user } = ctx;
-
-  const t = await getTranslation(ctx.user.locale, "common");
-
-  return getWorkflowActionOptions(t, !!user.profile?.organizationId);
+export const getWorkflowActionOptionsHandler = async ({}: GetWorkflowActionOptionsOptions): Promise<{ options: [] }> => {
+  return { options: [] };
 };

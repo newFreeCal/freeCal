@@ -1,0 +1,10 @@
+{
+  "extends": "@calcom/tsconfig/react-library.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true
+  },
+  "include": ["../types/next.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["dist", "build", "**/node_modules/**", "**/*.test.*"]
+}

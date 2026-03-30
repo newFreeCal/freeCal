@@ -1,4 +1,5 @@
-import type { EventTypeTranslation, PrismaClient } from "@calcom/prisma/client";
+import { prisma } from "@calcom/prisma";
+import type { EventTypeTranslation } from "@calcom/prisma/client";
 import { EventTypeAutoTranslatedField } from "@calcom/prisma/enums";
 
 export type CreateEventTypeTranslation = Omit<
@@ -15,12 +16,10 @@ export type CreateEventTypeTranslation = Omit<
 > & { userId: number };
 
 export class EventTypeTranslationRepository {
-  constructor(private readonly prismaClient: PrismaClient) {}
-
-  async upsertManyTitleTranslations(translations: Array<CreateEventTypeTranslation>) {
+  static async upsertManyTitleTranslations(translations: Array<CreateEventTypeTranslation>) {
     return await Promise.all(
       translations.map(({ userId, ...translation }) => {
-        return this.prismaClient.eventTypeTranslation.upsert({
+        return prisma.eventTypeTranslation.upsert({
           where: {
             eventTypeId_field_targetLocale: {
               eventTypeId: translation.eventTypeId,
@@ -42,10 +41,10 @@ export class EventTypeTranslationRepository {
     );
   }
 
-  async upsertManyDescriptionTranslations(translations: Array<CreateEventTypeTranslation>) {
+  static async upsertManyDescriptionTranslations(translations: Array<CreateEventTypeTranslation>) {
     return await Promise.all(
       translations.map(({ userId, ...translation }) => {
-        return this.prismaClient.eventTypeTranslation.upsert({
+        return prisma.eventTypeTranslation.upsert({
           where: {
             eventTypeId_field_targetLocale: {
               eventTypeId: translation.eventTypeId,
@@ -65,17 +64,5 @@ export class EventTypeTranslationRepository {
         });
       })
     );
-  }
-
-  async findByLocale(eventTypeId: number, field: EventTypeAutoTranslatedField, targetLocale: string) {
-    return this.prismaClient.eventTypeTranslation.findUnique({
-      where: {
-        eventTypeId_field_targetLocale: {
-          eventTypeId,
-          field,
-          targetLocale,
-        },
-      },
-    });
   }
 }

@@ -7,13 +7,11 @@
  *   pass teams and invitedMembers directly to `intentToCreateOrg`
  * - The new endpoint returns checkoutUrl directly in the response
  */
-import { OrganizationPaymentService } from "@calcom/features/ee/organizations/lib/OrganizationPaymentService";
+import { OrganizationPaymentService } from "@calcom/features/organizations/lib/stubs/lib/OrganizationPaymentService";
 import { OrganizationOnboardingRepository } from "@calcom/features/organizations/repositories/OrganizationOnboardingRepository";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
-
 import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../types";
 import type { TCreateWithPaymentIntentInputSchema } from "./createWithPaymentIntent.schema";
 
@@ -41,6 +39,12 @@ export const createHandler = async ({ input, ctx }: CreateOptions) => {
   const isAdmin = ctx.user.role === "ADMIN";
   // Regular user can send onboardingId if the onboarding was started by ADMIN/someone else and they shared the link with them.
   // ADMIN flow doesn't send onboardingId
+  if (!input.onboardingId) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "onboarding_id_required",
+    });
+  }
   const organizationOnboarding = await OrganizationOnboardingRepository.findById(input.onboardingId);
 
   if (!organizationOnboarding) {

@@ -21,7 +21,7 @@
     "app-store": "yarn app-store-cli cli",
     "create-app": "yarn app-store create",
     "edit-app": "yarn app-store edit",
-    "withEmbedPublishEnv": "NEXT_PUBLIC_EMBED_LIB_URL='https://app.cal.com/embed/embed.js' NEXT_PUBLIC_WEBAPP_URL='https://app.cal.com' yarn",
+    "withEmbedPublishEnv": "NEXT_PUBLIC_EMBED_LIB_URL='https://app.freeCal/embed/embed.js' NEXT_PUBLIC_WEBAPP_URL='https://app.freeCal' yarn",
     "publish-embed": "yarn withEmbedPublishEnv workspace @calcom/embed-core build && yarn withEmbedPublishEnv workspace @calcom/embed-snippet build && yarn workspaces foreach --from=\"@calcom/embed*\" npm publish --access=public",
     "delete-app": "yarn app-store delete",
     "create-app-template": "yarn app-store create-template",
@@ -74,7 +74,7 @@
     "test-e2e:embed": "yarn db-seed && yarn e2e:embed",
     "test-e2e:embed-react": "yarn db-seed && yarn e2e:embed-react",
     "test-playwright": "yarn playwright test --config=playwright.config.ts",
-    "test": "TZ=UTC vitest run",
+    "test": "LANG=en_US TZ=UTC vitest run",
     "test:ui": "TZ=UTC vitest --ui",
     "type-check": "turbo run type-check",
     "type-check:ci": "turbo run type-check:ci --log-prefix=none",
@@ -125,7 +125,7 @@
     "@types/react-dom": "^18.0.9",
     "@types/node": "^20.17.23",
     "next-i18next@^13.2.2": "patch:next-i18next@npm%3A13.3.0#./.yarn/patches/next-i18next-npm-13.3.0-bf25b0943c.patch",
-    "libphonenumber-js": "patch:libphonenumber-js@1.12.38#./.yarn/patches/libphonenumber-js+1.12.38.patch",
+    "libphonenumber-js": "patch:libphonenumber-js@1.11.18#./.yarn/patches/libphonenumber-js+1.11.18.patch",
     "dayjs@1.11.2": "patch:dayjs@npm%3A1.11.4#./.yarn/patches/dayjs-npm-1.11.4-97921cd375.patch",
     "dayjs@^1": "patch:dayjs@npm%3A1.11.4#./.yarn/patches/dayjs-npm-1.11.4-97921cd375.patch",
     "dayjs@^1.8.29": "patch:dayjs@npm%3A1.11.4#./.yarn/patches/dayjs-npm-1.11.4-97921cd375.patch",
@@ -158,8 +158,7 @@
     "tar": "7.5.7",
     "lodash": "4.17.23",
     "lodash-es": "4.17.23",
-    "@lingo.dev/_compiler/fast-xml-parser": "5.3.5",
-    "fast-xml-parser": "4.5.4"
+    "@lingo.dev/_compiler/fast-xml-parser": "5.3.4"
   },
   "packageExtensions": {
     "ink@3.2.0": {
@@ -180,5 +179,8 @@
   "syncpack": {
     "filter": "^(?!@calcom).*",
     "semverRange": ""
+  },
+  "dependencies": {
+    "@iconify/react": "^6.0.2"
   }
 }

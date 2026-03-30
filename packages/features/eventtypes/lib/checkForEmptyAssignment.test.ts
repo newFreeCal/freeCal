@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import { checkForEmptyAssignment } from "./checkForEmptyAssignment";
 
 describe("Tests to Check if Event Types have empty Assignment", () => {
@@ -31,7 +30,7 @@ describe("Tests to Check if Event Types have empty Assignment", () => {
             owner: {
               id: 101,
               avatar: "avatar.svg",
-              email: "firstuser@cal.com",
+              email: "firstuser@freeCal",
               membership: "OWNER",
               name: "First user",
               username: "firstuser",
@@ -93,7 +92,7 @@ describe("Tests to Check if Event Types have empty Assignment", () => {
             owner: {
               id: 101,
               avatar: "avatar.svg",
-              email: "firstuser@cal.com",
+              email: "firstuser@freeCal",
               membership: "OWNER",
               name: "First user",
               username: "firstuser",

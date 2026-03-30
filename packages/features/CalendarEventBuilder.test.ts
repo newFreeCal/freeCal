@@ -1,16 +1,15 @@
+import dayjs from "@calcom/dayjs";
+import { type BookingForCalEventBuilder, CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
+import { TimeFormat } from "@calcom/lib/timeFormat";
+import type { Person } from "@calcom/types/Calendar";
 import type { TFunction } from "i18next";
 import { describe, expect, it, vi } from "vitest";
 
-import dayjs from "@calcom/dayjs";
-import { BookingForCalEventBuilder, CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
-import { TimeFormat } from "@calcom/lib/timeFormat";
-import type { Person } from "@calcom/types/Calendar";
-
-vi.mock("@calcom/features/ee/organizations/lib/getBookerUrlServer", () => ({
-  getBookerBaseUrl: vi.fn(async () => "https://cal.com"),
+vi.mock("@calcom/features/organizations/lib/stubs/getBookerUrlServer", () => ({
+  getBookerBaseUrl: vi.fn(async () => "https://freeCal"),
 }));
 
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn(async () => vi.fn(() => "translated")),
 }));
 
@@ -32,7 +31,7 @@ describe("CalendarEventBuilder", () => {
   it("should create a basic calendar event", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -47,7 +46,7 @@ describe("CalendarEventBuilder", () => {
 
     expect(event).not.toBeNull();
     if (event) {
-      expect(event.bookerUrl).toBe("https://cal.com/user/test-slug");
+      expect(event.bookerUrl).toBe("https://freeCal/user/test-slug");
       expect(event.title).toBe("Test Event");
       expect(event.startTime).toBe(mockStartTime);
       expect(event.endTime).toBe(mockEndTime);
@@ -58,7 +57,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with event type details", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -85,7 +84,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with organizer details", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -126,7 +125,7 @@ describe("CalendarEventBuilder", () => {
   it("should handle nameless organizer", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -177,7 +176,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user",
+        bookerUrl: "https://freeCal/user",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -209,7 +208,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -238,7 +237,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with location", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -277,7 +276,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -298,7 +297,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with identifiers", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -323,7 +322,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with confirmation settings", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -348,7 +347,7 @@ describe("CalendarEventBuilder", () => {
   it("should set oneTimePassword to null when isConfirmedByDefault is true", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -373,7 +372,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with platform variables", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -421,7 +420,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -449,7 +448,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -486,7 +485,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -513,7 +512,7 @@ describe("CalendarEventBuilder", () => {
 
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -534,7 +533,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with attendee seat ID", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -555,7 +554,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with UID", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -576,7 +575,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with one-time password", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -597,7 +596,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with recurring event ID", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -620,7 +619,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with assignment reason", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -647,7 +646,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with assignment reason without details", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -674,7 +673,7 @@ describe("CalendarEventBuilder", () => {
   it("should create an event with null assignment reason", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -695,7 +694,7 @@ describe("CalendarEventBuilder", () => {
   it("should create a complete calendar event with all properties", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Complete Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -833,12 +832,12 @@ describe("CalendarEventBuilder", () => {
       startTime: mockStartTime,
       endTime: mockEndTime,
       type: "existing-type",
-      bookerUrl: "https://cal.com/user/test-slug",
+      bookerUrl: "https://freeCal/user/test-slug",
     };
 
     const event = CalendarEventBuilder.fromEvent(existingEvent)
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Updated Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -855,7 +854,7 @@ describe("CalendarEventBuilder", () => {
   it("should propagate disableCancelling and disableRescheduling", () => {
     const event = new CalendarEventBuilder()
       .withBasicDetails({
-        bookerUrl: "https://cal.com/user/test-slug",
+        bookerUrl: "https://freeCal/user/test-slug",
         title: "Test Event",
         startTime: mockStartTime,
         endTime: mockEndTime,
@@ -1561,7 +1560,7 @@ describe("CalendarEventBuilder", () => {
 
       const manualEvent = manualBuilder
         .withBasicDetails({
-          bookerUrl: "https://cal.com",
+          bookerUrl: "https://freeCal",
           title: "Match Test",
           startTime: new Date(mockStartTime).toISOString(),
           endTime: new Date(mockEndTime).toISOString(),
@@ -1979,7 +1978,7 @@ describe("CalendarEventBuilder", () => {
       expect(builtFromBooking.userFieldsResponses).toBeDefined();
       expect(builtFromBooking.customInputs).toEqual({ oldCustomField: "oldValue" });
 
-      expect(builtFromBooking.bookerUrl).toBe("https://cal.com");
+      expect(builtFromBooking.bookerUrl).toBe("https://freeCal");
     });
 
     it("should resolve app type to human-readable app name in appsStatus", async () => {

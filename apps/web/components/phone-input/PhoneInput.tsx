@@ -10,7 +10,12 @@ import { useIsPlatform } from "@calcom/atoms/hooks/useIsPlatform";
 import { type CountryCode, useBookerStore } from "@calcom/features/bookings/Booker/store";
 import { trpc } from "@calcom/trpc/react";
 import classNames from "@calcom/ui/classNames";
-import { CUSTOM_PHONE_MASKS } from "./phone-masks";
+
+const CUSTOM_PHONE_MASKS = {
+  ci: ".. .. .. .. ..",
+  bj: ".. .. .. .. ..",
+  at: "... ..........",
+};
 
 export type PhoneInputProps = {
   value?: string;

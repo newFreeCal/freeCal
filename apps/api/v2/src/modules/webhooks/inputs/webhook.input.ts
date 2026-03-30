@@ -1,14 +1,13 @@
+import { WebhookTriggerEvents, WebhookVersion } from "@calcom/platform-libraries";
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { IsArray, IsBoolean, IsEnum, IsOptional, IsString } from "class-validator";
-
-import { WebhookTriggerEvents, WebhookVersion } from "@calcom/platform-libraries";
 
 export class CreateWebhookInputDto {
   @IsString()
   @IsOptional()
   @ApiProperty({
     description:
-      "The template of the payload that will be sent to the subscriberUrl, check cal.com/docs/core-features/webhooks for more information",
+      "The template of the payload that will be sent to the subscriberUrl, check freeCal/docs/core-features/webhooks for more information",
     example: JSON.stringify({
       content: "A new event has been scheduled",
       type: "{{type}}",
@@ -29,8 +28,6 @@ export class CreateWebhookInputDto {
 
   @IsArray()
   @ApiProperty({
-    isArray: true,
-    enum: WebhookTriggerEvents,
     example: [
       "BOOKING_CREATED",
       "BOOKING_RESCHEDULED",
@@ -41,6 +38,7 @@ export class CreateWebhookInputDto {
       "BOOKING_NO_SHOW",
       "BOOKING_REOPENED",
     ],
+    enum: WebhookTriggerEvents,
   })
   @IsEnum(WebhookTriggerEvents, { each: true })
   triggers!: WebhookTriggerEvents[];

@@ -1,12 +1,8 @@
-import process from "node:process";
-
 import prismock from "@calcom/testing/lib/__mocks__/prisma";
-
-import { describe, expect, test, vi, beforeEach, afterEach } from "vitest";
-
-import { WorkflowActions, WorkflowTemplates, WorkflowTriggerEvents, TimeUnit } from "@calcom/prisma/enums";
-
-import { scanWorkflowBody, iffyScanBody } from "../scanWorkflowBody";
+import process from "node:process";
+import { TimeUnit, WorkflowActions, WorkflowTemplates, WorkflowTriggerEvents } from "@calcom/prisma/enums";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { iffyScanBody, scanWorkflowBody } from "../scanWorkflowBody";
 
 // Mock the submitWorkflowStepForUrlScanning function
 vi.mock("../scanWorkflowUrls", () => ({
@@ -14,7 +10,7 @@ vi.mock("../scanWorkflowUrls", () => ({
 }));
 
 // Mock the scheduleWorkflowNotifications function
-vi.mock("@calcom/features/ee/workflows/lib/scheduleWorkflowNotifications", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/scheduleWorkflowNotifications", () => ({
   scheduleWorkflowNotifications: vi.fn().mockResolvedValue(undefined),
 }));
 
@@ -26,17 +22,17 @@ vi.mock("@calcom/features/tasker/repository", () => ({
 }));
 
 // Mock the actionHelperFunctions
-vi.mock("@calcom/features/ee/workflows/lib/actionHelperFunctions", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/actionHelperFunctions", () => ({
   getTemplateBodyForAction: vi.fn().mockReturnValue("Default template body"),
 }));
 
 // Mock the compareReminderBodyToTemplate
-vi.mock("@calcom/features/ee/workflows/lib/compareReminderBodyToTemplate", () => ({
+vi.mock("@calcom/features/workflows/lib/stubs/compareReminderBodyToTemplate", () => ({
   default: vi.fn().mockReturnValue(false),
 }));
 
 // Mock the i18n
-vi.mock("@calcom/i18n/server", () => ({
+vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn().mockResolvedValue((key: string) => key),
 }));
 
@@ -54,11 +50,11 @@ vi.mock("@calcom/lib/constants", async () => {
   };
 });
 
+import { Task } from "@calcom/features/tasker/repository";
+import compareReminderBodyToTemplate from "@calcom/features/workflows/lib/stubs/compareReminderBodyToTemplate";
+import { scheduleWorkflowNotifications } from "@calcom/features/workflows/lib/stubs/scheduleWorkflowNotifications";
 // Import mocked modules for assertions
 import { submitWorkflowStepForUrlScanning } from "../scanWorkflowUrls";
-import { scheduleWorkflowNotifications } from "@calcom/features/ee/workflows/lib/scheduleWorkflowNotifications";
-import { Task } from "@calcom/features/tasker/repository";
-import compareReminderBodyToTemplate from "@calcom/features/ee/workflows/lib/compareReminderBodyToTemplate";
 
 describe("scanWorkflowBody", () => {
   beforeEach(() => {

@@ -20,14 +20,14 @@ export default function NoPlatformPlan() {
           <Button
             color="secondary"
             className="hover:bg-slate-300 hover:text-black"
-            href="https://cal.com/platform/pricing"
+            href="https://freeCal/platform/pricing"
             target="_blank">
             Go to Pricing
           </Button>
           <Button
             color="secondary"
             className="hover:bg-slate-300 hover:text-black"
-            href="https://cal.com/sales"
+            href="https://freeCal/sales"
             target="_blank">
             Contact Sales
           </Button>

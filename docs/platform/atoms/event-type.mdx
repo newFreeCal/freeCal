@@ -46,7 +46,7 @@ For a demonstration of the create event type atom, please refer to the video bel
 ## Team event type
 
 For creating an event type for a team, you need to provide the team id of your particular team as a prop to the create event type atom. Importantly, a team event type can only be created by a managed user who has an accepted admin or owner role within the team. That means
-you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [memberships endpoint](https://cal.com/docs/api-reference/v2/orgs-teams-memberships/create-a-membership). Example body:
+you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [memberships endpoint](https://freeCal/docs/api-reference/v2/orgs-teams-memberships/create-a-membership). Example body:
 ```js
 {
   "userId": 1006,
@@ -54,7 +54,7 @@ you have to create a managed user and then add an accepted membership with an ad
   "role": "OWNER"
 }
 ```
-then you have to pass the access token of this managed user to the [CalProvider](https://cal.com/docs/platform/atoms/cal-provider) to then finally be able to
+then you have to pass the access token of this managed user to the [CalProvider](https://freeCal/docs/platform/atoms/cal-provider) to then finally be able to
 use the `<CreateEventType />` component while passing `teamId={teamId}` to it to create a team event type:
 
 ```js
@@ -99,7 +99,7 @@ Below is a list of props that can be passed to the create event type atom
 | Name         | Required | Description                                                                                               |
 |:--------------|:----------|:-----------------------------------------------------------------------------------------------------------|
 | teamId | No       | Unique identifier of the team                                                         |
-| customClassNames   | No       | To pass in custom classnames from outside for styling the atom    
+| customClassNames   | No       | To pass in custom classnames from outside for styling the atom
 | onSuccess | No       | Callback function that handles successful creation of event type                                              |
 | onError   | No       | Callback function to handles errors at the time of event type creation
 | onCancel | No       | Callback function that handles cancellation of event type form                                                     |
@@ -157,7 +157,7 @@ To show only specific tabs, remove the ones you don't want from the array:
 ```
 
 If the `eventTypeId` is of a team event type id, then only the owner or admin of the team can update the event type settings. That means
-you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [memberships endpoint](https://cal.com/docs/api-reference/v2/orgs-teams-memberships/create-a-membership). Example body:
+you have to create a managed user and then add an accepted membership with an admin or owner role by making a request to the [memberships endpoint](https://freeCal/docs/api-reference/v2/orgs-teams-memberships/create-a-membership). Example body:
 ```js
 {
   "userId": 1006,
@@ -165,7 +165,7 @@ you have to create a managed user and then add an accepted membership with an ad
   "role": "OWNER"
 }
 ```
-then you have to pass the access token of this managed user to the [CalProvider](https://cal.com/docs/platform/atoms/cal-provider) to then finally be able to
+then you have to pass the access token of this managed user to the [CalProvider](https://freeCal/docs/platform/atoms/cal-provider) to then finally be able to
 use the `<EventTypeSettings />` component while passing id of a team event type enabling admin or owner to edit team event types.
 
 For a demonstration of the event type settings atom, please refer to the video below.
@@ -189,16 +189,16 @@ Below is a list of props that can be passed to the event type settings atom.
 
 | Name         | Required | Description                                                                                               |
 |:--------------|:----------|:-----------------------------------------------------------------------------------------------------------|
-| id | Yes       | The event type id obtained at the time of event type creation     
-| tabs | No       | Array of tabs to display in the event type settings. Possible values: `["setup", "limits", "recurring", "advanced", "availability", "team", "payments"]`. Remove any tabs you don't want to show. |  
+| id | Yes       | The event type id obtained at the time of event type creation
+| tabs | No       | Array of tabs to display in the event type settings. Possible values: `["setup", "limits", "recurring", "advanced", "availability", "team", "payments"]`. Remove any tabs you don't want to show. |
 | onSuccess | No       | Callback function that triggers when the event type is successfully updated                                              |
 | onError   | No       | Callback function to handles errors at the time of event type update |
 | onFormStateChange | No       | Callback function that triggers when the form state changes, providing access to isDirty, dirtyFields, and current form values |
 | onDeleteSuccess | No       | Callback function that triggers when the event type is successfully deleted                                                     |
 | onDeleteError | No       | Callback function that handles errors at the time of event type deletion |                                                   |
 | allowDelete | No       | Boolean value that determines whether the delete button is displayed or not                                                     |
-| disableToasts | No       | Boolean value that determines whether the toasts are displayed or not                                                     
-| customClassNames   | No       | To pass in custom classnames from outside for styling the atom  
+| disableToasts | No       | Boolean value that determines whether the toasts are displayed or not
+| customClassNames   | No       | To pass in custom classnames from outside for styling the atom
 
 Along with the props, event type settings atom accepts custom styles via the **customClassNames** prop. Below is a list of props that fall under this **customClassNames** prop.
 <p></p>
@@ -293,7 +293,7 @@ Following are the tabs that are available in the event type settings atom:
 
 **1. Event Setup**
 
-The event setup tab allows users to configure the fundamental aspects of their events. In this tab, users can define or update essential details such as the event title, description, duration, slug, location as well as the event URL. 
+The event setup tab allows users to configure the fundamental aspects of their events. In this tab, users can define or update essential details such as the event title, description, duration, slug, location as well as the event URL.
 
 <img src="/images/EventSetup.png" alt="Event Setup tab" />
 
@@ -315,7 +315,7 @@ The assignment tab is only available for team event types. It lets you configure
 
 **4. Limits**
 
-The limits tab lets you configure how often you can be booked. You can add a lot of configurations via this tab, such as a buffer time before or after the event and a minimum notice period. 
+The limits tab lets you configure how often you can be booked. You can add a lot of configurations via this tab, such as a buffer time before or after the event and a minimum notice period.
 
 Also if you want to select how many time a particular event can be booked, or how far in the future the event can be booked that is also possible. Or if you want to limit the event to a specific amount of time, that can also be done via the limits tab.
 
@@ -337,7 +337,7 @@ Below video shows a demonstration of the limits tab.
 
 **5. Advanced**
 
-The advanced tab lets you customize your event type with a lot more options. For example, you can set a custom name for the event type that will appear in your calendar, or add questions that will appear on your booking page. Another option would be to add an email verification for the person who is booking the event. 
+The advanced tab lets you customize your event type with a lot more options. For example, you can set a custom name for the event type that will appear in your calendar, or add questions that will appear on your booking page. Another option would be to add an email verification for the person who is booking the event.
 
 Below video shows a demonstration of the all the options you get in the advanced tab.
 
@@ -364,7 +364,7 @@ The recurring tab lets you set up a recurring event. You can set up recurring ev
 
 **7. Payments**
 
-The payments tab lets you accept payments for your events. At the moment we only support payments via Stripe. 
+The payments tab lets you accept payments for your events. At the moment we only support payments via Stripe.
 
 <img src="/images/StripeConnect.png" alt="Payments tab without stripe connected" />
 

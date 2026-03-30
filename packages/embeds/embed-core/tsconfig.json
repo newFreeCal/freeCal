@@ -10,7 +10,9 @@
     "paths": {
       "@calcom/embed-react": ["../embed-react/src"],
       "@calcom/embed-snippet": ["../embed-snippet/src"]
-    }
+    },
+    "downlevelIteration": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
   "include": ["src", "env.d.ts", "index.ts", "*.ts"],
   "exclude": ["dist", "build", "**/node_modules/**"]

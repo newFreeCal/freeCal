@@ -5,7 +5,7 @@ import { trpc } from "@calcom/trpc/react";
 import { Alert } from "@calcom/ui/components/alert";
 import { Select } from "@calcom/ui/components/form";
 import { List } from "@calcom/ui/components/list";
-import AppListCardWebWrapper from "@calcom/web/modules/apps/components/AppListCardWebWrapper";
+import AppListCard from "@calcom/web/modules/apps/components/AppListCard";
 import CredentialActionsDropdown from "@calcom/web/modules/apps/components/CredentialActionsDropdown";
 import AdditionalCalendarSelector from "@calcom/web/modules/calendars/components/AdditionalCalendarSelector";
 import { CalendarSwitch } from "@calcom/web/modules/calendars/components/CalendarSwitch";
@@ -57,7 +57,7 @@ const ConnectedCalendarList = ({
       {items.map((connectedCalendar) => {
         if (!!connectedCalendar.calendars && connectedCalendar.calendars.length > 0) {
           return (
-            <AppListCardWebWrapper
+            <AppListCard
               key={`list-${connectedCalendar.credentialId}-${scope}`}
               shouldHighlight
               slug={connectedCalendar.integration.slug}
@@ -104,7 +104,7 @@ const ConnectedCalendarList = ({
                   </>
                 )}
               </div>
-            </AppListCardWebWrapper>
+            </AppListCard>
           );
         }
         return (

@@ -1,5 +1,4 @@
 import { sendEmailVerificationByCode } from "@calcom/features/auth/lib/verifyEmail";
-import { getEventTypeService } from "@calcom/features/eventtypes/di/EventTypeService.container";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import getIP from "@calcom/lib/getIP";
 import { hashEmail, piiHasher } from "@calcom/lib/server/PiiHasher";
@@ -29,17 +28,10 @@ export const sendVerifyEmailCode = async ({
     identifier: `sendVerifyEmailCode:${identifier}`,
   });
 
-  let hideBranding = false;
-  if (input.eventTypeId) {
-    const eventTypeService = getEventTypeService();
-    hideBranding = await eventTypeService.shouldHideBrandingForEventType(input.eventTypeId);
-  }
-
   return await sendEmailVerificationByCode({
     email: input.email,
     username: input.username,
     language: input.language,
     isVerifyingEmail: input.isVerifyingEmail,
-    hideBranding,
   });
 };

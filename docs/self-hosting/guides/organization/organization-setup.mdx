@@ -3,19 +3,19 @@ title: "Organization Setup"
 icon: "building"
 ---
 
-This guide will walk you through setting up and configuring the organizations feature for your self-hosted Cal.com instance. Organizations allow you to create branded, multi-tenant environments within your Cal.com deployment.
+This guide will walk you through setting up and configuring the organizations feature for your self-hosted freeCal instance. Organizations allow you to create branded, multi-tenant environments within your freeCal deployment.
 
 ## Prerequisites
 
 Before setting up organizations, ensure you have:
-- A working Cal.com instance already installed and running
-- Admin access to your Cal.com instance 
+- A working freeCal instance already installed and running
+- Admin access to your freeCal instance
 - Access to modify environment variables and restart your server
 
 ## Step 1: Enable Organizations Feature
 
 1. Login as admin using `admin@example.com`
-2. Navigate to **Settings** → **Admin** → **Features**   
+2. Navigate to **Settings** → **Admin** → **Features**
 3. Turn on the **Organizations** feature flag under the Features section
 ![Settings Admin Features Organization](./images/settings-admin-features-organization.png)
 
@@ -61,7 +61,7 @@ yarn dev
 ![Onboarding Steps](./images/organization-creation.png)
 
 <Note>
-After creating the organization, you'll be moved inside it and all existing Cal.com links will redirect to the organization URL (e.g., `yourdomain.cal.local:3000`).
+After creating the organization, you'll be moved inside it and all existing freeCal links will redirect to the organization URL (e.g., `yourdomain.cal.local:3000`).
 </Note>
 
 ## Accessing Your Organization
@@ -71,4 +71,4 @@ Now if everything above went well, all booking pages for the organization will b
 http://myorg.cal.local:3000/{CAL_LINK}
 ```
 
-Read more about some other [Organization related environment variables](./understanding-organization-env-variables.mdx) to configure your Cal.com instance to work with multiple organizations.
+Read more about some other [Organization related environment variables](./understanding-organization-env-variables.mdx) to configure your freeCal instance to work with multiple organizations.

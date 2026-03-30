@@ -1,15 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useTransition } from "react";
-
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
-import { subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
+import { useOrgBranding } from "@calcom/features/organizations/lib/stubs/context/provider";
+import { subdomainSuffix } from "@calcom/features/organizations/lib/stubs/orgDomains";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import slugify from "@calcom/lib/slugify";
 import classNames from "@calcom/ui/classNames";
 import { Label, TextField } from "@calcom/ui/components/form";
 import { LoaderIcon } from "@coss/ui/icons";
-
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { checkTeamSlugAvailability } from "./action/check-team-slug-availability";
 
 type ValidationState = "idle" | "checking" | "available" | "taken";

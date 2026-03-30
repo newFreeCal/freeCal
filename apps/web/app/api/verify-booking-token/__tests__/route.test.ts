@@ -81,9 +81,6 @@ function setMockRequestBody(body: Record<string, unknown>) {
   mockRequestBody = body;
 }
 
-// Vitest sets NEXT_PUBLIC_WEBAPP_URL to http://app.cal.local:3000 (see vitest.config.mts)
-const EXPECTED_REDIRECT_ORIGIN = "http://app.cal.local:3000";
-
 function expectErrorRedirect(res: Response, path: string, error: string) {
   const location = res.headers.get("location");
   expect(location).toBeTruthy();
@@ -210,7 +207,7 @@ describe("verify-booking-token route", () => {
       expect(location).toBeTruthy();
       const redirectUrl = new URL(location!);
 
-      expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+      expect(redirectUrl.origin).toBe("https://app.example.com");
       expect(redirectUrl.pathname).toBe("/booking/abc123");
       expect(redirectUrl.searchParams.get("error")).toBeNull();
       expect(mockConfirmHandler).toHaveBeenCalledWith(
@@ -235,7 +232,7 @@ describe("verify-booking-token route", () => {
       expect(location).toBeTruthy();
       const redirectUrl = new URL(location!);
 
-      expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+      expect(redirectUrl.origin).toBe("https://app.example.com");
       expect(redirectUrl.pathname).toBe("/booking/abc123");
       expect(redirectUrl.searchParams.get("error")).toBe("Error confirming booking");
     });
@@ -251,12 +248,12 @@ describe("verify-booking-token route", () => {
       expect(location).toBeTruthy();
       const redirectUrl = new URL(location!);
 
-      expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+      expect(redirectUrl.origin).toBe("https://app.example.com");
       expect(redirectUrl.pathname).toBe("/booking/abc123");
       expect(redirectUrl.searchParams.get("error")).toBe("Error confirming booking");
     });
 
-    it("should use WEBAPP_URL for redirects (fixes localhost when behind proxy)", async () => {
+    it("should preserve the request origin in redirect URL (not hardcode localhost)", async () => {
       const baseUrl =
         "https://custom-domain.example.org/api/verify-booking-token?action=reject&token=t&bookingUid=booking-uid&userId=1";
       const req = createMockRequest(baseUrl, "GET");
@@ -267,7 +264,7 @@ describe("verify-booking-token route", () => {
       expect(location).toBeTruthy();
       const redirectUrl = new URL(location!);
 
-      expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+      expect(redirectUrl.origin).toBe("https://custom-domain.example.org");
       expect(location).not.toContain("localhost");
     });
 
@@ -300,12 +297,12 @@ describe("verify-booking-token route", () => {
       expect(location).toBeTruthy();
       const redirectUrl = new URL(location!);
 
-      expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+      expect(redirectUrl.origin).toBe("https://app.example.com");
       expect(redirectUrl.pathname).toBe("/booking/abc123");
       expect(redirectUrl.searchParams.get("error")).toBe("Error confirming booking");
     });
 
-    it("should use WEBAPP_URL for POST redirects (fixes localhost when behind proxy)", async () => {
+    it("should preserve the request origin in POST redirect URL", async () => {
       const baseUrl =
         "https://self-hosted.company.com/api/verify-booking-token?bookingUid=uid123&token=t&userId=1&action=reject";
       const req = createMockRequest(baseUrl, "POST");
@@ -316,16 +313,16 @@ describe("verify-booking-token route", () => {
       expect(location).toBeTruthy();
       const redirectUrl = new URL(location!);
 
-      expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+      expect(redirectUrl.origin).toBe("https://self-hosted.company.com");
       expect(location).not.toContain("localhost");
     });
   });
 
   describe("redirect URL construction", () => {
-    it("should construct redirect URLs using WEBAPP_URL regardless of request origin", async () => {
+    it("should construct redirect URLs relative to the request URL, not hardcoded origins", async () => {
       const testOrigins = [
-        "https://app.cal.com",
-        "https://acme.cal.com",
+        "https://app.freeCal",
+        "https://acme.freeCal",
         "https://calcom.company.internal",
         "http://192.168.1.100:3000",
       ];
@@ -341,7 +338,7 @@ describe("verify-booking-token route", () => {
         expect(location).toBeTruthy();
         const redirectUrl = new URL(location!);
 
-        expect(redirectUrl.origin).toBe(EXPECTED_REDIRECT_ORIGIN);
+        expect(redirectUrl.origin).toBe(origin);
         expect(redirectUrl.pathname).toBe("/booking/test-uid");
       }
     });

@@ -91,7 +91,7 @@ export class BusyTimesService {
      *   - The current user has a different booking at this time he/she attends
      *
      * See further discussion within this GH issue:
-     * https://github.com/calcom/cal.com/issues/6374
+     * https://github.com/calcom/freeCal/issues/6374
      *
      * NOTE: Changes here will likely require changes to some mocking
      *  logic within getSchedule.test.ts:addBookings
@@ -150,17 +150,13 @@ export class BusyTimesService {
           if (minutesToBlockBeforeEvent) {
             aggregate.push({
               start: dayjs(startTime).subtract(minutesToBlockBeforeEvent, "minute").toDate(),
-              end: dayjs(startTime).toDate(),
-              title: "busy_time.buffer_time",
-              source: "Buffer Time for seated event (before)",
+              end: dayjs(startTime).toDate(), // The event starts after the buffer
             });
           }
           if (minutesToBlockAfterEvent) {
             aggregate.push({
-              start: dayjs(endTime).toDate(),
+              start: dayjs(endTime).toDate(), // The event ends before the buffer
               end: dayjs(endTime).add(minutesToBlockAfterEvent, "minute").toDate(),
-              title: "busy_time.buffer_time",
-              source: "Buffer Time for seated event (after)",
             });
           }
           return aggregate;
@@ -255,7 +251,6 @@ export class BusyTimesService {
             ...value,
             end: dayjs(value.end),
             start: dayjs(value.start),
-            source: value.source ?? "busy_time.calendar",
           })),
           openSeatsDateRanges
         );

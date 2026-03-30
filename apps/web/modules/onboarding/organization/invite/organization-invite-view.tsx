@@ -1,18 +1,15 @@
 "use client";
 
+import { useLocale } from "@calcom/lib/hooks/useLocale";
+import { Button } from "@calcom/ui/components/button";
+import { useFlags } from "@calcom/web/modules/feature-flags/hooks/useFlags";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 import React from "react";
-
-import { useFlags } from "@calcom/web/modules/feature-flags/hooks/useFlags";
-import { useLocale } from "@calcom/lib/hooks/useLocale";
-import { Button } from "@calcom/ui/components/button";
-
 import { InviteOptions } from "../../components/InviteOptions";
 import { OnboardingCard } from "../../components/OnboardingCard";
 import { OnboardingLayout } from "../../components/OnboardingLayout";
 import { OnboardingOrganizationBrowserView } from "../../components/onboarding-organization-browser-view";
-import { useOnboardingQueryParams } from "../../hooks/useOnboardingQueryParams";
 import { useSubmitOnboarding } from "../../hooks/useSubmitOnboarding";
 import { useOnboardingStore } from "../../store/onboarding-store";
 import { OrganizationCSVUploadModal } from "./csv-upload-modal";
@@ -25,7 +22,6 @@ export const OrganizationInviteView = ({ userEmail }: OrganizationInviteViewProp
   const router = useRouter();
   const { t } = useLocale();
   const flags = useFlags();
-  const { billingPeriod, getQueryString } = useOnboardingQueryParams();
 
   const store = useOnboardingStore();
   const { setInvites, organizationDetails, organizationBrand } = store;
@@ -39,7 +35,7 @@ export const OrganizationInviteView = ({ userEmail }: OrganizationInviteViewProp
   };
 
   const handleInviteViaEmail = () => {
-    router.push(`/onboarding/organization/invite/email${getQueryString()}`);
+    router.push("/onboarding/organization/invite/email");
   };
 
   const handleUploadCSV = () => {
@@ -53,11 +49,11 @@ export const OrganizationInviteView = ({ userEmail }: OrganizationInviteViewProp
   const handleSkip = async () => {
     posthog.capture("onboarding_organization_invite_skip_clicked");
     setInvites([]);
-    await submitOnboarding(store, userEmail, [], { billingPeriod });
+    await submitOnboarding(store, userEmail, []);
   };
 
   const handleInvite = async () => {
-    await submitOnboarding(store, userEmail, [], { billingPeriod });
+    await submitOnboarding(store, userEmail, []);
   };
 
   return (
@@ -73,7 +69,7 @@ export const OrganizationInviteView = ({ userEmail }: OrganizationInviteViewProp
                 className="rounded-[10px]"
                 onClick={() => {
                   posthog.capture("onboarding_organization_invite_back_clicked");
-                  router.push(`/onboarding/organization/teams${getQueryString()}`);
+                  router.push("/onboarding/organization/teams");
                 }}
                 disabled={isSubmitting}>
                 {t("back")}

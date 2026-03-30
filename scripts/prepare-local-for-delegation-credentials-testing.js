@@ -3,6 +3,8 @@
  * This script is used to prepare local environment for delegation credentials testing.
  * It prepares Acme organization and its owner user with email owner1-acme@example.com to test Delegation Credentials with Calendar Cache
  */
+import process from "node:process";
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -11,7 +13,7 @@ async function main() {
   const { FeaturesRepository } = await import("@calcom/features/flags/features.repository");
   const featuresRepository = new FeaturesRepository(prisma);
   // Parse newEmail from args
-  const newEmail = process.argv[2] || "hariom@cal.com";
+  const newEmail = process.argv[2] || "hariom@freeCal";
   console.log(`Using newEmail: ${newEmail}`);
 
   // 1. Update user email

@@ -1,12 +1,10 @@
-import type { Session } from "next-auth";
-import { redirect } from "next/navigation";
-import { describe, it, vi, expect, beforeEach, type MockedFunction } from "vitest";
-
 import { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import { MembershipRole } from "@calcom/prisma/enums";
-
-import { validateUserHasOrgAdmin, type ValidatedOrgAdminSession } from "./validateUserHasOrgAdmin";
+import { redirect } from "next/navigation";
+import type { Session } from "next-auth";
+import { beforeEach, describe, expect, it, type MockedFunction, vi } from "vitest";
+import { type ValidatedOrgAdminSession, validateUserHasOrgAdmin } from "./validateUserHasOrgAdmin";
 
 // Mock the dependencies
 vi.mock("next/navigation", () => ({
@@ -52,8 +50,8 @@ describe("validateUserHasOrgAdmin", () => {
         name: "Test Org",
         slug: "test-org",
         logoUrl: null,
-        fullDomain: "test-org.cal.com",
-        domainSuffix: "cal.com",
+        fullDomain: "test-org.freeCal",
+        domainSuffix: "freeCal",
         role: MembershipRole.ADMIN,
       },
       profile: {
@@ -104,8 +102,8 @@ describe("validateUserHasOrgAdmin", () => {
             name: "Test Org",
             slug: "test-org",
             logoUrl: null,
-            fullDomain: "test-org.cal.com",
-            domainSuffix: "cal.com",
+            fullDomain: "test-org.freeCal",
+            domainSuffix: "freeCal",
             role: MembershipRole.OWNER,
           },
           profile: {
@@ -228,8 +226,8 @@ describe("validateUserHasOrgAdmin", () => {
             name: "Test Org",
             slug: "test-org",
             logoUrl: null,
-            fullDomain: "test-org.cal.com",
-            domainSuffix: "cal.com",
+            fullDomain: "test-org.freeCal",
+            domainSuffix: "freeCal",
             role: MembershipRole.MEMBER,
           },
           profile: {
@@ -338,8 +336,8 @@ describe("validateUserHasOrgAdmin", () => {
             name: "Test Org",
             slug: "test-org",
             logoUrl: null,
-            fullDomain: "test-org.cal.com",
-            domainSuffix: "cal.com",
+            fullDomain: "test-org.freeCal",
+            domainSuffix: "freeCal",
             role: MembershipRole.OWNER, // This should be preferred
           },
           profile: {

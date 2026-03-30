@@ -1,11 +1,9 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-
-import * as teamQueries from "@calcom/features/ee/teams/lib/queries";
-import type { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
-import { TeamService } from "@calcom/features/ee/teams/services/teamService";
+import * as teamQueries from "@calcom/features/teams/lib/stubs/queries";
+import { TeamService } from "@calcom/features/teams/lib/stubs/services/teamService";
+import type { TeamRepository } from "@calcom/features/teams/lib/stubs/TeamRepository";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
-
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { LegacyRemoveMemberService } from "../LegacyRemoveMemberService";
 
 vi.mock("@calcom/prisma", () => ({
@@ -16,8 +14,8 @@ vi.mock("@calcom/prisma", () => ({
   },
 }));
 
-vi.mock("@calcom/features/ee/teams/services/teamService");
-vi.mock("@calcom/features/ee/teams/lib/queries");
+vi.mock("@calcom/features/teams/lib/stubs/services/teamService");
+vi.mock("@calcom/features/teams/lib/stubs/queries");
 
 describe("LegacyRemoveMemberService", () => {
   let service: LegacyRemoveMemberService;

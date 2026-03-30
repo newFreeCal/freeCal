@@ -1,7 +1,6 @@
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { TeamRepository } from "@calcom/features/teams/lib/stubs/repositories/StubTeamRepository";
 import { prisma } from "@calcom/prisma";
-
 import type { IRemoveMemberService } from "./IRemoveMemberService";
 import { LegacyRemoveMemberService } from "./LegacyRemoveMemberService";
 import { PBACRemoveMemberService } from "./PBACRemoveMemberService";

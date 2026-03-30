@@ -1,6 +1,5 @@
-import { TeamService } from "@calcom/features/ee/teams/services/teamService";
+import { TeamService } from "@calcom/features/teams/lib/stubs/services/teamService";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
 import type { TAcceptOrLeaveInputSchema } from "./acceptOrLeave.schema";
 
 type AcceptOrLeaveOptions = {
