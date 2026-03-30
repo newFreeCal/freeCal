@@ -10,7 +10,7 @@
 
 ## Fork Notice
 
-This repository is a fork of the original [Cal.com](https://github.com/calcom/calcom) project. The project name has been changed to **freeCal** to distinguish this modified version from the upstream repository.
+This repository is a fork of the original [Cal.com](https://github.com/calcom/cal.com) project. The project name has been changed to **freeCal** to distinguish this modified version from the upstream repository.
 
 The rename is intentional and helps identify versions that have had commercial and enterprise components removed. This fork maintains full compatibility with the original codebase while providing a completely open-source experience without licensing restrictions.
 
