@@ -1,51 +1,16 @@
-<!-- PROJECT LOGO -->
-<p align="center">
-  <a href="https://github.com/calcom/freeCal">
-   <img src="https://user-images.githubusercontent.com/8019099/210054112-5955e812-a76e-4160-9ddd-58f2c72f1cce.png" alt="Logo">
-  </a>
 
   <h3 align="center">freeCal</h3>
 
   <p align="center">
     The open-source Calendly successor.
     <br />
-    <a href="https://freeCal"><strong>Learn more »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/calcom/freeCal/discussions">Discussions</a>
-    ·
-    <a href="https://freeCal">Website</a>
-    ·
-    <a href="https://github.com/calcom/freeCal/issues">Issues</a>
-    ·
-    <a href="https://freeCal/roadmap">Roadmap</a>
-  </p>
-</p>
-
-<p align="center">
-   <a href="https://www.producthunt.com/products/cal-com"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Month-%23DA552E" alt="Product Hunt"></a>
-   <img src="https://api.checklyhq.com/v1/badges/groups/1120718?style=flat&theme=default" alt="Checkly QA">
-   <a href="https://status.freeCal"><img height="20px" src="https://betteruptime.com/status-badges/v1/monitor/a9kf.svg" alt="Uptime"></a>
-   <a href="https://github.com/calcom/freeCal/stargazers"><img src="https://img.shields.io/github/stars/calcom/freeCal" alt="Github Stars"></a>
-   <a href="https://news.ycombinator.com/item?id=34507672"><img src="https://img.shields.io/badge/Hacker%20News-%231-%23FF6600" alt="Hacker News"></a>
-   <a href="https://github.com/calcom/freeCal/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-purple" alt="License"></a>
-   <a href="https://github.com/calcom/freeCal/pulse"><img src="https://img.shields.io/github/commit-activity/m/calcom/freeCal" alt="Commits-per-month"></a>
-   <a href="https://freeCal/pricing"><img src="https://img.shields.io/badge/Pricing-Free-brightgreen" alt="Pricing"></a>
-   <a href="https://jitsu.com?utm_source=github/calcom/freeCal"><img src="https://img.shields.io/badge/Metrics_tracked_by-JITSU-AA00FF?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACKSURBVHgBrZDRCYAwDEQv6gCOoKO4hOCXI9QVnEZwiY5iF5GaVClaBNtioCSUvCR3tMJaxIfZgW4AGUoEPVwgPZoS0Dmgg3NBVDFNbMIsmYCak3J1jDk9iCQvsKJvkzr71N81Gj6vDT/LU2P6RhY63jcafk3YJEbgeZpiFyc/5HJKv8Ef273NSfABGbQfUZhnOSAAAAAASUVORK5CYII=" alt="Jitsu Tracked"></a>
-   <img src="https://api.checklyhq.com/v1/badges/checks/5e048048-1b51-47ba-9209-60607507622e?responseTime=true" alt="Checkly Availability" />
-   <a href="https://hub.docker.com/r/calcom/freeCal"><img src="https://img.shields.io/docker/pulls/calcom/freeCal"></a>
-   <a href="https://twitch.tv/calcomtv"><img src="https://img.shields.io/twitch/status/calcomtv?style=flat"></a>
-   <a href="https://github.com/calcom/freeCal/issues?q=is:issue+is:open+label:%22%F0%9F%99%8B%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8Fhelp+wanted%22"><img src="https://img.shields.io/badge/Help%20Wanted-Contribute-blue"></a>
-   <a href="https://freeCal/figma"><img src="https://img.shields.io/badge/Figma-Design%20System-blueviolet"></a>
-   <a href="https://contributor-covenant.org/version/1/4/code-of-conduct/ "><img src="https://img.shields.io/badge/Contributor%20Covenant-1.4-purple" /></a>
-   <a href="https://console.algora.io/org/cal/bounties?status=open"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fconsole.algora.io%2Fapi%2Fshields%2Fcal%2Fbounties%3Fstatus%3Dopen" /></a>
-</p>
+   </p>
 
 <!-- ABOUT THE PROJECT -->
 
 ## Fork Notice
 
-This repository is a fork of the original [Cal.com](https://github.com/calcom/calcom) project. The project name has been changed to **freeCal** to distinguish this modified version from the upstream repository.
+This repository is a fork of the original [Cal.com](https://github.com/newFreeCal/calcom) project. The project name has been changed to **freeCal** to distinguish this modified version from the upstream repository.
 
 The rename is intentional and helps identify versions that have had commercial and enterprise components removed. This fork maintains full compatibility with the original codebase while providing a completely open-source experience without licensing restrictions.
 
@@ -53,7 +18,7 @@ The rename is intentional and helps identify versions that have had commercial a
 
 This project is based on Cal.com, an excellent open-source platform for collaborative scheduling and calendar management. The core functionality, architecture, and design principles remain unchanged. For details about the original project, visit [cal.com](https://cal.com).
 
-<img width="100%" alt="booking-screen" src="https://github.com/calcom/freeCal/assets/8019099/407e727e-ff19-4ca4-bcae-049dca05cf02">
+<img width="100%" alt="booking-screen" src="https://github.com/newFreeCal/freeCal/assets/8019099/407e727e-ff19-4ca4-bcae-049dca05cf02">
 
 # Scheduling infrastructure for absolutely everyone
 
@@ -64,31 +29,6 @@ Calendly and other scheduling tools are awesome. It made our lives massively eas
 
 That's where freeCal comes in. Self-hosted or hosted by us. White-label by design. API-driven and ready to be deployed on your own domain. Full control of your events and data.
 
-## Recognition
-
-#### [Hacker News](https://news.ycombinator.com/from?site=freeCal)
-
-<a href="https://news.ycombinator.com/item?id=34507672">
-  <img
-    style="width: 250px; height: 54px;" width="250" height="54"
-    alt="Featured on Hacker News"
-    src="https://hackernews-badge.vercel.app/api?id=34507672"
-  />
-</a>
-
-<a href="https://news.ycombinator.com/item?id=26817795">
-  <img
-    style="width: 250px; height: 54px;" width="250" height="54"
-    alt="Featured on Hacker News"
-    src="https://hackernews-badge.vercel.app/api?id=26817795"
-  />
-</a>
-
-#### [Product Hunt](https://producthunt.com/products/cal-com?utm_source=badge-top-post-badge&utm_medium=badge)
-
-<a href="https://producthunt.com/posts/calendso?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-calendso" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=291910&theme=light&period=monthly" alt="freeCal - The open source Calendly alternative | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a> <a href="https://producthunt.com/posts/calendso?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-calendso" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=291910&theme=light" alt="freeCal - The open source Calendly alternative | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a> <a href="https://producthunt.com/stories/how-this-open-source-calendly-alternative-rocketed-to-product-of-the-day" target="_blank"><img src="https://freeCal/maker-grant.svg" alt="freeCal - The open source Calendly alternative | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-
-This project is tested with browserstack
 
 ### Built With
 
@@ -101,7 +41,7 @@ This project is tested with browserstack
 
 ## Pricing & Licensing
 
-This is the **open-source version** of freeCal - completely free to use and self-host.
+This is the **open-source version** of cal.com - completely free to use and self-host.
 
 All core features are available without any commercial license:
 - ✅ Unlimited users and bookings
@@ -110,13 +50,10 @@ All core features are available without any commercial license:
 - ✅ Full white-label customization
 - ✅ API access
 
-For **enterprise features** (SSO/SAML, advanced workflows, priority support), [contact us](https://freeCal/sales).
-
-<a href="https://freeCal/pricing"><img src="https://freeCal/book-with-cal-dark.svg" alt="View pricing"></a>
 
 ## Removal of Commercial / Enterprise Code
 
-This repository is part of the **unEE project** - the systematic removal of all commercial/enterprise code to create a completely open-source version under AGPLv3.
+All commercial/enterprise code was removed to create a completely open-source version under AGPLv3.
 
 ### What Was Removed
 
@@ -136,8 +73,6 @@ All enterprise/commercial features have been replaced with no-op stub implementa
 
 ### Documentation
 
-- **[unEE.md](./unEE.md)** - Complete technical documentation of stub implementations
-- **[UNEE_MIGRATION_GUIDE.md](./UNEE_MIGRATION_GUIDE.md)** - Migration guide and feature comparison
 - **[AGENTS.md](./AGENTS.md)** - Development conventions for working with stubs
 
 ### Key Changes
@@ -156,9 +91,8 @@ For **enterprise features** (SSO/SAML, advanced workflows, priority support), co
 
 ## Stay Up-to-Date
 
-freeCal officially launched as v.1.0 on the 15th of September 2021 and we've come a long way so far. Watch **releases** of this repository to be notified of future updates:
+freeCal officially launched as v.1.0 on the 30th of March 2026.
 
-![cal-star-github](https://user-images.githubusercontent.com/8019099/154853944-a9e3c999-3da3-4048-b149-b4f73893c6fb.gif)
 
 <!-- GETTING STARTED -->
 
@@ -180,13 +114,13 @@ Here is what you need to be able to run freeCal.
 
 ### Setup
 
-1. Clone the repo (or fork https://github.com/calcom/freeCal/fork). The code is licensed under [AGPLv3](https://github.com/calcom/freeCal/blob/main/LICENSE)
+1. Clone the repo (or fork https://github.com/newFreeCal/freeCal/fork). The code is licensed under [AGPLv3](https://github.com/newFreeCal/freeCal/blob/main/LICENSE)
 
     ```sh
-    git clone https://github.com/calcom/freeCal.git
+    git clone https://github.com/newFreeCal/freeCal.git
     ```
 
-   > If you are on Windows, run the following command on `gitbash` with admin privileges: <br> > `git clone -c core.symlinks=true https://github.com/calcom/freeCal.git` <br>
+   > If you are on Windows, run the following command on `gitbash` with admin privileges: <br> > `git clone -c core.symlinks=true https://github.com/newFreeCal/freeCal.git` <br>
    > See [docs](https://freeCal/docs/how-to-guides/how-to-troubleshoot-symbolic-link-issues-on-windows#enable-symbolic-links) for more details.
 
 2. Go to the project folder
@@ -279,7 +213,7 @@ for Logger level to be set at info, for example.
 
 2. This will open a fully configured workspace in your browser with all the necessary dependencies already installed.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/calcom/freeCal)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/newFreeCal/freeCal)
 
 #### Manual setup
 
@@ -513,7 +447,7 @@ If you are evaluating freeCal or running with minimal to no modifications, this 
 1. Clone calcom/freeCal
 
    ```bash
-   git clone --recursive https://github.com/calcom/freeCal.git
+   git clone --recursive https://github.com/newFreeCal/freeCal.git
    ```
 
 2. Change into the directory
@@ -617,7 +551,7 @@ If you are evaluating freeCal or running with minimal to no modifications, this 
 1. Clone calcom/docker.
 
    ```bash
-   git clone https://github.com/calcom/freeCal.git calcom-docker
+   git clone https://github.com/newFreeCal/freeCal.git calcom-docker
    ```
 
 2. Change into the directory
@@ -699,7 +633,7 @@ These variables must also be provided at runtime
 
 If building the image yourself, these variables must be provided at the time of the docker build, and can be provided by updating the .env file. Currently, if you require changes to these variables, you must follow the instructions to build and publish your own image.
 
-Updating these variables is not required for evaluation, but is required for running in production. Instructions for generating variables can be found in the [freeCal instructions](https://github.com/calcom/freeCal)
+Updating these variables is not required for evaluation, but is required for running in production. Instructions for generating variables can be found in the [freeCal instructions](https://github.com/newFreeCal/freeCal)
 
 | Variable                               | Description                                                                                                                                | Required | Default                                                             |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------------------------------------------------------------------- |
@@ -774,7 +708,7 @@ Currently Vercel Pro Plan is required to be able to Deploy this application with
 
 ### Render
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/calcom/docker)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/newFreeCal/docker)
 
 ### Elestio
 
@@ -821,14 +755,14 @@ For **enterprise-only features** (SSO/SAML, advanced workflows, priority support
 We ❤️ contributions! Whether it’s fixing a typo, improving documentation, or building new features, your help makes freeCal better.
 
 - Check out our [Contributing Guide](./CONTRIBUTING.md) for detailed steps.
-- Join the discussion on [GitHub Discussions](https://github.com/calcom/freeCal/discussions) or our community channels.
+- Join the discussion on [GitHub Discussions](https://github.com/newFreeCal/freeCal/discussions) or our community channels.
 - Please follow our coding standards and commit message conventions to keep the project consistent.
 
 Even small improvements matter — thank you for helping us grow!
 
 ### Good First Issues
 
-We have a list of [help wanted](https://github.com/calcom/freeCal/issues?q=is:issue+is:open+label:%22%F0%9F%99%8B%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8Fhelp+wanted%22) that contain small features and bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
+We have a list of [help wanted](https://github.com/newFreeCal/freeCal/issues?q=is:issue+is:open+label:%22%F0%9F%99%8B%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8Fhelp+wanted%22) that contain small features and bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
 <!-- BOUNTIES -->
 
@@ -845,7 +779,7 @@ We have a list of [help wanted](https://github.com/calcom/freeCal/issues?q=is:is
 
 ### Contributors
 
-<a href="https://github.com/calcom/freeCal/graphs/contributors">
+<a href="https://github.com/newFreeCal/freeCal/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=calcom/freeCal" />
 </a>
 
@@ -853,7 +787,7 @@ We have a list of [help wanted](https://github.com/calcom/freeCal/issues?q=is:is
 
 ### Translations
 
-Don't code but still want to contribute? Join our [Discussions](https://github.com/calcom/freeCal/discussions) and join the [#Translate channel](https://github.com/calcom/freeCal/discussions/categories/translations) and let us know what language you want to translate.
+Don't code but still want to contribute? Join our [Discussions](https://github.com/newFreeCal/freeCal/discussions) and join the [#Translate channel](https://github.com/newFreeCal/freeCal/discussions/categories/translations) and let us know what language you want to translate.
 
 ![ar translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ar&style=flat&logo=crowdin&query=%24.progress.0.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![bg translation](https://img.shields.io/badge/dynamic/json?color=blue&label=bg&style=flat&logo=crowdin&query=%24.progress.1.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![cs translation](https://img.shields.io/badge/dynamic/json?color=blue&label=cs&style=flat&logo=crowdin&query=%24.progress.2.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![de translation](https://img.shields.io/badge/dynamic/json?color=blue&label=de&style=flat&logo=crowdin&query=%24.progress.3.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![el translation](https://img.shields.io/badge/dynamic/json?color=blue&label=el&style=flat&logo=crowdin&query=%24.progress.4.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![en translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en&style=flat&logo=crowdin&query=%24.progress.5.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![es translation](https://img.shields.io/badge/dynamic/json?color=blue&label=es&style=flat&logo=crowdin&query=%24.progress.6.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![es-419 translation](https://img.shields.io/badge/dynamic/json?color=blue&label=es-419&style=flat&logo=crowdin&query=%24.progress.7.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![fr translation](https://img.shields.io/badge/dynamic/json?color=blue&label=fr&style=flat&logo=crowdin&query=%24.progress.8.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![he translation](https://img.shields.io/badge/dynamic/json?color=blue&label=he&style=flat&logo=crowdin&query=%24.progress.9.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![hu translation](https://img.shields.io/badge/dynamic/json?color=blue&label=hu&style=flat&logo=crowdin&query=%24.progress.10.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![it translation](https://img.shields.io/badge/dynamic/json?color=blue&label=it&style=flat&logo=crowdin&query=%24.progress.11.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress.12.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![ko translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko&style=flat&logo=crowdin&query=%24.progress.13.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![nl translation](https://img.shields.io/badge/dynamic/json?color=blue&label=nl&style=flat&logo=crowdin&query=%24.progress.14.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![no translation](https://img.shields.io/badge/dynamic/json?color=blue&label=no&style=flat&logo=crowdin&query=%24.progress.15.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![pl translation](https://img.shields.io/badge/dynamic/json?color=blue&label=pl&style=flat&logo=crowdin&query=%24.progress.16.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![pt translation](https://img.shields.io/badge/dynamic/json?color=blue&label=pt&style=flat&logo=crowdin&query=%24.progress.17.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![pt-BR translation](https://img.shields.io/badge/dynamic/json?color=blue&label=pt-BR&style=flat&logo=crowdin&query=%24.progress.18.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![ro translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ro&style=flat&logo=crowdin&query=%24.progress.19.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![ru translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru&style=flat&logo=crowdin&query=%24.progress.20.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![sr translation](https://img.shields.io/badge/dynamic/json?color=blue&label=sr&style=flat&logo=crowdin&query=%24.progress.21.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![sv translation](https://img.shields.io/badge/dynamic/json?color=blue&label=sv&style=flat&logo=crowdin&query=%24.progress.22.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![tr translation](https://img.shields.io/badge/dynamic/json?color=blue&label=tr&style=flat&logo=crowdin&query=%24.progress.23.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![uk translation](https://img.shields.io/badge/dynamic/json?color=blue&label=uk&style=flat&logo=crowdin&query=%24.progress.24.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![vi translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi&style=flat&logo=crowdin&query=%24.progress.25.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress.26.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json) ![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress.27.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-200011276-1.json)
 
@@ -1032,7 +966,7 @@ Note: If you don't configure Unkey, freeCal will work normally without rate limi
 
 We use changesets to generate changelogs and publish public packages (packages with `private: true` are ignored).
 
-An example of good readme is [atoms readme](https://github.com/calcom/freeCal/blob/main/packages/platform/atoms/README.md). Every public package must:
+An example of good readme is [atoms readme](https://github.com/newFreeCal/freeCal/blob/main/packages/platform/atoms/README.md). Every public package must:
 
 1. Follow semantic versioning when using changesets.
 2. Mark breaking changes using `❗️Breaking change`
