@@ -10,7 +10,7 @@
 
 ## Fork Notice
 
-This repository is a fork of the original [Cal.com](https://github.com/newFreeCal/calcom) project. The project name has been changed to **freeCal** to distinguish this modified version from the upstream repository.
+This repository is a fork of the original [Cal.com](https://github.com/calcom/calcom) project. The project name has been changed to **freeCal** to distinguish this modified version from the upstream repository.
 
 The rename is intentional and helps identify versions that have had commercial and enterprise components removed. This fork maintains full compatibility with the original codebase while providing a completely open-source experience without licensing restrictions.
 
@@ -87,7 +87,7 @@ All enterprise/commercial features have been replaced with no-op stub implementa
 
 Cal.com is an excellent open-source platform. However, enterprise modules are tightly integrated into the codebase. This fork provides a clean, auditable codebase that minimizes licensing risks and makes it clear which parts can be used under AGPLv3.
 
-For **enterprise features** (SSO/SAML, advanced workflows, priority support), consider the upstream [Cal.com](https://cal.com) or [contact us](https://freeCal/sales).
+For **enterprise features** (SSO/SAML, advanced workflows, priority support), consider the upstream [Cal.com](https://cal.com).
 
 ## Stay Up-to-Date
 
